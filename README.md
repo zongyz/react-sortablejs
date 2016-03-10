@@ -20,6 +20,14 @@ See more options at https://github.com/RubaXa/Sortable#options
 {
     ref: 'list',
     model: 'items',
+    onStart: 'handleStart',
+    onEnd: 'handleEnd',
+    onAdd: 'handleAdd',
+    onRemove: 'handleRemove',
+    onUpdate: 'handleUpdate',
+    onSort: 'handleSort',
+    onFilter: 'handleFilter',
+    onMove: 'handleMove',
     // Sortable options
     group: "name",  // or { name: "...", pull: [true, false, clone], put: [true, false, array] }
     sort: true,  // sorting inside list
