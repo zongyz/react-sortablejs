@@ -19,6 +19,7 @@ See more options at https://github.com/RubaXa/Sortable#options
 ## Usage
 
 ```js
+import React from 'react';
 import SortableMixin from 'react-sortablejs';
 
 const sortableOptions = {
@@ -45,4 +46,81 @@ class MySortableComponent extends React.Component {
 }
 
 export default SortableMixin(MySortableComponent, sortableOptions);
+```
+
+## Examples
+
+Using the `group` option to drag elements from one list into another.
+
+File: index.jsx
+```js
+import React from 'react';
+import Sortable1 from './sortable1';
+import Sortable1 from './sortable2';
+
+const SortableList = (props) => {
+    return (
+        <div>
+            <Sortable1 />
+            <hr />
+            <Sortable2 />
+        </div>
+    );
+};
+
+React.render(<SortableList />, document.body);
+```
+
+File: sortable1.jsx
+
+```js
+import React from 'react';
+import SortableMixin from 'react-sortablejs';
+
+class Sortable1 extends React.Component {
+    state = {
+        items: [0, 1, 2, 3, 4]
+    };
+
+    render() {
+        let items = this.state.items.map((text, index) => {
+            return <li key={index}>{text}</li>;
+        });
+
+        return (
+            <div>
+                <ul ref="list">{items}</ul>
+            </div>
+        );
+    }
+}
+
+export default SortableMixin(Sortable1, { group: 'shared' });
+```
+
+File: sortable2.jsx
+
+```js
+import React from 'react';
+import SortableMixin from 'react-sortablejs';
+
+class Sortable2 extends React.Component {
+    state = {
+        items: [5, 6, 7, 8, 9]
+    };
+
+    render() {
+        let items = this.state.items.map((text, index) => {
+            return <li key={index}>{text}</li>;
+        });
+
+        return (
+            <div>
+                <ul ref="list">{items}</ul>
+            </div>
+        );
+    }
+}
+
+export default SortableMixin(Sortable2, { group: 'shared' });
 ```
