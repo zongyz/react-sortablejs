@@ -57,7 +57,7 @@ File: index.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable1 from './sortable1';
-import Sortable1 from './sortable2';
+import Sortable2 from './sortable2';
 
 const SortableList = (props) => {
     return (
