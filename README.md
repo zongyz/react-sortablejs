@@ -23,8 +23,8 @@ See more options at https://github.com/RubaXa/Sortable#options
     onStart: 'handleStart',
     onEnd: 'handleEnd',
     onAdd: 'handleAdd',
-    onRemove: 'handleRemove',
     onUpdate: 'handleUpdate',
+    onRemove: 'handleRemove',
     onSort: 'handleSort',
     onFilter: 'handleFilter',
     onMove: 'handleMove',
@@ -75,9 +75,9 @@ class MySortableComponent extends React.Component {
     }
     handleAdd(evt) { // Element is dropped into the list from another list
     }
-    handleRemove(evt) { // Element is removed from the list into another list
-    }
     handleUpdate(evt) { // Changed sorting within list
+    }
+    handleRemove(evt) { // Element is removed from the list into another list
     }
     handleSort(evt) { // Called by any change to the list (add / update / remove)
     }
