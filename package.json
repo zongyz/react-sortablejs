@@ -1,7 +1,7 @@
 {
   "name": "react-sortablejs",
   "version": "0.1.0",
-  "description": "A higher order React component for Sortable.js",
+  "description": "A higher order React component for Sortable (https://github.com/RubaXa/Sortable).",
   "main": "dist/react-sortable.js",
   "scripts": {
     "prepublish": "npm run build && npm test",
