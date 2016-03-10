@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cheton/react-sortablejs.git"
+    "url": "git+https://github.com/cheton/react-sortable.git"
   },
   "author": "Cheton Wu <cheton@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cheton/react-sortablejs/issues"
+    "url": "https://github.com/cheton/react-sortable/issues"
   },
-  "homepage": "https://github.com/cheton/react-sortablejs",
+  "homepage": "https://github.com/cheton/react-sortable",
   "keywords": [
     "react",
     "react-component",
