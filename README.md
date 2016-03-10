@@ -8,6 +8,13 @@ npm install --save react-sortablejs
 
 ## Options
 
+#### `ref` option
+Specify which items inside the `ref` attribute should be sortable.
+
+#### `model` option
+The state attribute for creating a sortable list.
+
+
 See more options at https://github.com/RubaXa/Sortable#options
 ```js
 {
@@ -37,12 +44,6 @@ See more options at https://github.com/RubaXa/Sortable#options
     }
 }
 ```
-
-#### `ref` option
-Specify which items inside the `ref` attribute should be sortable.
-
-#### `model` option
-The state attribute for creating a sortable list.
 
 ## Usage
 
