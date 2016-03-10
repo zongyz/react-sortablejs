@@ -6,6 +6,16 @@ A higher order React component for [Sortable](https://github.com/RubaXa/Sortable
 npm install --save react-sortablejs
 ```
 
+## Options
+
+#### `ref` option
+Specify which items inside the `ref` attribute should be sortable.
+
+#### `model` option
+The state attribute for creating a sortable list.
+
+See more options at https://github.com/RubaXa/Sortable#options
+
 ## Usage
 
 ```js
