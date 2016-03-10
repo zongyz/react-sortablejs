@@ -55,6 +55,7 @@ Using the `group` option to drag elements from one list into another.
 File: index.jsx
 ```js
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Sortable1 from './sortable1';
 import Sortable1 from './sortable2';
 
@@ -68,7 +69,7 @@ const SortableList = (props) => {
     );
 };
 
-React.render(<SortableList />, document.body);
+ReactDOM.render(<SortableList />, document.body);
 ```
 
 File: sortable1.jsx
