@@ -70,16 +70,17 @@ See more options at https://github.com/RubaXa/Sortable#options
 
 ```js
 import React from 'react';
-import SortableMixin from 'react-sortablejs';
+import Sortable from 'react-sortablejs';
 
-const sortableOptions = {
-    ref: 'list',
-    model: 'items'
-};
-
-class MySortableComponent extends React.Component {
+class MySortableList extends React.Component {
+    static propTypes = {
+        items: React.PropTypes.array
+    };
+    static defaultProps = {
+        items: []
+    };
     state = {
-        items: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        items: this.props.items
     };
     
     handleStart(evt) { // Dragging started
@@ -99,8 +100,59 @@ class MySortableComponent extends React.Component {
     handleMove(evt) { // Event when you move an item in the list or between lists
     }
     render() {
-        const items = this.state.items.map((text, index) => (
-            <li key={index}>{text}</li>
+        return (
+            <ul ref="list">{items}</ul>
+        );
+    }
+}
+
+const sortableOptions = {
+    ref: 'list',
+    model: 'items'
+};
+export default Sortable(sortableOptions)(MySortableList);
+```
+
+## Examples
+
+### Simple List
+
+File: index.jsx
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SimpleList from './simple-list';
+
+ReactDOM.render(
+    <SimpleList items={[1, 2, 3, 4, 5, 6]} />,
+    document.getElementById('container')
+);
+```
+
+File: simple-list.jsx
+```js
+import React from 'react';
+import Sortable from 'react-sortablejs';
+
+const sortableOptions = {
+    ref: 'list',
+    model: 'items'
+};
+
+class SimpleList extends React.Component {
+    static propTypes = {
+        items: React.PropTypes.array
+    };
+    static defaultProps = {
+        items: []
+    };
+    state = {
+        items: this.props.items
+    };
+    
+    render() {
+        const items = this.state.items.map((val, index) => (
+            <li key={index}>{val}</li>
         ));
         
         return (
@@ -111,48 +163,60 @@ class MySortableComponent extends React.Component {
     }
 }
 
-export default SortableMixin(sortableOptions)(MySortableComponent);
+export default Sortable(sortableOptions)(SimpleList);
 ```
 
-## Examples
-
+### Shared Group
 Using the `group` option to drag elements from one list into another.
 
 File: index.jsx
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Sortable1 from './sortable1';
-import Sortable2 from './sortable2';
+import SharedGroup from './shared-group';
 
 const SortableList = (props) => {
     return (
         <div>
-            <Sortable1 />
-            <hr />
-            <Sortable2 />
+            <SharedGroup
+                items={['Apple', 'Banaba', 'Cherry', 'Grape']}
+            />
+            <SharedGroup
+                items={['Lemon', 'Orange', 'Pear', 'Peach']}
+            />
         </div>
     );
 };
 
-ReactDOM.render(<SortableList />, document.body);
+ReactDOM.render(<SortableList />, document.getElementById('container'));
 ```
 
-File: sortable1.jsx
-
+File: shared-group.jsx
 ```js
 import React from 'react';
-import SortableMixin from 'react-sortablejs';
+import Sortable from 'react-sortablejs';
 
-class Sortable1 extends React.Component {
+const sortableOptions = {
+    ref: 'list',
+    model: 'items',
+    group: 'shared'
+};
+
+class SharedGroup extends React.Component {
+    static propTypes = {
+        items: React.PropTypes.array
+    };
+    static defaultProps = {
+        items: []
+    };
     state = {
-        items: [0, 1, 2, 3, 4]
+        items: this.props.items
     };
 
     render() {
-        let items = this.state.items.map((text, index) => {
-            return <li key={index}>{text}</li>;
-        });
+        const items = this.state.items.map((text, index) => (
+            <li key={index}>{text}</li>
+        ));
 
         return (
             <div>
@@ -162,32 +226,5 @@ class Sortable1 extends React.Component {
     }
 }
 
-export default SortableMixin({ group: 'shared' })(Sortable1);
-```
-
-File: sortable2.jsx
-
-```js
-import React from 'react';
-import SortableMixin from 'react-sortablejs';
-
-class Sortable2 extends React.Component {
-    state = {
-        items: [5, 6, 7, 8, 9]
-    };
-
-    render() {
-        let items = this.state.items.map((text, index) => {
-            return <li key={index}>{text}</li>;
-        });
-
-        return (
-            <div>
-                <ul ref="list">{items}</ul>
-            </div>
-        );
-    }
-}
-
-export default SortableMixin({ group: 'shared' })(Sortable2);
+export default Sortable(sortableOptions)(SharedGroup);
 ```
