@@ -111,7 +111,7 @@ class MySortableComponent extends React.Component {
     }
 }
 
-export default SortableMixin(MySortableComponent, sortableOptions);
+export default SortableMixin(sortableOptions)(MySortableComponent);
 ```
 
 ## Examples
@@ -162,7 +162,7 @@ class Sortable1 extends React.Component {
     }
 }
 
-export default SortableMixin(Sortable1, { group: 'shared' });
+export default SortableMixin({ group: 'shared' })(Sortable1);
 ```
 
 File: sortable2.jsx
@@ -189,5 +189,5 @@ class Sortable2 extends React.Component {
     }
 }
 
-export default SortableMixin(Sortable2, { group: 'shared' });
+export default SortableMixin({ group: 'shared' })(Sortable2);
 ```
