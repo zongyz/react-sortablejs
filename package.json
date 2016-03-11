@@ -1,14 +1,20 @@
 {
   "name": "react-sortablejs",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A higher order React component for Sortable (https://github.com/RubaXa/Sortable).",
-  "main": "dist/react-sortable.js",
+  "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run build && npm test",
-    "build": "webpack",
+    "prepublish": "npm run lint && npm run build && npm test",
+    "build": "babel ./src --out-dir ./lib",
     "test": "./babel-tap --coverage test/*.js",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
+    "precommit-check": "npm run lint",
     "coveralls": "./babel-tap --coverage --coverage-report=text-lcov test/*.js | node_modules/.bin/coveralls"
   },
+  "pre-commit": [
+    "precommit-check"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cheton/react-sortable.git"
@@ -32,9 +38,7 @@
     "react-dom": "^0.14.0",
     "sortablejs": "1.x"
   },
-  "dependencies": {
-    "lodash": "^4.6.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.6.5",
