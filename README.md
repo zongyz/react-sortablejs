@@ -5,7 +5,7 @@ A higher order React component for [Sortable](https://github.com/RubaXa/Sortable
 
 Demo: http://cheton.github.io/react-sortable
 
-The sample code can be found in the [examples](https://github.com/cheton/react-sortable/examples) directory.
+The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
 ## Installation
 The easiest way to use react-sortablejs is to install it from npm and include it in your React build process using webpack or browserify.
