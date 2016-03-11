@@ -1,8 +1,6 @@
 import path from 'path';
 
 export default {
-    cache: true,
-    target: 'web',
     entry: path.resolve(__dirname, 'lib/index.js'),
     output: {
         path: path.join(__dirname, 'dist'),
@@ -29,28 +27,5 @@ export default {
             commonjs: 'sortablejs',
             amd: 'sortablejs'
         }
-    },
-    module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['eslint'],
-                exclude: /node_modules/
-            }
-        ],
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                loader: 'babel',
-                exclude: /(node_modules|bower_components)/,
-                query: {
-                    presets: ['es2015', 'stage-0', 'react'],
-                    plugins: []
-                }
-            }
-        ]
-    },
-    resolve: {
-        extensions: ['', '.js', '.jsx']
     }
 };
