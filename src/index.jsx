@@ -40,21 +40,20 @@ const extend = (target, ...sources) => {
     return target;
 };
 
-const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class extends React.Component {
+const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
     sortableInstance = null;
-    sortableOptions = sortableOptions;
+    sortableOptions = extend({}, defaultOptions, options);
 
     componentDidMount() {
-        const wrapperComponent = this;
-        const sortableComponent = wrapperComponent.refs[refName];
-        const options = extend({}, defaultOptions, wrapperComponent.sortableOptions);
+        const sortableComponent = this.refs[refName];
         const emitEvent = (type, evt) => {
-            const methodName = options[type];
+            const methodName = this.sortableOptions[type];
             const method = sortableComponent[methodName];
-            method && method.call(sortableComponent, evt, wrapperComponent.sortableInstance);
+            method && method.call(sortableComponent, evt, this.sortableInstance);
         };
 
-        let copyOptions = extend({}, options);
+        let copyOptions = extend({}, this.sortableOptions);
+
         [ // Bind callbacks
             'onStart',
             'onEnd',
@@ -68,7 +67,7 @@ const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class
             copyOptions[name] = (evt) => {
                 if (name === 'onStart') {
                     _nextSibling = evt.item.nextElementSibling;
-                    _activeWrapperComponent = wrapperComponent;
+                    _activeWrapperComponent = this;
                 } else if (name === 'onAdd' || name === 'onUpdate') {
                     evt.from.insertBefore(evt.item, _nextSibling);
 
@@ -76,7 +75,7 @@ const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class
                     const newIndex = evt.newIndex;
                     let newState = {};
                     let remoteState = {};
-                    let items = getModelItems(wrapperComponent);
+                    let items = getModelItems(this);
 
                     if (name === 'onAdd') {
                         let remoteItems = getModelItems(_activeWrapperComponent);
@@ -88,7 +87,7 @@ const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class
                         items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
                     }
 
-                    newState[wrapperComponent.sortableOptions.model] = items;
+                    newState[this.sortableOptions.model] = items;
 
                     if (copyOptions.stateHandler) {
                         sortableComponent[copyOptions.stateHandler](newState);
@@ -96,7 +95,7 @@ const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class
                         sortableComponent.setState(newState);
                     }
 
-                    if (_activeWrapperComponent !== wrapperComponent) {
+                    if (_activeWrapperComponent !== this) {
                         _activeWrapperComponent.refs[refName].setState(remoteState);
                     }
                 }
@@ -107,13 +106,12 @@ const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class
             };
         });
 
-        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[options.ref] || sortableComponent);
+        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
         this.sortableInstance = Sortable.create(domNode, copyOptions);
     }
     componentWillReceiveProps(nextProps) {
-        const wrapperComponent = this;
-        const sortableComponent = wrapperComponent.refs[refName];
-        const model = wrapperComponent.sortableOptions.model;
+        const sortableComponent = this.refs[refName];
+        const model = this.sortableOptions.model;
         const items = nextProps[model];
 
         if (items) {
