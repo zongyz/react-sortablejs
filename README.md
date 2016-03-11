@@ -113,6 +113,17 @@ const sortableOptions = {
 export default Sortable(sortableOptions)(MySortableList);
 ```
 
+You can also use HOCs as ES7 decorators:
+```js
+import React from 'react';
+import Sortable from 'react-sortablejs';
+
+@Sortable({ ref: 'list', model: 'items' })
+export default class SortableList extends React.Component {
+    ...
+}
+```
+
 ## Examples
 
 ### Simple List
