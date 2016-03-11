@@ -6,7 +6,8 @@ const sortableOptions = {
     model: 'items'
 };
 
-class SimpleList extends React.Component {
+@Sortable(sortableOptions)
+export default class SimpleList extends React.Component {
     state = {
         items: [1, 2, 3, 4, 5, 6]
     };
@@ -21,5 +22,3 @@ class SimpleList extends React.Component {
         );
     }
 }
-
-export default Sortable(SimpleList, sortableOptions);

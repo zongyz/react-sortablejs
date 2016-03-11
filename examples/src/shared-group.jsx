@@ -7,7 +7,8 @@ const sortableOptions = {
     group: 'shared'
 };
 
-class SharedGroup extends React.Component {
+@Sortable(sortableOptions)
+export default class SharedGroup extends React.Component {
     static propTypes = {
         items: React.PropTypes.array
     };
@@ -29,5 +30,3 @@ class SharedGroup extends React.Component {
         );
     }
 }
-
-export default Sortable(SharedGroup, sortableOptions);
