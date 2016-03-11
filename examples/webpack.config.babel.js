@@ -1,4 +1,5 @@
 import path from 'path';
+import webpack from 'webpack';
 
 export default {
     entry: path.resolve(__dirname, 'src/index.jsx'),
@@ -21,6 +22,9 @@ export default {
             }
         ]
     },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin()
+    ],
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
