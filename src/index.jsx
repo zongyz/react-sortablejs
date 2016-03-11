@@ -1,5 +1,3 @@
-import extend from 'lodash/extend';
-import merge from 'lodash/merge';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'sortablejs';
@@ -30,6 +28,18 @@ const getModelItems = (wrapperComponent) => {
     return items.slice(); // returns a shallow copy of the items array
 };
 
+const extend = (target, ...sources) => {
+    sources.forEach((source) => {
+        for (let key in source) {
+            if (source.hasOwnProperty(key)) {
+                target[key] = source[key];
+            }
+        }
+    });
+
+    return target;
+};
+
 const SortableMixin = (Component, sortableOptions = defaultOptions) => class extends React.Component {
     sortableInstance = null;
     sortableOptions = sortableOptions;
@@ -37,7 +47,7 @@ const SortableMixin = (Component, sortableOptions = defaultOptions) => class ext
     componentDidMount() {
         const wrapperComponent = this;
         const sortableComponent = wrapperComponent.refs[refName];
-        const options = merge({}, defaultOptions, wrapperComponent.sortableOptions);
+        const options = extend({}, defaultOptions, wrapperComponent.sortableOptions);
         const emitEvent = (type, evt) => {
             const methodName = options[type];
             const method = sortableComponent[methodName];
