@@ -4,8 +4,15 @@
 A higher order React component for [Sortable](https://github.com/RubaXa/Sortable).
 
 ## Installation
+The easiest way to use react-sortablejs is to install it from npm and include it in your React build process using webpack or browserify.
 ```bash
 npm install --save react-sortablejs
+```
+
+You can create a standalone module using webpack:
+```bash
+$ npm install
+$ webpack
 ```
 
 ## Options
