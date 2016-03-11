@@ -19800,7 +19800,7 @@
 	};
 
 	var SortableMixin = function SortableMixin() {
-	    var sortableOptions = arguments.length <= 0 || arguments[0] === undefined ? defaultOptions : arguments[0];
+	    var options = arguments.length <= 0 || arguments[0] === undefined ? defaultOptions : arguments[0];
 	    return function (Component) {
 	        return function (_React$Component) {
 	            _inherits(_class2, _React$Component);
@@ -19816,28 +19816,29 @@
 	                    args[_key2] = arguments[_key2];
 	                }
 
-	                return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class2)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.sortableInstance = null, _this.sortableOptions = sortableOptions, _temp), _possibleConstructorReturn(_this, _ret);
+	                return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class2)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.sortableInstance = null, _this.sortableOptions = extend({}, defaultOptions, options), _temp), _possibleConstructorReturn(_this, _ret);
 	            }
 
 	            _createClass(_class2, [{
 	                key: 'componentDidMount',
 	                value: function componentDidMount() {
-	                    var wrapperComponent = this;
-	                    var sortableComponent = wrapperComponent.refs[refName];
-	                    var options = extend({}, defaultOptions, wrapperComponent.sortableOptions);
+	                    var _this2 = this;
+
+	                    var sortableComponent = this.refs[refName];
 	                    var emitEvent = function emitEvent(type, evt) {
-	                        var methodName = options[type];
+	                        var methodName = _this2.sortableOptions[type];
 	                        var method = sortableComponent[methodName];
-	                        method && method.call(sortableComponent, evt, wrapperComponent.sortableInstance);
+	                        method && method.call(sortableComponent, evt, _this2.sortableInstance);
 	                    };
 
-	                    var copyOptions = extend({}, options);
+	                    var copyOptions = extend({}, this.sortableOptions);
+
 	                    [// Bind callbacks
 	                    'onStart', 'onEnd', 'onAdd', 'onSort', 'onUpdate', 'onRemove', 'onFilter', 'onMove'].forEach(function (name) {
 	                        copyOptions[name] = function (evt) {
 	                            if (name === 'onStart') {
 	                                _nextSibling = evt.item.nextElementSibling;
-	                                _activeWrapperComponent = wrapperComponent;
+	                                _activeWrapperComponent = _this2;
 	                            } else if (name === 'onAdd' || name === 'onUpdate') {
 	                                evt.from.insertBefore(evt.item, _nextSibling);
 
@@ -19845,7 +19846,7 @@
 	                                var newIndex = evt.newIndex;
 	                                var newState = {};
 	                                var remoteState = {};
-	                                var items = getModelItems(wrapperComponent);
+	                                var items = getModelItems(_this2);
 
 	                                if (name === 'onAdd') {
 	                                    var remoteItems = getModelItems(_activeWrapperComponent);
@@ -19857,7 +19858,7 @@
 	                                    items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
 	                                }
 
-	                                newState[wrapperComponent.sortableOptions.model] = items;
+	                                newState[_this2.sortableOptions.model] = items;
 
 	                                if (copyOptions.stateHandler) {
 	                                    sortableComponent[copyOptions.stateHandler](newState);
@@ -19865,7 +19866,7 @@
 	                                    sortableComponent.setState(newState);
 	                                }
 
-	                                if (_activeWrapperComponent !== wrapperComponent) {
+	                                if (_activeWrapperComponent !== _this2) {
 	                                    _activeWrapperComponent.refs[refName].setState(remoteState);
 	                                }
 	                            }
@@ -19876,15 +19877,14 @@
 	                        };
 	                    });
 
-	                    var domNode = _reactDom2.default.findDOMNode(sortableComponent.refs[options.ref] || sortableComponent);
+	                    var domNode = _reactDom2.default.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
 	                    this.sortableInstance = _sortablejs2.default.create(domNode, copyOptions);
 	                }
 	            }, {
 	                key: 'componentWillReceiveProps',
 	                value: function componentWillReceiveProps(nextProps) {
-	                    var wrapperComponent = this;
-	                    var sortableComponent = wrapperComponent.refs[refName];
-	                    var model = wrapperComponent.sortableOptions.model;
+	                    var sortableComponent = this.refs[refName];
+	                    var model = this.sortableOptions.model;
 	                    var items = nextProps[model];
 
 	                    if (items) {
