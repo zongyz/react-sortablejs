@@ -3,7 +3,7 @@ import path from 'path';
 export default {
     cache: true,
     target: 'web',
-    entry: path.resolve(__dirname, 'src/index.jsx'),
+    entry: path.resolve(__dirname, 'lib/index.js'),
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'react-sortable.js',
