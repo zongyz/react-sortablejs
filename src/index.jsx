@@ -40,7 +40,7 @@ const extend = (target, ...sources) => {
     return target;
 };
 
-const SortableMixin = (Component, sortableOptions = defaultOptions) => class extends React.Component {
+const SortableMixin = (sortableOptions = defaultOptions) => (Component) => class extends React.Component {
     sortableInstance = null;
     sortableOptions = sortableOptions;
 
