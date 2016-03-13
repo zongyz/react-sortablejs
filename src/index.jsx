@@ -105,9 +105,8 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
                 }, 0);
             };
         });
-
-        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        this.sortableInstance = Sortable.create(domNode, copyOptions);
+        this.populatedOptions = copyOptions
+        this.initSortable(sortableComponent);
     }
     componentWillReceiveProps(nextProps) {
         const sortableComponent = this.refs[refName];
@@ -120,11 +119,22 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             sortableComponent.setState(newState);
         }
     }
+    componentDidUpdate() {
+        this.initSortable(this.refs[refName]);
+    }
     componentWillUnmount() {
         if (this.sortableInstance) {
             this.sortableInstance.destroy();
             this.sortableInstance = null;
         }
+    }
+    initSortable(sortableComponent) {
+        if (this.sortableInstance) {
+            this.sortableInstance.destroy();
+            this.sortableInstance = null;
+        }
+        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
+        this.sortableInstance = Sortable.create(domNode, this.populatedOptions);
     }
 
     render() {
