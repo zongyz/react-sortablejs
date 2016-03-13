@@ -119,8 +119,13 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             sortableComponent.setState(newState);
         }
     }
-    componentDidUpdate() {
-        this.initSortable(this.refs[refName]);
+    componentDidUpdate(prevProps) {
+        const model = this.sortableOptions.model;
+        const prevItems = prevProps[model];
+        const currItems = this.props[model];
+        if(prevItems !== currItems) {
+            this.initSortable(this.refs[refName]);
+        }
     }
     componentWillUnmount() {
         this.destroySortable();
