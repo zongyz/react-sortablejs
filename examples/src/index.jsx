@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import random from 'lodash/random';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'react-sortablejs';
@@ -27,7 +27,7 @@ class App extends React.Component {
     };
 
     handleClick() {
-        const i = _.random(0, items.length - 1);
+        const i = random(0, items.length - 1);
         const state = this.state.left.concat(items[i]);
         this.setState({ left: state });
     }
