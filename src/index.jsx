@@ -41,7 +41,7 @@ const extend = (target, ...sources) => {
 };
 
 const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
-    
+
     state = {
         sortableInstance: null
     };
@@ -109,10 +109,8 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
                 }, 0);
             };
         });
-
-        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        const sortableInstance = Sortable.create(domNode, copyOptions);
-        this.setState({sortableInstance});
+        this.populatedOptions = copyOptions
+        this.initSortable(sortableComponent);
     }
     componentWillReceiveProps(nextProps) {
         const sortableComponent = this.refs[refName];
@@ -125,7 +123,24 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             sortableComponent.setState(newState);
         }
     }
+    componentDidUpdate(prevProps) {
+        const model = this.sortableOptions.model;
+        const prevItems = prevProps[model];
+        const currItems = this.props[model];
+        if(prevItems !== currItems) {
+            this.initSortable(this.refs[refName]);
+        }
+    }
     componentWillUnmount() {
+        this.destroySortable();
+    }
+    initSortable(sortableComponent) {
+        this.destroySortable();
+        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
+        const sortableInstance = Sortable.create(domNode, this.populatedOptions);
+        this.setState({sortableInstance});
+    }
+    destroySortable() {
         if (this.state.sortableInstance) {
             this.state.sortableInstance.destroy();
             this.setState({sortableInstance: null});
