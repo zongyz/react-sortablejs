@@ -4,7 +4,11 @@ import Sortable from 'react-sortablejs';
 const sortableOptions = {
     ref: 'list',
     model: 'items',
-    group: 'shared'
+    group: {
+        name: 'shared',
+        pull: true, //'clone',
+        put: true
+    }
 };
 
 @Sortable(sortableOptions)
@@ -24,6 +28,8 @@ export default class SharedGroup extends React.Component {
         const items = this.state.items.map((text, index) => (
             <li key={index}>{text}</li>
         ));
+
+        console.log('##', this.state.items);
         
         return (
             <ul ref="list" className="block-list">{items}</ul>
