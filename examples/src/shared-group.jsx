@@ -29,8 +29,6 @@ export default class SharedGroup extends React.Component {
             <li key={index}>{text}</li>
         ));
 
-        console.log('##', this.state.items);
-        
         return (
             <ul ref="list" className="block-list">{items}</ul>
         );
