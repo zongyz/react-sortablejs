@@ -149,7 +149,7 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
 
     render() {
         return (
-            <Component ref={refName} {...this.props} {..this.state} />
+            <Component ref={refName} {...this.props} {...this.state} />
         );
     }
 };
