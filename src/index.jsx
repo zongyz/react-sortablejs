@@ -123,18 +123,18 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
         this.initSortable(this.refs[refName]);
     }
     componentWillUnmount() {
-        if (this.sortableInstance) {
-            this.sortableInstance.destroy();
-            this.sortableInstance = null;
-        }
+        this.destroySortable();
     }
     initSortable(sortableComponent) {
+        this.destroySortable();
+        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
+        this.sortableInstance = Sortable.create(domNode, this.populatedOptions);
+    }
+    destroySortable() {
         if (this.sortableInstance) {
             this.sortableInstance.destroy();
             this.sortableInstance = null;
         }
-        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        this.sortableInstance = Sortable.create(domNode, this.populatedOptions);
     }
 
     render() {
