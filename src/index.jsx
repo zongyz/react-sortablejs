@@ -41,7 +41,11 @@ const extend = (target, ...sources) => {
 };
 
 const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
-    sortableInstance = null;
+
+    state = {
+        sortableInstance: null
+    };
+
     sortableOptions = extend({}, defaultOptions, options);
 
     componentDidMount() {
@@ -49,7 +53,7 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
         const emitEvent = (type, evt) => {
             const methodName = this.sortableOptions[type];
             const method = sortableComponent[methodName];
-            method && method.call(sortableComponent, evt, this.sortableInstance);
+            method && method.call(sortableComponent, evt, this.state.sortableInstance);
         };
 
         let copyOptions = extend({}, this.sortableOptions);
@@ -133,18 +137,19 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
     initSortable(sortableComponent) {
         this.destroySortable();
         const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        this.sortableInstance = Sortable.create(domNode, this.populatedOptions);
+        const sortableInstance = Sortable.create(domNode, this.populatedOptions);
+        this.setState({sortableInstance});
     }
     destroySortable() {
-        if (this.sortableInstance) {
-            this.sortableInstance.destroy();
-            this.sortableInstance = null;
+        if (this.state.sortableInstance) {
+            this.state.sortableInstance.destroy();
+            this.setState({sortableInstance: null});
         }
     }
 
     render() {
         return (
-            <Component ref={refName} {...this.props} />
+            <Component ref={refName} sortableInstance={this.state.sortableInstance} {...this.props} />
         );
     }
 };
