@@ -4,7 +4,7 @@
 A higher order React component for [Sortable](https://github.com/RubaXa/Sortable).
 
 - Demo: http://cheton.github.io/react-sortable
-- Live coding at webpackbin: http://www.webpackbin.com/VJe8dfMpe
+- Live Coding at WebpackBin: http://www.webpackbin.com/VJe8dfMpe
 
 The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
