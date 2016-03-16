@@ -13,7 +13,7 @@ The easiest way to use react-sortablejs is to install it from npm and include it
 npm install --save react-sortablejs
 ```
 
-You can create a standalone ES5 module using webpack:
+You can create a standalone ES5 module as shown below:
 ```bash
 $ git clone https://github.com/cheton/react-sortable.git
 $ cd react-sortable
@@ -21,7 +21,7 @@ $ npm install
 $ npm run dist
 ```
 
-Then, include the following scripts in your html:
+Then, include these scripts into your html file:
 ```html
 <script src="http://fb.me/react-0.14.7.js"></script>
 <script src="http://fb.me/react-dom-0.14.7.js"></script>
