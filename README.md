@@ -35,7 +35,7 @@ Then, include these scripts into your html file:
 </body>
 ```
 
-A pure example without using JSX syntax:
+A simple example without using JSX syntax:
 ```js
 var MySortable = React.createClass({
     displayName: 'MySortable',
@@ -54,8 +54,8 @@ var MySortable = React.createClass({
 });
 
 ReactDOM.render(
-  React.createElement(SortableMixin.default({ ref: 'list', model: 'items' })(MySortable), null),
-  document.getElementById('container')
+    React.createElement(SortableMixin.default({ ref: 'list', model: 'items' })(MySortable), null),
+    document.getElementById('container')
 );
 ```
 
