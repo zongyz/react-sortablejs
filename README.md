@@ -8,11 +8,14 @@ Demo: http://cheton.github.io/react-sortable
 The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
 ## Installation
+
+### Webpack or Browserify
 The easiest way to use react-sortablejs is to install it from npm and include it in your React build process using webpack or browserify.
 ```bash
 npm install --save react-sortablejs
 ```
 
+### Standalone ES5 module
 You can create a standalone ES5 module as shown below:
 ```bash
 $ git clone https://github.com/cheton/react-sortable.git
@@ -27,6 +30,29 @@ Then, include these scripts into your html file:
 <script src="http://fb.me/react-dom-0.14.7.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
 <script src="dist/react-sortable.min.js"></script>
+```
+
+Example:
+```js
+var MySortable = React.createClass({
+    displayName: 'MySortable',
+    getInitialState: function() {
+        return { items: ['Apple', 'Banana', 'Cherry'] };
+    },
+    render: function() {
+        return (
+            React.createElement('ul', { ref: "list" },
+                this.state.items.map(function(item, key) {
+                    return React.createElement('li', { key: key }, item);
+                })
+            )
+        );
+    }
+});
+ReactDOM.render(
+  React.createElement(SortableMixin.default()(MySortable), null),
+  document.getElementById('container')
+);
 ```
 
 ## Options
