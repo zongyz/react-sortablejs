@@ -30,8 +30,7 @@ export default {
     },
     resolveLoader: {
         modulesDirectories: [
-            path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, '../node_modules')
+            path.resolve(__dirname, 'node_modules')
         ]
     }
 };
