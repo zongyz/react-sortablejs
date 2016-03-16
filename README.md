@@ -15,6 +15,8 @@ The easiest way to use react-sortablejs is to install it from npm and include it
 npm install --save react-sortablejs
 ```
 
+Checkout the [examples](https://github.com/cheton/react-sortable/tree/dev/examples) directory for a complete setup.
+
 ### Standalone ES5 module
 You can create a standalone ES5 module as shown below:
 ```bash
