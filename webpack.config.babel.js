@@ -1,13 +1,24 @@
 import path from 'path';
+import webpack from 'webpack';
+
+const env = process.env.BUILD_ENV;
+let plugins = [];
+
+if (env === 'dist') {
+    plugins = plugins.concat([
+        new webpack.optimize.UglifyJsPlugin({ minimize: true })
+    ]);
+}
 
 export default {
     entry: path.resolve(__dirname, 'lib/index.js'),
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'react-sortable.js',
+        filename: env === 'dist' ? 'react-sortable.min.js' : 'react-sortable.js',
         libraryTarget: 'umd',
         library: 'SortableMixin'
     },
+    plugins: plugins,
     externals: {
         'react': {
             root: 'React',
