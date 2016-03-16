@@ -4,9 +4,10 @@
   "description": "A higher order React component for Sortable (https://github.com/RubaXa/Sortable).",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run lint && npm run build && npm test",
+    "prepublish": "npm run lint && npm run build && npm test && npm run lint",
     "build": "babel ./src --out-dir ./lib",
     "test": "./babel-tap --coverage test/*.js",
+    "dist": "webpack; BUILD_ENV=dist webpack",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "precommit-check": "npm run lint",
