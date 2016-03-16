@@ -26,13 +26,16 @@ $ npm run dist
 
 Then, include these scripts into your html file:
 ```html
-<script src="http://fb.me/react-0.14.7.js"></script>
-<script src="http://fb.me/react-dom-0.14.7.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
-<script src="dist/react-sortable.min.js"></script>
+<body>
+  <div id="container"></div>
+  <script src="http://fb.me/react-0.14.7.js"></script>
+  <script src="http://fb.me/react-dom-0.14.7.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
+  <script src="dist/react-sortable.min.js"></script>
+</body>
 ```
 
-Example:
+A pure example without using JSX syntax:
 ```js
 var MySortable = React.createClass({
     displayName: 'MySortable',
@@ -49,8 +52,9 @@ var MySortable = React.createClass({
         );
     }
 });
+
 ReactDOM.render(
-  React.createElement(SortableMixin.default()(MySortable), null),
+  React.createElement(SortableMixin.default({ ref: 'list', model: 'items' })(MySortable), null),
   document.getElementById('container')
 );
 ```
