@@ -142,8 +142,14 @@ class MySortableList extends React.Component {
     handleMove(evt) { // Event when you move an item in the list or between lists
     }
     render() {
+        const items = this.state.items.map((val, index) => (
+            <li key={index}>{val}</li>
+        ));
+
         return (
-            <ul ref="list">{items}</ul>
+            <div>
+                <ul ref="list">{items}</ul>
+            </div>
         );
     }
 }
