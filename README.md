@@ -117,15 +117,24 @@ import Sortable from 'react-sortablejs';
 
 class MySortableList extends React.Component {
     static propTypes = {
+        sortableInstance: React.PropTypes.object,
         items: React.PropTypes.array
     };
     static defaultProps = {
+        sortableInstance: null
         items: []
     };
     state = {
         items: this.props.items
     };
     
+    componentDidUpdate() {
+        // Note: sortableInstance object is null for the initial render
+        const { sortableInstance } = this.props;
+        
+        // See supported instance methods at https://github.com/RubaXa/Sortable#method
+        console.log(sortableInstance.toArray());
+    }
     handleStart(evt) { // Dragging started
     }
     handleEnd(evt) { // Dragging ended
