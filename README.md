@@ -129,10 +129,10 @@ class MySortableList extends React.Component {
     };
     
     componentDidUpdate() {
-        // Note: sortableInstance object is null for the initial render
+        // Note: The sortableInstance is null for the initial render
         const { sortableInstance } = this.props;
         
-        // See supported instance methods at https://github.com/RubaXa/Sortable#method
+        // You can see all the methods at https://github.com/RubaXa/Sortable#method
         console.log(sortableInstance.toArray());
     }
     handleStart(evt) { // Dragging started
