@@ -3,7 +3,8 @@
 
 A higher order React component for [Sortable](https://github.com/RubaXa/Sortable).
 
-Demo: http://cheton.github.io/react-sortable
+- Demo: http://cheton.github.io/react-sortable
+- Live Coding at WebpackBin: http://www.webpackbin.com/VJe8dfMpe
 
 The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
@@ -116,15 +117,24 @@ import Sortable from 'react-sortablejs';
 
 class MySortableList extends React.Component {
     static propTypes = {
+        sortableInstance: React.PropTypes.object,
         items: React.PropTypes.array
     };
     static defaultProps = {
+        sortableInstance: null
         items: []
     };
     state = {
         items: this.props.items
     };
     
+    componentDidUpdate() {
+        // Note: The sortableInstance is null for the initial render
+        const { sortableInstance } = this.props;
+        
+        // You can see all the methods at https://github.com/RubaXa/Sortable#method
+        console.log(sortableInstance.toArray());
+    }
     handleStart(evt) { // Dragging started
     }
     handleEnd(evt) { // Dragging ended
