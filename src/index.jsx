@@ -29,15 +29,22 @@ const getModelItems = (wrapperComponent) => {
 };
 
 const extend = (target, ...sources) => {
-    sources.forEach((source) => {
-        for (let key in source) {
-            if (source.hasOwnProperty(key)) {
-                target[key] = source[key];
+    if (target === undefined || target === null) {
+        throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    const output = Object(target);
+    for (let index = 0; index < sources.length; index++) {
+        const source = sources[index];
+        if (source !== undefined && source !== null) {
+            for (let key in source) {
+                if (source.hasOwnProperty(key)) {
+                    output[key] = source[key];
+                }
             }
         }
-    });
-
-    return target;
+    }
+    return output;
 };
 
 const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
