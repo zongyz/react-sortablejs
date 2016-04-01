@@ -1,3 +1,4 @@
+/*! react-sortablejs v0.7.0 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("react"), require("react-dom"), require("sortablejs"));
@@ -119,15 +120,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        sources[_key - 1] = arguments[_key];
 	    }
 
-	    sources.forEach(function (source) {
-	        for (var key in source) {
-	            if (source.hasOwnProperty(key)) {
-	                target[key] = source[key];
+	    if (target === undefined || target === null) {
+	        throw new TypeError('Cannot convert undefined or null to object');
+	    }
+
+	    var output = Object(target);
+	    for (var index = 0; index < sources.length; index++) {
+	        var source = sources[index];
+	        if (source !== undefined && source !== null) {
+	            for (var key in source) {
+	                if (source.hasOwnProperty(key)) {
+	                    output[key] = source[key];
+	                }
 	            }
 	        }
-	    });
-
-	    return target;
+	    }
+	    return output;
 	};
 
 	var SortableMixin = function SortableMixin() {
