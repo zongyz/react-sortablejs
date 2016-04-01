@@ -4,10 +4,11 @@
   "description": "A higher order React component for Sortable (https://github.com/RubaXa/Sortable).",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run lint && npm run build && npm test && npm run lint",
+    "prepublish": "npm run lint && npm run test && npm run build && npm run dist && npm run release",
     "build": "babel ./src --out-dir ./lib",
     "test": "./babel-tap --coverage test/*.js",
     "dist": "webpack; BUILD_ENV=dist webpack",
+    "release": "mkdir -p releases; cp -f dist/react-sortable.js releases/react-sortable-${npm_package_version}.js; cp -f dist/react-sortable.min.js releases/react-sortable-${npm_package_version}.min.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "precommit-check": "npm run lint",
