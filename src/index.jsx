@@ -4,7 +4,6 @@ import Sortable from 'sortablejs';
 
 const defaultOptions = {
     ref: 'list',
-    model: 'items',
     onStart: 'handleStart',
     onEnd: 'handleEnd',
     onAdd: 'handleAdd',
@@ -19,14 +18,6 @@ let _nextSibling = null;
 let _activeWrapperComponent = null;
 
 const refName = 'sortableComponent';
-
-const getModelItems = (wrapperComponent) => {
-    const model = wrapperComponent.sortableOptions.model;
-    const sortableComponent = wrapperComponent.refs[refName];
-    const { state = {}, props = {} } = sortableComponent;
-    const items = state[model] || props[model] || [];
-    return items.slice(); // returns a shallow copy of the items array
-};
 
 const extend = (target, ...sources) => {
     if (target === undefined || target === null) {
@@ -48,12 +39,12 @@ const extend = (target, ...sources) => {
 };
 
 const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
-
     state = {
         sortableInstance: null
     };
 
     sortableOptions = extend({}, defaultOptions, options);
+    populatedOptions = {};
 
     componentDidMount() {
         const sortableComponent = this.refs[refName];
@@ -84,30 +75,21 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
 
                     const oldIndex = evt.oldIndex;
                     const newIndex = evt.newIndex;
-                    let newState = {};
-                    let remoteState = {};
-                    let items = getModelItems(this);
+                    let items = this.props.items;
+                    let remoteItems = [];
 
                     if (name === 'onAdd') {
-                        let remoteItems = getModelItems(_activeWrapperComponent);
+                        remoteItems = _activeWrapperComponent.props.items;
                         let item = remoteItems.splice(oldIndex, 1)[0];
                         items.splice(newIndex, 0, item);
-
-                        remoteState[_activeWrapperComponent.sortableOptions.model] = remoteItems;
                     } else {
                         items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
                     }
 
-                    newState[this.sortableOptions.model] = items;
-
-                    if (copyOptions.stateHandler) {
-                        sortableComponent[copyOptions.stateHandler](newState);
-                    } else {
-                        sortableComponent.setState(newState);
-                    }
+                    this.props.onChange(items);
 
                     if (_activeWrapperComponent !== this) {
-                        _activeWrapperComponent.refs[refName].setState(remoteState);
+                        _activeWrapperComponent.props.onChange(remoteItems);
                     }
                 }
 
@@ -119,22 +101,11 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
         this.populatedOptions = copyOptions
         this.initSortable(sortableComponent);
     }
-    componentWillReceiveProps(nextProps) {
-        const sortableComponent = this.refs[refName];
-        const model = this.sortableOptions.model;
-        const items = nextProps[model];
-
-        if (items) {
-            let newState = {};
-            newState[model] = items;
-            sortableComponent.setState(newState);
-        }
-    }
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const model = this.sortableOptions.model;
         const prevItems = prevProps[model];
         const currItems = this.props[model];
-        if(prevItems !== currItems) {
+        if (prevItems !== currItems) {
             this.initSortable(this.refs[refName]);
         }
     }
@@ -145,12 +116,12 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
         this.destroySortable();
         const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
         const sortableInstance = Sortable.create(domNode, this.populatedOptions);
-        this.setState({sortableInstance});
+        this.setState({ sortableInstance });
     }
     destroySortable() {
         if (this.state.sortableInstance) {
             this.state.sortableInstance.destroy();
-            this.setState({sortableInstance: null});
+            this.setState({ sortableInstance: null });
         }
     }
 
