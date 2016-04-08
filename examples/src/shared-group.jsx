@@ -3,7 +3,6 @@ import Sortable from 'react-sortablejs';
 
 const sortableOptions = {
     ref: 'list',
-    model: 'items',
     group: {
         name: 'shared',
         pull: true, //'clone',
