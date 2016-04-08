@@ -50,7 +50,7 @@ class App extends React.Component {
                         <div className="col-sm-12">
                             <SimpleList
                                 items={this.state.simpleList}
-                                onChange={(items) => {
+                                onChange={(items, sortable) => {
                                     store.set('simpleList', items);
                                 }}
                             />
@@ -72,7 +72,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <SharedGroup
                                 items={this.state.sharedGroup.left}
-                                onChange={(items) => {
+                                onChange={(items, sortable) => {
                                     store.replace('sharedGroup.left', items);
                                 }}
                             />
@@ -80,7 +80,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <SharedGroup
                                 items={this.state.sharedGroup.right}
-                                onChange={(items) => {
+                                onChange={(items, sortable) => {
                                     store.replace('sharedGroup.right', items);
                                 }}
                             />
