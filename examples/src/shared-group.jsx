@@ -1,6 +1,5 @@
 import React from 'react';
 import Sortable from '../../src';
-import store from './store';
 
 const sortableOptions = {
     ref: 'list',
@@ -12,10 +11,9 @@ const sortableOptions = {
 };
 
 @Sortable(sortableOptions)
-export default class SharedGroup extends React.Component {
+class SharedGroup extends React.Component {
     static propTypes = {
-        items: React.PropTypes.array,
-        onChange: React.PropTypes.func
+        items: React.PropTypes.array
     };
 
     render() {
@@ -28,3 +26,5 @@ export default class SharedGroup extends React.Component {
         );
     }
 }
+
+export default SharedGroup;
