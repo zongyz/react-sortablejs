@@ -53,6 +53,8 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             'onFilter',
             'onMove'
         ].forEach(name => {
+            const eventHandler = this.sortableOptions[name];
+
             this.sortableOptions[name] = (evt) => {
                 if (name === 'onStart') {
                     store.nextSibling = evt.item.nextElementSibling;
@@ -82,7 +84,11 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
                 }
 
                 setTimeout(() => {
+                    // Event handler props
                     this.props[name] && this.props[name](evt, this.state.sortableInstance);
+
+                    // Event handler options
+                    eventHandler && eventHandler(evt, this.state.sortableInstance);
                 }, 0);
             };
         });
