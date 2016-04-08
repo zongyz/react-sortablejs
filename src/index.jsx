@@ -97,10 +97,7 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
         this.initSortable(sortableComponent);
     }
     componentDidUpdate(prevProps, prevState) {
-        const model = this.sortableOptions.model;
-        const prevItems = prevProps[model];
-        const currItems = this.props[model];
-        if (prevItems !== currItems) {
+        if (this.props.items !== prevProps.items) {
             this.initSortable(this.refs[refName]);
         }
     }
