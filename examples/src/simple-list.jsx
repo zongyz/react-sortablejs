@@ -2,8 +2,7 @@ import React from 'react';
 import Sortable from 'react-sortablejs';
 
 const sortableOptions = {
-    ref: 'list',
-    model: 'items'
+    ref: 'list'
 };
 
 @Sortable(sortableOptions)
