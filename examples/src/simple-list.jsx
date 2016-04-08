@@ -1,19 +1,15 @@
 import React from 'react';
-import Sortable from 'react-sortablejs';
+import Sortable from '../../src';
+import store from './store';
 
 const sortableOptions = {
-    ref: 'list',
-    model: 'items'
+    ref: 'list'
 };
 
 @Sortable(sortableOptions)
 export default class SimpleList extends React.Component {
-    state = {
-        items: [1, 2, 3, 4, 5, 6]
-    };
-    
     render() {
-        const items = this.state.items.map((text, index) => (
+        const items = this.props.items.map((text, index) => (
             <li key={index}>List Item {text}</li>
         ));
         

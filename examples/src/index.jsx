@@ -1,35 +1,45 @@
+import extend from 'lodash/extend';
 import random from 'lodash/random';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Sortable from 'react-sortablejs';
+import Sortable from '../../src';
 import SimpleList from './simple-list';
 import SharedGroup from './shared-group';
-
-const items = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Guava',
-    'Grape',
-    'Kiwi',
-    'Lemon',
-    'Melon',
-    'Orange',
-    'Pear',
-    'Peach',
-    'Strawberry'
-];
+import store from './store';
 
 class App extends React.Component {
     state = {
-        left: ['Apple', 'Banaba', 'Cherry', 'Grape'],
-        right: ['Lemon', 'Orange', 'Pear', 'Peach']
+        simpleList: store.get('simpleList'),
+        sharedGroup: store.get('sharedGroup')
     };
 
-    handleClick() {
+    componentDidMount() {
+        store.on('change', () => {
+            this.setState({
+                simpleList: store.get('simpleList'),
+                sharedGroup: store.get('sharedGroup')
+            });
+        });
+    }
+    addMoreItems() {
+        const items = [
+            'Apple',
+            'Banana',
+            'Cherry',
+            'Guava',
+            'Grape',
+            'Kiwi',
+            'Lemon',
+            'Melon',
+            'Orange',
+            'Pear',
+            'Peach',
+            'Strawberry'
+        ];
         const i = random(0, items.length - 1);
-        const state = this.state.left.concat(items[i]);
-        this.setState({ left: state });
+        const sharedGroup = extend({}, this.state.sharedGroup);
+        sharedGroup.left = sharedGroup.left.concat(items[i]);
+        this.setState({ sharedGroup: sharedGroup });
     }
     render() {
         return (
@@ -38,7 +48,12 @@ class App extends React.Component {
                     <div className="title">Simple List</div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <SimpleList />
+                            <SimpleList
+                                items={this.state.simpleList}
+                                onChange={(items) => {
+                                    store.set('simpleList', items);
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -48,7 +63,7 @@ class App extends React.Component {
                         <button
                             type="button"
                             className="btn btn-default"
-                            onClick={::this.handleClick}
+                            onClick={::this.addMoreItems}
                         >
                             Add more items
                         </button>
@@ -56,12 +71,18 @@ class App extends React.Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <SharedGroup
-                                items={this.state.left}
+                                items={this.state.sharedGroup.left}
+                                onChange={(items) => {
+                                    store.replace('sharedGroup.left', items);
+                                }}
                             />
                         </div>
                         <div className="col-sm-6">
                             <SharedGroup
-                                items={this.state.right}
+                                items={this.state.sharedGroup.right}
+                                onChange={(items) => {
+                                    store.replace('sharedGroup.right', items);
+                                }}
                             />
                         </div>
                     </div>

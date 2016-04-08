@@ -1,9 +1,9 @@
 import React from 'react';
-import Sortable from 'react-sortablejs';
+import Sortable from '../../src';
+import store from './store';
 
 const sortableOptions = {
     ref: 'list',
-    model: 'items',
     group: {
         name: 'shared',
         pull: true, //'clone',
@@ -13,19 +13,8 @@ const sortableOptions = {
 
 @Sortable(sortableOptions)
 export default class SharedGroup extends React.Component {
-    static propTypes = {
-        items: React.PropTypes.array
-    };
-    static defaultProps = {
-        items: []
-    };
-
-    state = {
-        items: this.props.items
-    };
-    
     render() {
-        const items = this.state.items.map((text, index) => (
+        const items = this.props.items.map((text, index) => (
             <li key={index}>{text}</li>
         ));
 
