@@ -3,19 +3,13 @@ import ReactDOM from 'react-dom';
 import Sortable from 'sortablejs';
 
 const defaultOptions = {
-    ref: 'list',
-    onStart: 'handleStart',
-    onEnd: 'handleEnd',
-    onAdd: 'handleAdd',
-    onUpdate: 'handleUpdate',
-    onRemove: 'handleRemove',
-    onSort: 'handleSort',
-    onFilter: 'handleFilter',
-    onMove: 'handleMove'
+    ref: 'list'
 };
 
-let _nextSibling = null;
-let _activeWrapperComponent = null;
+const store = {
+    nextSibling: null,
+    activeComponent: null
+};
 
 const refName = 'sortableComponent';
 
@@ -39,23 +33,16 @@ const extend = (target, ...sources) => {
 };
 
 const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
+    static propTypes = {
+        items: React.PropTypes.array.isRequired,
+        onChange: React.PropTypes.func.isRequired
+    };
     state = {
         sortableInstance: null
     };
-
     sortableOptions = extend({}, defaultOptions, options);
-    populatedOptions = {};
 
     componentDidMount() {
-        const sortableComponent = this.refs[refName];
-        const emitEvent = (type, evt) => {
-            const methodName = this.sortableOptions[type];
-            const method = sortableComponent[methodName];
-            method && method.call(sortableComponent, evt, this.state.sortableInstance);
-        };
-
-        let copyOptions = extend({}, this.sortableOptions);
-
         [ // Bind callbacks
             'onStart',
             'onEnd',
@@ -65,13 +52,13 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             'onRemove',
             'onFilter',
             'onMove'
-        ].forEach((name) => {
-            copyOptions[name] = (evt) => {
+        ].forEach(name => {
+            this.sortableOptions[name] = (evt) => {
                 if (name === 'onStart') {
-                    _nextSibling = evt.item.nextElementSibling;
-                    _activeWrapperComponent = this;
+                    store.nextSibling = evt.item.nextElementSibling;
+                    store.activeComponent = this;
                 } else if (name === 'onAdd' || name === 'onUpdate') {
-                    evt.from.insertBefore(evt.item, _nextSibling);
+                    evt.from.insertBefore(evt.item, store.nextSibling);
 
                     const oldIndex = evt.oldIndex;
                     const newIndex = evt.newIndex;
@@ -79,26 +66,28 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
                     let remoteItems = [];
 
                     if (name === 'onAdd') {
-                        remoteItems = _activeWrapperComponent.props.items;
-                        let item = remoteItems.splice(oldIndex, 1)[0];
-                        items.splice(newIndex, 0, item);
+                        remoteItems = store.activeComponent.props.items;
+                        items.splice(newIndex, 0, remoteItems.splice(oldIndex, 1)[0]);
                     } else {
                         items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
                     }
 
-                    this.props.onChange(items);
+                    // Called by any change to the list (add / update / remove)
+                    this.props.onChange(items, this.state.sortableInstance);
 
-                    if (_activeWrapperComponent !== this) {
-                        _activeWrapperComponent.props.onChange(remoteItems);
+                    if (store.activeComponent !== this) {
+                        const sortableInstance = store.activeComponent.state.sortableInstance;
+                        store.activeComponent.props.onChange(remoteItems, sortableInstance);
                     }
                 }
 
                 setTimeout(() => {
-                    emitEvent(name, evt);
+                    this.props[name] && this.props[name](evt, this.state.sortableInstance);
                 }, 0);
             };
         });
-        this.populatedOptions = copyOptions
+
+        const sortableComponent = this.refs[refName];
         this.initSortable(sortableComponent);
     }
     componentDidUpdate(prevProps, prevState) {
@@ -115,8 +104,8 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
     initSortable(sortableComponent) {
         this.destroySortable();
         const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        const sortableInstance = Sortable.create(domNode, this.populatedOptions);
-        this.setState({ sortableInstance });
+        const sortableInstance = Sortable.create(domNode, this.sortableOptions);
+        this.setState({ sortableInstance: sortableInstance });
     }
     destroySortable() {
         if (this.state.sortableInstance) {
