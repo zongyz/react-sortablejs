@@ -36,16 +36,16 @@ export default class extends React.Component {
 
                     evt.from.insertBefore(evt.item, store.nextSibling);
                     
-                    if (remote !== this && remote.props.group && remote.props.group.pull === 'clone') {
-                        // Remove the node with the same data-reactid
-                        evt.item.parentNode.removeChild(evt.item);
+                    if (remote !== this) {
+                        if ((typeof remote.props.group === 'object') && (remote.props.group.pull === 'clone')) {
+                            // Remove the node with the same data-reactid
+                            evt.item.parentNode.removeChild(evt.item);
+                        }
+
+                        remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable);
                     }
 
                     this.props.onChange && this.props.onChange(items, this.sortable);
-
-                    if (remote !== this) {
-                        remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable);
-                    }
                 }
 
                 setTimeout(() => {
