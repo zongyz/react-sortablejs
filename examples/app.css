@@ -41,9 +41,9 @@ ul {
     max-width: 360px;
     background-color: #fff;
 }
-.block-list li {
+.block-list > * {
     padding: 10px 40px;
 }
-.block-list li:hover {
+.block-list > *:hover {
     cursor: move;
 }

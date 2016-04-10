@@ -3,24 +3,15 @@ import random from 'lodash/random';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from '../../src';
-import SimpleList from './simple-list';
-import SharedGroup from './shared-group';
 import store from './store';
 
 class App extends React.Component {
     state = {
-        simpleList: store.get('simpleList'),
-        sharedGroup: store.get('sharedGroup')
+        simpleList: [1, 2, 3, 4, 5, 6],
+        groupLeft: ['Apple', 'Banana', 'Cherry', 'Grape'],
+        groupRight: ['Lemon', 'Orange', 'Pear', 'Peach']
     };
 
-    componentDidMount() {
-        store.on('change', () => {
-            this.setState({
-                simpleList: store.get('simpleList'),
-                sharedGroup: store.get('sharedGroup')
-            });
-        });
-    }
     addMoreItems() {
         const items = [
             'Apple',
@@ -37,23 +28,30 @@ class App extends React.Component {
             'Strawberry'
         ];
         const i = random(0, items.length - 1);
-        const sharedGroup = extend({}, this.state.sharedGroup);
-        sharedGroup.left = sharedGroup.left.concat(items[i]);
-        this.setState({ sharedGroup: sharedGroup });
+        this.setState({ groupLeft: this.state.groupLeft.concat(items[i]) });
     }
     render() {
+        const simpleList = this.state.simpleList.map((val, key) => (
+            <div key={key} data-id={val}>List Item {val}</div>
+        ));
+        const groupLeft = this.state.groupLeft.map((val, key) => (
+            <div key={key} data-id={val}>{val}</div>
+        ));
+        const groupRight = this.state.groupRight.map((val, key) => (
+            <div key={key} data-id={val}>{val}</div>
+        ));
+
         return (
             <div>
                 <div className="container-fluid">
                     <div className="title">Simple List</div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <SimpleList
-                                items={this.state.simpleList}
-                                onChange={(items, sortable) => {
-                                    store.set('simpleList', items);
-                                }}
-                            />
+                            <Sortable
+                                className="block-list"
+                            >
+                                {simpleList}
+                            </Sortable>
                         </div>
                     </div>
                 </div>
@@ -70,20 +68,37 @@ class App extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-sm-6">
-                            <SharedGroup
-                                items={this.state.sharedGroup.left}
-                                onChange={(items, sortable) => {
-                                    store.replace('sharedGroup.left', items);
+                            <Sortable
+                                ref="group-left"
+                                className="block-list"
+                                sort={false}
+                                group={{
+                                    name: 'shared',
+                                    pull: 'clone',
+                                    put: false
                                 }}
-                            />
+                                onChange={(items) => {
+                                    this.setState({ groupLeft: items });
+                                }}
+                            >
+                                {groupLeft}
+                            </Sortable>
                         </div>
                         <div className="col-sm-6">
-                            <SharedGroup
-                                items={this.state.sharedGroup.right}
-                                onChange={(items, sortable) => {
-                                    store.replace('sharedGroup.right', items);
+                            <Sortable
+                                ref="group-right"
+                                className="block-list"
+                                group={{
+                                    name: 'shared',
+                                    pull: true,
+                                    put: true
                                 }}
-                            />
+                                onChange={(items) => {
+                                    this.setState({ groupRight: items });
+                                }}
+                            >
+                                {groupRight}
+                            </Sortable>
                         </div>
                     </div>
                 </div>
