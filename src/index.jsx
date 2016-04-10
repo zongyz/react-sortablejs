@@ -2,48 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'sortablejs';
 
-const defaultOptions = {
-    ref: 'list'
-};
-
-const store = {
+const store ={
     nextSibling: null,
     activeComponent: null
 };
 
-const refName = 'sortableComponent';
-
-const extend = (target, ...sources) => {
-    if (target === undefined || target === null) {
-        throw new TypeError('Cannot convert undefined or null to object');
-    }
-
-    const output = Object(target);
-    for (let index = 0; index < sources.length; index++) {
-        const source = sources[index];
-        if (source !== undefined && source !== null) {
-            for (let key in source) {
-                if (source.hasOwnProperty(key)) {
-                    output[key] = source[key];
-                }
-            }
-        }
-    }
-    return output;
-};
-
-const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
-    static propTypes = {
-        items: React.PropTypes.array.isRequired,
-        onChange: React.PropTypes.func.isRequired
-    };
-    state = {
-        sortableInstance: null
-    };
-    sortableOptions = extend({}, defaultOptions, options);
+export default class extends React.Component {
+    sortable = null;
 
     componentDidMount() {
-        [ // Bind callbacks
+        const { children, className, ...options } = this.props;
+
+        [
             'onStart',
             'onEnd',
             'onAdd',
@@ -52,76 +22,43 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             'onRemove',
             'onFilter',
             'onMove'
-        ].forEach(name => {
-            const eventHandler = this.sortableOptions[name];
+        ].forEach((name) => {
+            const eventHandler = options[name];
 
-            this.sortableOptions[name] = (evt) => {
+            options[name] = (evt) => {
                 if (name === 'onStart') {
                     store.nextSibling = evt.item.nextElementSibling;
                     store.activeComponent = this;
-                } else if (name === 'onAdd' || name === 'onUpdate') {
+                } else if ((name === 'onAdd' || name === 'onUpdate') && this.props.onChange) {
+                    const items = this.sortable.toArray();
+                    const remote = store.activeComponent;
+                    const remoteItems = remote.sortable.toArray();
+
                     evt.from.insertBefore(evt.item, store.nextSibling);
-
-                    const oldIndex = evt.oldIndex;
-                    const newIndex = evt.newIndex;
-                    let items = this.props.items;
-                    let remoteItems = [];
-
-                    if (name === 'onAdd') {
-                        remoteItems = store.activeComponent.props.items;
-                        items.splice(newIndex, 0, remoteItems.splice(oldIndex, 1)[0]);
-                    } else {
-                        items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
+                    
+                    if (remote !== this && remote.props.group && remote.props.group.pull === 'clone') {
+                        // Remove the node with the same data-reactid
+                        evt.item.parentNode.removeChild(evt.item);
                     }
 
-                    // Called by any change to the list (add / update / remove)
-                    this.props.onChange(items, this.state.sortableInstance);
+                    this.props.onChange && this.props.onChange(items, this.sortable);
 
-                    if (store.activeComponent !== this) {
-                        const sortableInstance = store.activeComponent.state.sortableInstance;
-                        store.activeComponent.props.onChange(remoteItems, sortableInstance);
+                    if (remote !== this) {
+                        remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable);
                     }
                 }
 
                 setTimeout(() => {
-                    // Event handler props
-                    this.props[name] && this.props[name](evt, this.state.sortableInstance);
-
-                    // Event handler options
-                    eventHandler && eventHandler(evt, this.state.sortableInstance);
+                    eventHandler && eventHandler(evt);
                 }, 0);
-            };
+            }
         });
 
-        const sortableComponent = this.refs[refName];
-        this.initSortable(sortableComponent);
+        this.sortable = Sortable.create(ReactDOM.findDOMNode(this), options);
     }
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.items !== prevProps.items) {
-            this.initSortable(this.refs[refName]);
-        }
-    }
-    componentWillUnmount() {
-        this.destroySortable();
-    }
-    initSortable(sortableComponent) {
-        this.destroySortable();
-        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        const sortableInstance = Sortable.create(domNode, this.sortableOptions);
-        this.setState({ sortableInstance: sortableInstance });
-    }
-    destroySortable() {
-        if (this.state.sortableInstance) {
-            this.state.sortableInstance.destroy();
-            this.setState({ sortableInstance: null });
-        }
-    }
-
     render() {
         return (
-            <Component ref={refName} {...this.props} {...this.state} />
+            <div className={this.props.className}>{this.props.children}</div>
         );
     }
-};
-
-export default SortableMixin;
+}
