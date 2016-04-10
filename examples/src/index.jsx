@@ -90,7 +90,7 @@ class App extends React.Component {
                                 className="block-list"
                                 group={{
                                     name: 'shared',
-                                    pull: true,
+                                    pull: false,
                                     put: true
                                 }}
                                 onChange={(items) => {
