@@ -8,7 +8,7 @@ A higher order React component for [Sortable](https://github.com/RubaXa/Sortable
 The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
 ## Notice
-There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/react-sortable/wiki/Migration-Guide) while upgrading from earlier versions.
+There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/cheton/react-sortable/wiki/Migration-Guide) while upgrading from earlier versions.
 
 ## Installation
 
