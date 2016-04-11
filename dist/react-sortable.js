@@ -1,4 +1,4 @@
-/*! react-sortablejs v0.7.0 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
+/*! react-sortablejs v1.0.0 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("react"), require("react-dom"), require("sortablejs"));
@@ -82,8 +82,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -93,6 +91,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	var store = {
 	    nextSibling: null,
 	    activeComponent: null
+	};
+
+	var extend = function extend(target) {
+	    for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	        sources[_key - 1] = arguments[_key];
+	    }
+
+	    target = target || {};
+	    for (var index = 0; index < sources.length; index++) {
+	        var obj = sources[index];
+	        if (!obj) {
+	            continue;
+	        }
+	        for (var key in obj) {
+	            if (obj.hasOwnProperty(key)) {
+	                target[key] = obj[key];
+	            }
+	        }
+	    }
+	    return target;
 	};
 
 	var _default = (_temp2 = _class = function (_React$Component) {
@@ -105,8 +123,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        _classCallCheck(this, _default);
 
-	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	            args[_key] = arguments[_key];
+	        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	            args[_key2] = arguments[_key2];
 	        }
 
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_default)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.sortable = null, _temp), _possibleConstructorReturn(_this, _ret);
@@ -117,11 +135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            var _props = this.props;
-	            var children = _props.children;
-	            var className = _props.className;
-
-	            var options = _objectWithoutProperties(_props, ['children', 'className']);
+	            var options = extend({}, this.props.options);
 
 	            ['onStart', 'onEnd', 'onAdd', 'onSort', 'onUpdate', 'onRemove', 'onFilter', 'onMove'].forEach(function (name) {
 	                var eventHandler = options[name];
@@ -138,7 +152,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        evt.from.insertBefore(evt.item, store.nextSibling);
 
 	                        if (remote !== _this2) {
-	                            if (_typeof(remote.props.group) === 'object' && remote.props.group.pull === 'clone') {
+	                            var remoteOptions = remote.props.options || {};
+
+	                            if (_typeof(remoteOptions.group) === 'object' && remoteOptions.group.pull === 'clone') {
 	                                // Remove the node with the same data-reactid
 	                                evt.item.parentNode.removeChild(evt.item);
 	                            }
@@ -160,10 +176,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _props2 = this.props;
-	            var children = _props2.children;
-	            var className = _props2.className;
-	            var tag = _props2.tag;
+	            var _props = this.props;
+	            var children = _props.children;
+	            var className = _props.className;
+	            var tag = _props.tag;
 
 	            return _react2.default.DOM[tag]({ className: className }, children);
 	        }
@@ -171,9 +187,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return _default;
 	}(_react2.default.Component), _class.propTypes = {
+	    options: _react2.default.PropTypes.object,
 	    onChange: _react2.default.PropTypes.func,
 	    tag: _react2.default.PropTypes.string
 	}, _class.defaultProps = {
+	    options: {},
 	    tag: 'div'
 	}, _temp2);
 
