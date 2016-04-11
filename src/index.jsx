@@ -2,24 +2,42 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'sortablejs';
 
-const store ={
+const store = {
     nextSibling: null,
     activeComponent: null
 };
 
+const extend = (target, ...sources) => {
+    target = target || {};
+    for (let index = 0; index < sources.length; index++) {
+        let obj = sources[index];
+        if (!obj) {
+            continue;
+        }
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                target[key] = obj[key];
+            }
+        }
+    }
+    return target;
+};
+
 export default class extends React.Component {
     static propTypes = {
+        options: React.PropTypes.object,
         onChange: React.PropTypes.func,
         tag: React.PropTypes.string
     };
     static defaultProps = {
+        options: {},
         tag: 'div'
     };
 
     sortable = null;
 
     componentDidMount() {
-        const { children, className, ...options } = this.props;
+        const options = extend({}, this.props.options);
 
         [
             'onStart',
@@ -45,7 +63,9 @@ export default class extends React.Component {
                     evt.from.insertBefore(evt.item, store.nextSibling);
                     
                     if (remote !== this) {
-                        if ((typeof remote.props.group === 'object') && (remote.props.group.pull === 'clone')) {
+                        const remoteOptions = remote.props.options || {};
+
+                        if ((typeof remoteOptions.group === 'object') && (remoteOptions.group.pull === 'clone')) {
                             // Remove the node with the same data-reactid
                             evt.item.parentNode.removeChild(evt.item);
                         }
