@@ -8,9 +8,8 @@ A higher order React component for [Sortable](https://github.com/RubaXa/Sortable
 
 The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
-
 ## Notice
-There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/i18next/i18next-scanner/wiki/Migration-Guide) while upgrading from earlier versions.
+There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/react-sortable/wiki/Migration-Guide) while upgrading from earlier versions.
 
 ## Installation
 
@@ -47,45 +46,51 @@ Then, include these scripts into your html file:
 File: sortable-list.jsx
 ```jsx
 import React from 'react';
-import Sortable from 'react-sortable';
+import Sortable from 'react-sortablejs';
 
 // Functional Component
-const SortableList = ({ items }) => {
-    let sortable = null; // the sortable instance
-    
-    items = items.map((val, key) => (<li key={key} data-id={val}>List Item: {val}</li>));
+const SortableList = ({ items, onChange }) => {
+    let sortable = null; // sortable instance
+    const reverseOrder = (evt) => {
+        const order = sortable.toArray();
+        onChange(order.reverse());
+    };
+    const listItems = items.map((val, key) => (<li key={key} data-id={val}>List Item: {val}</li>));
 
     return (
-        <Sortable
-            // Sortable options (https://github.com/RubaXa/Sortable#options)
-            options={{
-            }}
+        <div>
+            <button type="button" onClick={reverseOrder}>Reverse Order</button>
+            <Sortable
+                // Sortable options (https://github.com/RubaXa/Sortable#options)
+                options={{
+                }}
 
-            // Use ref to get the sortable instance
-            // https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
-            ref={(c) => {
-                if (c) {
-                    sortable = c.sortable;
-                }
-            }}
+                // Use ref to get the sortable instance
+                // https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
+                ref={(c) => {
+                    if (c) {
+                        sortable = c.sortable;
+                    }
+                }}
 
-            // An optional tag to specify the wrapping element. Defaults to "div".
-            tag="ul"
+                // An optional tag to specify the wrapping element. Defaults to "div".
+                tag="ul"
 
-            // The optional onChange method allows you to keep DOM nodes untouched
-            // and render the sorted items via state change.
-            // See an example at https://github.com/cheton/react-sortable/#controlled-component
-            // onChange={(order) => {
-            //     this.setState({ items: order });
-            // }}
-        >
-            {items}
-        </Sortable>
+                // The optional onChange method allows you to implement a controlled component and keep
+                // DOM nodes untouched. You have to change state to re-render the children.
+                onChange={(order) => {
+                    onChange(order);
+                }}
+            >
+                {listItems}
+            </Sortable>
+        </div>
     );
 };
 
 SortableList.propTypes = {
-    items: React.PropTypes.array
+    items: React.PropTypes.array,
+    onChange: React.PropTypes.func
 };
 
 export default SortableList;
@@ -97,8 +102,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SortableList from './sortable-list';
 
+class App extends React.Component {
+    state = {
+        items: [1, 2, 3, 4, 5, 6]
+    };
+
+    render() {
+        return (
+            <SortableList
+                items={this.state.items}
+                onChange={(items) => {
+                    this.setState({ items });
+                }}
+            >
+            </SortableList>
+        )
+    }
+};
+
 ReactDOM.render(
-    <SortableList items={[1, 2, 3, 4, 5, 6]} />,
+    <App />,
     document.getElementById('container')
 );
 ```
