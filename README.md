@@ -1,7 +1,7 @@
 # react-sortable [![build status](https://travis-ci.org/cheton/react-sortable.svg?branch=master)](https://travis-ci.org/cheton/react-sortable) [![Coverage Status](https://coveralls.io/repos/cheton/react-sortable/badge.svg)](https://coveralls.io/r/cheton/react-sortable)
 [![NPM](https://nodei.co/npm/react-sortablejs.png?downloads=true&stars=true)](https://nodei.co/npm/react-sortablejs/)
 
-A higher order React component for [Sortable](https://github.com/RubaXa/Sortable).
+A React component built on top of Sortable (https://github.com/RubaXa/Sortable).
 
 - Demo: http://cheton.github.io/react-sortable
 
