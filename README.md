@@ -77,7 +77,7 @@ const SortableList = ({ items, onChange }) => {
 
                 // [Optional] The onChange method allows you to implement a controlled component and keep
                 // DOM nodes untouched. You have to change state to re-render the component.
-                // @param {Array} order An ordered array of items, defined by the `data-id` attribute.
+                // @param {Array} order An ordered array of items defined by the `data-id` attribute.
                 // @param {Object} sortable The sortable instance.
                 onChange={(order, sortable) => {
                     onChange(order);
