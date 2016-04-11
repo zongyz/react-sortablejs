@@ -43,7 +43,6 @@ Then, include these scripts into your html file:
 ```
 
 ## Usage
-File: sortable-list.jsx
 ```jsx
 import React from 'react';
 import Sortable from 'react-sortablejs';
@@ -65,7 +64,7 @@ const SortableList = ({ items, onChange }) => {
                 options={{
                 }}
 
-                // Use ref to get the sortable instance
+                // [Optional] Use ref to get the sortable instance
                 // https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
                 ref={(c) => {
                     if (c) {
@@ -73,10 +72,10 @@ const SortableList = ({ items, onChange }) => {
                     }
                 }}
 
-                // An optional tag to specify the wrapping element. Defaults to "div".
+                // [Optional] A tag to specify the wrapping element. Defaults to "div".
                 tag="ul"
 
-                // The optional onChange method allows you to implement a controlled component and keep
+                // [Optional] The onChange method allows you to implement a controlled component and keep
                 // DOM nodes untouched. You have to change state to re-render the children.
                 onChange={(order) => {
                     onChange(order);
@@ -128,7 +127,7 @@ ReactDOM.render(
 
 ## Examples
 
-### Uncontrolled Component
+### 1. Uncontrolled Component
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -163,7 +162,7 @@ ReactDOM.render(
 );
 ```
 
-### Controlled Component
+### 2. Controlled Component
 
 ```js
 import React from 'react';
@@ -202,7 +201,7 @@ ReactDOM.render(
 );
 ```
 
-### Shared Group
+### 3. Shared Group
 Using the `group` option to drag elements from one list into another.
 
 File: index.jsx
@@ -211,12 +210,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SharedGroup from './shared-group';
 
-const SortableList = (props) => {
+const App = (props) => {
     return (
         <div>
             <SharedGroup
                 items={['Apple', 'Banaba', 'Cherry', 'Grape']}
             />
+            <br/>
             <SharedGroup
                 items={['Lemon', 'Orange', 'Pear', 'Peach']}
             />
@@ -224,16 +224,16 @@ const SortableList = (props) => {
     );
 };
 
-ReactDOM.render(<SortableList />, document.getElementById('container'));
+ReactDOM.render(<App />, document.getElementById('container'));
 ```
 
 File: shared-group.jsx
 ```js
 import React from 'react';
-import Sortable from 'react-sortablejs';
+import Sortable from '../src';
 
 const SharedGroup = ({ items }) => {
-    item = items.map(item => <li>{item}</li>);
+    items = items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
 
     return (
         <Sortable
