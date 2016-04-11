@@ -3,7 +3,7 @@ import random from 'lodash/random';
 import uniq from 'lodash/uniq';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Sortable from '../../src';
+import Sortable from '../src';
 
 class App extends React.Component {
     state = {

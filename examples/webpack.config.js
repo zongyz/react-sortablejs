@@ -4,10 +4,10 @@ var webpack = require('webpack');
 module.exports = {
     debug: true,
     devtool: 'source-map',
-    entry: path.resolve('index.jsx'),
+    entry: path.resolve(__dirname, 'index.jsx'),
     output: {
         path: path.join(__dirname),
-        filename: 'app.bundle.js'
+        filename: 'bundle.js'
     },
     module: {
         loaders: [
