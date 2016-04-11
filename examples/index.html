@@ -8,8 +8,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="app.css" rel="stylesheet" type="text/css">
+<style>
+html, body {
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.page-title {
+    font-weight: bold;
+    font-size: 64px;
+}
+a {
+    color: #333;
+}
+a:hover {
+    color: #000;
+}
+</style>
 </head>
 <body>
+    <div class="row text-center">
+        <div class="col-xs-12" style="margin-bottom: 1em;">
+            <h1 class="page-title"><a href="https://github.com/cheton/react-sortable">react-sortable</a></h1>
+            <h3>A React component using Sortable (<a href="https://github.com/RubaXa/Sortable">https://github.com/RubaXa/Sortable</a>).</h3>
+        </div>
+        <div class="col-xs-12">
+            <a class="btn btn-default btn-lg" href="https://github.com/cheton/react-sortable" role="button">View on GitHub</a>
+        </div>
+    </div>
     <div id="container"></div>
     <script src="app.bundle.js"></script>
 </body>
