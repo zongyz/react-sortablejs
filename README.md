@@ -8,11 +8,16 @@ A higher order React component for [Sortable](https://github.com/RubaXa/Sortable
 
 The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
+
+## Notice
+There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/i18next/i18next-scanner/wiki/Migration-Guide) while upgrading from earlier versions.
+
 ## Installation
 
 ### Webpack or Browserify
 The easiest way to use react-sortablejs is to install it from npm and include it in your React build process using webpack or browserify.
 ```bash
+npm install --save react react-dom sortablejs  # Install peerDependencies
 npm install --save react-sortablejs
 ```
 
@@ -24,7 +29,7 @@ You can create a standalone ES5 module as shown below:
 $ git clone https://github.com/cheton/react-sortable.git
 $ cd react-sortable
 $ npm install
-$ npm run dist
+$ npm run build && npm run dist
 ```
 
 Then, include these scripts into your html file:
@@ -38,201 +43,156 @@ Then, include these scripts into your html file:
 </body>
 ```
 
-A simple example without using JSX syntax:
-```js
-var MySortable = React.createClass({
-    displayName: 'MySortable',
-    getInitialState: function() {
-        return { items: ['Apple', 'Banana', 'Cherry'] };
-    },
-    render: function() {
-        return (
-            React.createElement('ul', { ref: "list" },
-                this.state.items.map(function(item, key) {
-                    return React.createElement('li', { key: key }, item);
-                })
-            )
-        );
-    }
-});
+## Usage
+File: sortable-list.jsx
+```jsx
+import React from 'react';
+import Sortable from 'react-sortable';
+
+// Functional Component
+const SortableList = ({ items }) => {
+    let sortable = null; // the sortable instance
+    
+    items = items.map((val, key) => (<li key={key} data-id={val}>List Item: {val}</li>));
+
+    return (
+        <Sortable
+            // Sortable options
+            options={{
+                // See all options at https://github.com/RubaXa/Sortable#options
+            }}
+
+            // Use ref to get the sortable instance
+            ref={(c) => {
+                if (c) {
+                    sortable = c.sortable;
+                }
+            }}
+
+            // An optional tag to specify the wrapping element. Defaults to "div".
+            tag="ul"
+
+            // The optional onChange method allows you to keep DOM nodes untouched
+            // and render the sorted items via state change.
+            // See an example at 
+            // onChange={(order) => {
+            //     this.setState({ items: order });
+            // }}
+        >
+            {items}
+        </Sortable>
+    );
+};
+
+SortableList.propTypes = {
+    items: React.PropTypes.array
+};
+
+export default SortableList;
+```
+
+File: index.jsx
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SortableList from './sortable-list';
 
 ReactDOM.render(
-    React.createElement(SortableMixin.default({ ref: 'list', model: 'items' })(MySortable), null),
+    <SortableList items={[1, 2, 3, 4, 5, 6]} />,
     document.getElementById('container')
 );
-```
-
-## Options
-
-#### `ref` option
-Specify which items inside the `ref` attribute should be sortable.
-
-#### `model` option
-The state attribute for creating a sortable list.
-
-
-See more options at https://github.com/RubaXa/Sortable#options
-```js
-{
-    ref: 'list',
-    model: 'items',
-    onStart: 'handleStart',
-    onEnd: 'handleEnd',
-    onAdd: 'handleAdd',
-    onUpdate: 'handleUpdate',
-    onRemove: 'handleRemove',
-    onSort: 'handleSort',
-    onFilter: 'handleFilter',
-    onMove: 'handleMove',
-    // Sortable options
-    group: "name",  // or { name: "...", pull: [true, false, clone], put: [true, false, array] }
-    sort: true,  // sorting inside list
-    delay: 0, // time in milliseconds to define when the sorting should start
-    disabled: false, // Disables the sortable if set to true.
-    store: null,  // @see Store
-    animation: 150,  // ms, animation speed moving items when sorting, `0` — without animation
-    handle: ".my-handle",  // Drag handle selector within list items
-    filter: ".ignore-elements",  // Selectors that do not lead to dragging (String or Function)
-    draggable: ".item",  // Specifies which items inside the element should be sortable
-    ghostClass: "sortable-ghost",  // Class name for the drop placeholder
-    chosenClass: "sortable-chosen",  // Class name for the chosen item
-    dataIdAttr: 'data-id',
-    forceFallback: false,  // ignore the HTML5 DnD behaviour and force the fallback to kick in
-    fallbackClass: "sortable-fallback"  // Class name for the cloned DOM Element when using forceFallback
-    fallbackOnBody: false  // Appends the cloned DOM Element into the Document's Body
-    scroll: true, // or HTMLElement
-    scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-    scrollSpeed: 10, // px
-    setData: function (dataTransfer, dragEl) {
-        dataTransfer.setData('Text', dragEl.textContent);
-    }
-}
-```
-
-## Usage
-
-```js
-import React from 'react';
-import Sortable from 'react-sortablejs';
-
-class MySortableList extends React.Component {
-    static propTypes = {
-        sortableInstance: React.PropTypes.object,
-        items: React.PropTypes.array
-    };
-    static defaultProps = {
-        sortableInstance: null
-        items: []
-    };
-    state = {
-        items: this.props.items
-    };
-    
-    componentDidUpdate() {
-        // Note: The sortableInstance is null for the initial render
-        const { sortableInstance } = this.props;
-        
-        // You can see all the methods at https://github.com/RubaXa/Sortable#method
-        console.log(sortableInstance.toArray());
-    }
-    handleStart(evt) { // Dragging started
-    }
-    handleEnd(evt) { // Dragging ended
-    }
-    handleAdd(evt) { // Element is dropped into the list from another list
-    }
-    handleUpdate(evt) { // Changed sorting within list
-    }
-    handleRemove(evt) { // Element is removed from the list into another list
-    }
-    handleSort(evt) { // Called by any change to the list (add / update / remove)
-    }
-    handleFilter(evt) { // Attempt to drag a filtered element
-    }
-    handleMove(evt) { // Event when you move an item in the list or between lists
-    }
-    render() {
-        const items = this.state.items.map((val, index) => (
-            <li key={index}>{val}</li>
-        ));
-
-        return (
-            <div>
-                <ul ref="list">{items}</ul>
-            </div>
-        );
-    }
-}
-
-const sortableOptions = {
-    ref: 'list',
-    model: 'items'
-};
-export default Sortable(sortableOptions)(MySortableList);
-```
-
-You can also use HOCs as ES7 decorators:
-```js
-import React from 'react';
-import Sortable from 'react-sortablejs';
-
-@Sortable({ ref: 'list', model: 'items' })
-export default class SortableList extends React.Component {
-    ...
-}
 ```
 
 ## Examples
 
-### Simple List
-
-File: index.jsx
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import SimpleList from './simple-list';
-
-ReactDOM.render(
-    <SimpleList items={[1, 2, 3, 4, 5, 6]} />,
-    document.getElementById('container')
-);
-```
-
-File: simple-list.jsx
+### Uncontrolled Component
 ```js
 import React from 'react';
 import Sortable from 'react-sortablejs';
 
-const sortableOptions = {
-    ref: 'list',
-    model: 'items'
-};
-
-class SimpleList extends React.Component {
-    static propTypes = {
-        items: React.PropTypes.array
-    };
-    static defaultProps = {
-        items: []
-    };
+class App extends React.Component {
     state = {
-        items: this.props.items
+        items: ['Apple', 'Banana', 'Cherry', 'Guava', 'Peach', 'Strawberry']
     };
     
+    sortable = null;
+    
+    handleReverseOrder() {
+        const order = this.sortable.toArray();
+        this.sortable.sort(order.reverse());
+    }
     render() {
-        const items = this.state.items.map((val, index) => (
-            <li key={index}>{val}</li>
-        ));
+        const items = this.state.items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
         
-        return (
+        retrun (
             <div>
-                <ul ref="list">{items}</ul>
+                <button type="button" onClick={::this.handleReverseOrder}>Reverse Order</button>
+                <Sortable
+                    // Check out options at https://github.com/RubaXa/Sortable#options
+                    options={{
+                        handle: ".my-handle", // Drag handle selector within list items
+                        draggable: ".item" // Specifies which items inside the element should be sortable
+                    }}
+                    ref={(c) => {
+                        if (c) {
+                            this.sortable = sortable;
+                        }
+                    }}
+                    tag="ul" // Defaults to "div"
+                >
+                    {items}
+                </Sortable>
             </div>
         );
     }
 }
+```
 
-export default Sortable(sortableOptions)(SimpleList);
+### Controlled Component
+
+```js
+import React from 'react';
+import Sortable from 'react-sortablejs';
+
+class App extends React.Component {
+    state = {
+        items: ['Apple', 'Banana', 'Cherry', 'Guava', 'Peach', 'Strawberry']
+    };
+    
+    sortable = null;
+    
+    handleReverseOrder() {
+        const order = this.sortable.toArray();
+        this.sortable.sort(order.reverse());
+    }
+    render() {
+        const items = this.state.items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
+        
+        retrun (
+            <div>
+                <button type="button" onClick={::this.handleReverseOrder}>Reverse Order</button>
+                <Sortable
+                    // Check out options at https://github.com/RubaXa/Sortable#options
+                    options={{
+                        handle: ".my-handle", // Drag handle selector within list items
+                        draggable: ".item" // Specifies which items inside the element should be sortable
+                    }}
+                    ref={(c) => {
+                        if (c) {
+                            this.sortable = sortable;
+                        }
+                    }}
+                    tag="ul" // Defaults to "div"
+                    onChange={(order, sortable) { // [Optional] Controlled Component
+                        this.setState({ items: order });
+                    }}
+                >
+                    {items}
+                </Sortable>
+            </div>
+        );
+    }
+}
 ```
 
 ### Shared Group
@@ -265,35 +225,20 @@ File: shared-group.jsx
 import React from 'react';
 import Sortable from 'react-sortablejs';
 
-const sortableOptions = {
-    ref: 'list',
-    model: 'items',
-    group: 'shared'
+const SharedGroup = ({ items }) => {
+    item = items.map(item => <li>{item}</li>);
+
+    return (
+        <Sortable
+            options={{
+                group: 'shared'
+            }}
+            tag="ul"
+        >
+            {items}
+        </Sortable>
+    );
 };
 
-class SharedGroup extends React.Component {
-    static propTypes = {
-        items: React.PropTypes.array
-    };
-    static defaultProps = {
-        items: []
-    };
-    state = {
-        items: this.props.items
-    };
-
-    render() {
-        const items = this.state.items.map((text, index) => (
-            <li key={index}>{text}</li>
-        ));
-
-        return (
-            <div>
-                <ul ref="list">{items}</ul>
-            </div>
-        );
-    }
-}
-
-export default Sortable(sortableOptions)(SharedGroup);
+export default SharedGroup;
 ```
