@@ -144,9 +144,6 @@ class App extends React.Component {
         return (
             <div>
                 <Sortable
-                    // See all Sortable options at https://github.com/RubaXa/Sortable#options
-                    options={{
-                    }}
                     tag="ul" // Defaults to "div"
                 >
                     {items}
@@ -180,9 +177,6 @@ class App extends React.Component {
         return (
             <div>
                 <Sortable
-                    // See all Sortable options at https://github.com/RubaXa/Sortable#options
-                    options={{
-                    }}
                     tag="ul" // Defaults to "div"
                     onChange={(order, sortable) => {
                         this.setState({ items: order });
