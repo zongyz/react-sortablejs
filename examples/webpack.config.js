@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
     debug: true,
     devtool: 'source-map',
-    entry: path.resolve(__dirname, 'src/index.jsx'),
+    entry: path.resolve('index.jsx'),
     output: {
         path: path.join(__dirname),
         filename: 'app.bundle.js'

@@ -4,7 +4,6 @@ import uniq from 'lodash/uniq';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from '../../src';
-import store from './store';
 
 class App extends React.Component {
     state = {
@@ -15,6 +14,8 @@ class App extends React.Component {
         cloneControlledSource: ['Apple', 'Banana', 'Cherry', 'Guava', 'Grape', 'Kiwi', 'Lemon', 'Melon', 'Orange', 'Pear', 'Peach', 'Strawberry'],
         cloneControlledTarget: []
     };
+
+    simpleList = null;
 
     addMoreItems() {
         const items = [
@@ -58,11 +59,28 @@ class App extends React.Component {
             <div>
                 <div className="container-fluid" style={{marginTop: 50}}>
                     <div className="title">Simple List</div>
+                    <div className="form-group">
+                        <button
+                            type="button"
+                            className="btn btn-default"
+                            onClick={(e) => {
+                                const order = this.simpleList.toArray();
+                                this.simpleList.sort(order.reverse());
+                            }}
+                        >
+                            Reverse Order
+                        </button>
+                    </div>
                     <div className="row">
                         <div className="col-sm-12">
                             <Sortable
-                                tag="ul"
                                 className="block-list"
+                                ref={c => {
+                                    if (c) {
+                                        this.simpleList = c.sortable;
+                                    }
+                                }}
+                                tag="ul"
                             >
                                 {simpleList}
                             </Sortable>
@@ -83,13 +101,15 @@ class App extends React.Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <Sortable
-                                ref="group-left"
-                                className="block-list"
-                                group={{
-                                    name: 'shared',
-                                    pull: true,
-                                    put: true
+                                options={{
+                                    group: {
+                                        name: 'shared',
+                                        pull: true,
+                                        put: true
+                                    }
                                 }}
+                                className="block-list"
+                                ref="group-left"
                                 onChange={(items) => {
                                     this.setState({ groupLeft: items });
                                 }}
@@ -99,16 +119,18 @@ class App extends React.Component {
                         </div>
                         <div className="col-sm-6">
                             <Sortable
-                                ref="group-right"
-                                className="block-list"
-                                group={{
-                                    name: 'shared',
-                                    pull: true,
-                                    put: true
+                                options={{
+                                    group: {
+                                        name: 'shared',
+                                        pull: true,
+                                        put: true
+                                    }
                                 }}
+                                className="block-list"
                                 onChange={(items) => {
                                     this.setState({ groupRight: items });
                                 }}
+                                ref="group-right"
                             >
                                 {groupRight}
                             </Sortable>
@@ -117,33 +139,35 @@ class App extends React.Component {
                 </div>
                 <div className="container-fluid">
                     <div className="title" style={{marginTop: 50}}>Uncontrolled Component</div>
-                    <h4>Clone items from left to right with duplicate DOM elements.</h4>
+                    <h4>Clone items from left to right. DOM elements are duplicated.</h4>
                     <div className="row">
                         <div className="col-sm-6">
                             <Sortable
-                                ref="group-left"
-                                tag="ul"
-                                className="block-list"
-                                sort={false}
-                                group={{
-                                    name: 'shared',
-                                    pull: 'clone',
-                                    put: false
+                                options={{
+                                    sort: false,
+                                    group: {
+                                        name: 'clone1',
+                                        pull: 'clone',
+                                        put: false
+                                    }
                                 }}
+                                className="block-list"
+                                tag="ul"
                             >
                                 {cloneUncontrolled}
                             </Sortable>
                         </div>
                         <div className="col-sm-6">
                             <Sortable
-                                ref="group-right"
-                                tag="ul"
-                                className="block-list"
-                                group={{
-                                    name: 'shared',
-                                    pull: false,
-                                    put: true
+                                options={{
+                                    group: {
+                                        name: 'clone1',
+                                        pull: false,
+                                        put: true
+                                    }
                                 }}
+                                className="block-list"
+                                tag="ul"
                             >
                             </Sortable>
                         </div>
@@ -155,36 +179,38 @@ class App extends React.Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <Sortable
-                                ref="group-left"
-                                tag="ul"
-                                className="block-list"
-                                sort={false}
-                                group={{
-                                    name: 'shared',
-                                    pull: 'clone',
-                                    put: false
+                                options={{
+                                    sort: false,
+                                    group: {
+                                        name: 'clone2',
+                                        pull: 'clone',
+                                        put: false
+                                    }
                                 }}
+                                className="block-list"
                                 onChange={(items) => {
                                     this.setState({ cloneControlledSource: items });
                                 }}
+                                tag="ul"
                             >
                                 {cloneControlledSource}
                             </Sortable>
                         </div>
                         <div className="col-sm-6">
                             <Sortable
-                                ref="group-right"
-                                tag="ul"
-                                className="block-list"
-                                group={{
-                                    name: 'shared',
-                                    pull: false,
-                                    put: true
+                                options={{
+                                    group: {
+                                        name: 'clone2',
+                                        pull: false,
+                                        put: true
+                                    }
                                 }}
+                                className="block-list"
                                 onChange={(items) => {
                                     items = uniq(items); // Remove duplicate items
                                     this.setState({ cloneControlledTarget: items });
                                 }}
+                                tag="ul"
                             >
                                 {cloneControlledTarget}
                             </Sortable>
