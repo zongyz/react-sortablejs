@@ -23,7 +23,7 @@ const extend = (target, ...sources) => {
     return target;
 };
 
-export default class extends React.Component {
+module.exports = class extends React.Component {
     static propTypes = {
         options: React.PropTypes.object,
         onChange: React.PropTypes.func,
