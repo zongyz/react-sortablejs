@@ -76,7 +76,7 @@ const SortableList = ({ items, onChange }) => {
                 tag="ul"
 
                 // [Optional] The onChange method allows you to implement a controlled component and keep
-                // DOM nodes untouched. You have to change state to re-render the children.
+                // DOM nodes untouched. You have to change state to re-render the component.
                 onChange={(order) => {
                     onChange(order);
                 }}
@@ -127,7 +127,9 @@ ReactDOM.render(
 
 ## Examples
 
-### 1. Uncontrolled Component
+### Uncontrolled Component
+An uncontrolled component allows Sortable to touch DOM nodes. It's useful when you don't need to maintain state change.
+
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -159,7 +161,8 @@ ReactDOM.render(
 );
 ```
 
-### 2. Controlled Component
+### Controlled Component
+A controlled component will keep DOM nodes untouched. You have to change state to re-render the component.
 
 ```js
 import React from 'react';
@@ -195,8 +198,33 @@ ReactDOM.render(
 );
 ```
 
-### 3. Shared Group
-Using the `group` option to drag elements from one list into another.
+### Shared Group
+An example of using the `group` option to drag elements from one list into another.
+
+File: shared-group.jsx
+```js
+import React from 'react';
+import Sortable from '../src';
+
+// Functional Component
+const SharedGroup = ({ items }) => {
+    items = items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
+
+    return (
+        <Sortable
+            // See all Sortable options at https://github.com/RubaXa/Sortable#options
+            options={{
+                group: 'shared'
+            }}
+            tag="ul"
+        >
+            {items}
+        </Sortable>
+    );
+};
+
+export default SharedGroup;
+```
 
 File: index.jsx
 ```js
@@ -219,28 +247,4 @@ const App = (props) => {
 };
 
 ReactDOM.render(<App />, document.getElementById('container'));
-```
-
-File: shared-group.jsx
-```js
-import React from 'react';
-import Sortable from '../src';
-
-const SharedGroup = ({ items }) => {
-    items = items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
-
-    return (
-        <Sortable
-            // See all Sortable options at https://github.com/RubaXa/Sortable#options
-            options={{
-                group: 'shared'
-            }}
-            tag="ul"
-        >
-            {items}
-        </Sortable>
-    );
-};
-
-export default SharedGroup;
 ```
