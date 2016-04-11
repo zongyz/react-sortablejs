@@ -32,7 +32,7 @@ class App extends React.Component {
     }
     render() {
         const simpleList = this.state.simpleList.map((val, key) => (
-            <div key={key} data-id={val}>List Item {val}</div>
+            <li key={key} data-id={val}>List Item {val}</li>
         ));
         const groupLeft = this.state.groupLeft.map((val, key) => (
             <div key={key} data-id={val}>{val}</div>
@@ -48,6 +48,7 @@ class App extends React.Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <Sortable
+                                tag="ul"
                                 className="block-list"
                             >
                                 {simpleList}
