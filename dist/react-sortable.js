@@ -5,9 +5,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react", "react-dom", "sortablejs"], factory);
 	else if(typeof exports === 'object')
-		exports["SortableMixin"] = factory(require("react"), require("react-dom"), require("sortablejs"));
+		exports["ReactSortable"] = factory(require("react"), require("react-dom"), require("sortablejs"));
 	else
-		root["SortableMixin"] = factory(root["React"], root["ReactDOM"], root["Sortable"]);
+		root["ReactSortable"] = factory(root["React"], root["ReactDOM"], root["Sortable"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -56,11 +56,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -113,24 +108,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return target;
 	};
 
-	var _default = (_temp2 = _class = function (_React$Component) {
-	    _inherits(_default, _React$Component);
+	module.exports = (_temp2 = _class = function (_React$Component) {
+	    _inherits(_class, _React$Component);
 
-	    function _default() {
+	    function _class() {
 	        var _Object$getPrototypeO;
 
 	        var _temp, _this, _ret;
 
-	        _classCallCheck(this, _default);
+	        _classCallCheck(this, _class);
 
 	        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
 	            args[_key2] = arguments[_key2];
 	        }
 
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_default)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.sortable = null, _temp), _possibleConstructorReturn(_this, _ret);
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.sortable = null, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
-	    _createClass(_default, [{
+	    _createClass(_class, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var _this2 = this;
@@ -185,7 +180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }]);
 
-	    return _default;
+	    return _class;
 	}(_react2.default.Component), _class.propTypes = {
 	    options: _react2.default.PropTypes.object,
 	    onChange: _react2.default.PropTypes.func,
@@ -194,8 +189,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    options: {},
 	    tag: 'div'
 	}, _temp2);
-
-	exports.default = _default;
 
 /***/ },
 /* 1 */
