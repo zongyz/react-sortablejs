@@ -5,7 +5,7 @@ A higher order React component for [Sortable](https://github.com/RubaXa/Sortable
 
 - Demo: http://cheton.github.io/react-sortable
 
-The sample code can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
+The [sample code](https://github.com/cheton/react-sortable/blob/master/examples/index.jsx) can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
 
 ## Notice
 There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/cheton/react-sortable/wiki/Migration-Guide) while upgrading from earlier versions.
