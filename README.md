@@ -131,35 +131,22 @@ ReactDOM.render(
 ### Uncontrolled Component
 ```js
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Sortable from 'react-sortablejs';
 
 class App extends React.Component {
     state = {
         items: ['Apple', 'Banana', 'Cherry', 'Guava', 'Peach', 'Strawberry']
     };
-    
-    sortable = null;
-    
-    handleReverseOrder() {
-        const order = this.sortable.toArray();
-        this.sortable.sort(order.reverse());
-    }
+
     render() {
         const items = this.state.items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
-        
-        retrun (
+
+        return (
             <div>
-                <button type="button" onClick={::this.handleReverseOrder}>Reverse Order</button>
                 <Sortable
                     // See all Sortable options at https://github.com/RubaXa/Sortable#options
                     options={{
-                        handle: ".my-handle", // Drag handle selector within list items
-                        draggable: ".item" // Specifies which items inside the element should be sortable
-                    }}
-                    ref={(c) => {
-                        if (c) {
-                            this.sortable = sortable;
-                        }
                     }}
                     tag="ul" // Defaults to "div"
                 >
@@ -169,44 +156,36 @@ class App extends React.Component {
         );
     }
 }
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('container')
+);
 ```
 
 ### Controlled Component
 
 ```js
 import React from 'react';
-import Sortable from 'react-sortablejs';
+import ReactDOM from 'react-dom';
+import Sortable from '../src';
 
 class App extends React.Component {
     state = {
         items: ['Apple', 'Banana', 'Cherry', 'Guava', 'Peach', 'Strawberry']
     };
-    
-    sortable = null;
-    
-    handleReverseOrder() {
-        const order = this.sortable.toArray();
-        this.sortable.sort(order.reverse());
-    }
+
     render() {
         const items = this.state.items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
-        
-        retrun (
+
+        return (
             <div>
-                <button type="button" onClick={::this.handleReverseOrder}>Reverse Order</button>
                 <Sortable
                     // See all Sortable options at https://github.com/RubaXa/Sortable#options
                     options={{
-                        handle: ".my-handle", // Drag handle selector within list items
-                        draggable: ".item" // Specifies which items inside the element should be sortable
-                    }}
-                    ref={(c) => {
-                        if (c) {
-                            this.sortable = sortable;
-                        }
                     }}
                     tag="ul" // Defaults to "div"
-                    onChange={(order, sortable) { // [Optional] Controlled Component
+                    onChange={(order, sortable) => {
                         this.setState({ items: order });
                     }}
                 >
@@ -216,6 +195,11 @@ class App extends React.Component {
         );
     }
 }
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('container')
+);
 ```
 
 ### Shared Group
