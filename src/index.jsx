@@ -2,70 +2,44 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'sortablejs';
 
-const defaultOptions = {
-    ref: 'list',
-    model: 'items',
-    onStart: 'handleStart',
-    onEnd: 'handleEnd',
-    onAdd: 'handleAdd',
-    onUpdate: 'handleUpdate',
-    onRemove: 'handleRemove',
-    onSort: 'handleSort',
-    onFilter: 'handleFilter',
-    onMove: 'handleMove'
-};
-
-let _nextSibling = null;
-let _activeWrapperComponent = null;
-
-const refName = 'sortableComponent';
-
-const getModelItems = (wrapperComponent) => {
-    const model = wrapperComponent.sortableOptions.model;
-    const sortableComponent = wrapperComponent.refs[refName];
-    const { state = {}, props = {} } = sortableComponent;
-    const items = state[model] || props[model] || [];
-    return items.slice(); // returns a shallow copy of the items array
+const store = {
+    nextSibling: null,
+    activeComponent: null
 };
 
 const extend = (target, ...sources) => {
-    if (target === undefined || target === null) {
-        throw new TypeError('Cannot convert undefined or null to object');
-    }
-
-    const output = Object(target);
+    target = target || {};
     for (let index = 0; index < sources.length; index++) {
-        const source = sources[index];
-        if (source !== undefined && source !== null) {
-            for (let key in source) {
-                if (source.hasOwnProperty(key)) {
-                    output[key] = source[key];
-                }
+        let obj = sources[index];
+        if (!obj) {
+            continue;
+        }
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                target[key] = obj[key];
             }
         }
     }
-    return output;
+    return target;
 };
 
-const SortableMixin = (options = defaultOptions) => (Component) => class extends React.Component {
-
-    state = {
-        sortableInstance: null
+export default class extends React.Component {
+    static propTypes = {
+        options: React.PropTypes.object,
+        onChange: React.PropTypes.func,
+        tag: React.PropTypes.string
+    };
+    static defaultProps = {
+        options: {},
+        tag: 'div'
     };
 
-    sortableOptions = extend({}, defaultOptions, options);
+    sortable = null;
 
     componentDidMount() {
-        const sortableComponent = this.refs[refName];
-        const emitEvent = (type, evt) => {
-            const methodName = this.sortableOptions[type];
-            const method = sortableComponent[methodName];
-            method && method.call(sortableComponent, evt, this.state.sortableInstance);
-        };
+        const options = extend({}, this.props.options);
 
-        let copyOptions = extend({}, this.sortableOptions);
-
-        [ // Bind callbacks
+        [
             'onStart',
             'onEnd',
             'onAdd',
@@ -75,90 +49,43 @@ const SortableMixin = (options = defaultOptions) => (Component) => class extends
             'onFilter',
             'onMove'
         ].forEach((name) => {
-            copyOptions[name] = (evt) => {
+            const eventHandler = options[name];
+
+            options[name] = (evt) => {
                 if (name === 'onStart') {
-                    _nextSibling = evt.item.nextElementSibling;
-                    _activeWrapperComponent = this;
-                } else if (name === 'onAdd' || name === 'onUpdate') {
-                    evt.from.insertBefore(evt.item, _nextSibling);
+                    store.nextSibling = evt.item.nextElementSibling;
+                    store.activeComponent = this;
+                } else if ((name === 'onAdd' || name === 'onUpdate') && this.props.onChange) {
+                    const items = this.sortable.toArray();
+                    const remote = store.activeComponent;
+                    const remoteItems = remote.sortable.toArray();
 
-                    const oldIndex = evt.oldIndex;
-                    const newIndex = evt.newIndex;
-                    let newState = {};
-                    let remoteState = {};
-                    let items = getModelItems(this);
+                    evt.from.insertBefore(evt.item, store.nextSibling);
+                    
+                    if (remote !== this) {
+                        const remoteOptions = remote.props.options || {};
 
-                    if (name === 'onAdd') {
-                        let remoteItems = getModelItems(_activeWrapperComponent);
-                        let item = remoteItems.splice(oldIndex, 1)[0];
-                        items.splice(newIndex, 0, item);
+                        if ((typeof remoteOptions.group === 'object') && (remoteOptions.group.pull === 'clone')) {
+                            // Remove the node with the same data-reactid
+                            evt.item.parentNode.removeChild(evt.item);
+                        }
 
-                        remoteState[_activeWrapperComponent.sortableOptions.model] = remoteItems;
-                    } else {
-                        items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
+                        remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable);
                     }
 
-                    newState[this.sortableOptions.model] = items;
-
-                    if (copyOptions.stateHandler) {
-                        sortableComponent[copyOptions.stateHandler](newState);
-                    } else {
-                        sortableComponent.setState(newState);
-                    }
-
-                    if (_activeWrapperComponent !== this) {
-                        _activeWrapperComponent.refs[refName].setState(remoteState);
-                    }
+                    this.props.onChange && this.props.onChange(items, this.sortable);
                 }
 
                 setTimeout(() => {
-                    emitEvent(name, evt);
+                    eventHandler && eventHandler(evt);
                 }, 0);
-            };
+            }
         });
-        this.populatedOptions = copyOptions
-        this.initSortable(sortableComponent);
-    }
-    componentWillReceiveProps(nextProps) {
-        const sortableComponent = this.refs[refName];
-        const model = this.sortableOptions.model;
-        const items = nextProps[model];
 
-        if (items) {
-            let newState = {};
-            newState[model] = items;
-            sortableComponent.setState(newState);
-        }
+        this.sortable = Sortable.create(ReactDOM.findDOMNode(this), options);
     }
-    componentDidUpdate(prevProps) {
-        const model = this.sortableOptions.model;
-        const prevItems = prevProps[model];
-        const currItems = this.props[model];
-        if(prevItems !== currItems) {
-            this.initSortable(this.refs[refName]);
-        }
-    }
-    componentWillUnmount() {
-        this.destroySortable();
-    }
-    initSortable(sortableComponent) {
-        this.destroySortable();
-        const domNode = ReactDOM.findDOMNode(sortableComponent.refs[this.sortableOptions.ref] || sortableComponent);
-        const sortableInstance = Sortable.create(domNode, this.populatedOptions);
-        this.setState({sortableInstance});
-    }
-    destroySortable() {
-        if (this.state.sortableInstance) {
-            this.state.sortableInstance.destroy();
-            this.setState({sortableInstance: null});
-        }
-    }
-
     render() {
-        return (
-            <Component ref={refName} {...this.props} {...this.state} />
-        );
+        const { children, className, tag } = this.props;
+        return React.DOM[tag]({ className }, children);
     }
-};
-
-export default SortableMixin;
+}
