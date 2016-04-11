@@ -57,12 +57,12 @@ const SortableList = ({ items }) => {
 
     return (
         <Sortable
-            // Sortable options
+            // Sortable options (https://github.com/RubaXa/Sortable#options)
             options={{
-                // See all options at https://github.com/RubaXa/Sortable#options
             }}
 
             // Use ref to get the sortable instance
+            // https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
             ref={(c) => {
                 if (c) {
                     sortable = c.sortable;
@@ -74,7 +74,7 @@ const SortableList = ({ items }) => {
 
             // The optional onChange method allows you to keep DOM nodes untouched
             // and render the sorted items via state change.
-            // See an example at 
+            // See an example at https://github.com/cheton/react-sortable/#controlled-component
             // onChange={(order) => {
             //     this.setState({ items: order });
             // }}
@@ -128,7 +128,7 @@ class App extends React.Component {
             <div>
                 <button type="button" onClick={::this.handleReverseOrder}>Reverse Order</button>
                 <Sortable
-                    // Check out options at https://github.com/RubaXa/Sortable#options
+                    // See all Sortable options at https://github.com/RubaXa/Sortable#options
                     options={{
                         handle: ".my-handle", // Drag handle selector within list items
                         draggable: ".item" // Specifies which items inside the element should be sortable
@@ -172,7 +172,7 @@ class App extends React.Component {
             <div>
                 <button type="button" onClick={::this.handleReverseOrder}>Reverse Order</button>
                 <Sortable
-                    // Check out options at https://github.com/RubaXa/Sortable#options
+                    // See all Sortable options at https://github.com/RubaXa/Sortable#options
                     options={{
                         handle: ".my-handle", // Drag handle selector within list items
                         draggable: ".item" // Specifies which items inside the element should be sortable
@@ -230,6 +230,7 @@ const SharedGroup = ({ items }) => {
 
     return (
         <Sortable
+            // See all Sortable options at https://github.com/RubaXa/Sortable#options
             options={{
                 group: 'shared'
             }}
