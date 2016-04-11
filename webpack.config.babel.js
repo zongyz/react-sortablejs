@@ -20,7 +20,7 @@ export default {
         path: path.join(__dirname, 'dist'),
         filename: env === 'dist' ? 'react-sortable.min.js' : 'react-sortable.js',
         libraryTarget: 'umd',
-        library: 'SortableMixin'
+        library: 'ReactSortable'
     },
     plugins: plugins,
     externals: {
