@@ -128,7 +128,7 @@ ReactDOM.render(
 ## Examples
 
 ### Uncontrolled Component
-An uncontrolled component allows Sortable to touch DOM nodes. It's useful when you don't need to maintain state change.
+An uncontrolled component allows [Sortable](https://github.com/RubaXa/Sortable) to touch DOM nodes. It's useful when you don't need to maintain any state changes.
 
 ```js
 import React from 'react';
