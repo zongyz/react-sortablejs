@@ -1,5 +1,6 @@
 import extend from 'lodash/extend';
 import random from 'lodash/random';
+import uniq from 'lodash/uniq';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from '../../src';
@@ -9,7 +10,10 @@ class App extends React.Component {
     state = {
         simpleList: [1, 2, 3, 4, 5, 6],
         groupLeft: ['Apple', 'Banana', 'Cherry', 'Grape'],
-        groupRight: ['Lemon', 'Orange', 'Pear', 'Peach']
+        groupRight: ['Lemon', 'Orange', 'Pear', 'Peach'],
+        cloneUncontrolled: ['Apple', 'Banana', 'Cherry', 'Guava', 'Grape', 'Kiwi', 'Lemon', 'Melon', 'Orange', 'Pear', 'Peach', 'Strawberry'],
+        cloneControlledSource: ['Apple', 'Banana', 'Cherry', 'Guava', 'Grape', 'Kiwi', 'Lemon', 'Melon', 'Orange', 'Pear', 'Peach', 'Strawberry'],
+        cloneControlledTarget: []
     };
 
     addMoreItems() {
@@ -39,6 +43,15 @@ class App extends React.Component {
         ));
         const groupRight = this.state.groupRight.map((val, key) => (
             <div key={key} data-id={val}>{val}</div>
+        ));
+        const cloneUncontrolled = this.state.cloneUncontrolled.map((val, key) => (
+            <li key={key} data-id={val}>{val}</li>
+        ));
+        const cloneControlledSource = this.state.cloneControlledSource.map((val, key) => (
+            <li key={key} data-id={val}>{val}</li>
+        ));
+        const cloneControlledTarget = this.state.cloneControlledTarget.map((val, key) => (
+            <li key={key} data-id={val}>{val}</li>
         ));
 
         return (
@@ -72,11 +85,10 @@ class App extends React.Component {
                             <Sortable
                                 ref="group-left"
                                 className="block-list"
-                                sort={false}
                                 group={{
                                     name: 'shared',
-                                    pull: 'clone',
-                                    put: false
+                                    pull: true,
+                                    put: true
                                 }}
                                 onChange={(items) => {
                                     this.setState({ groupLeft: items });
@@ -91,7 +103,7 @@ class App extends React.Component {
                                 className="block-list"
                                 group={{
                                     name: 'shared',
-                                    pull: false,
+                                    pull: true,
                                     put: true
                                 }}
                                 onChange={(items) => {
@@ -99,6 +111,82 @@ class App extends React.Component {
                                 }}
                             >
                                 {groupRight}
+                            </Sortable>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid">
+                    <div className="title" style={{marginTop: 100}}>Uncontrolled Component</div>
+                    <h4>Clone items from left to right with duplicate DOM elements.</h4>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <Sortable
+                                ref="group-left"
+                                tag="ul"
+                                className="block-list"
+                                sort={false}
+                                group={{
+                                    name: 'shared',
+                                    pull: 'clone',
+                                    put: false
+                                }}
+                            >
+                                {cloneUncontrolled}
+                            </Sortable>
+                        </div>
+                        <div className="col-sm-6">
+                            <Sortable
+                                ref="group-right"
+                                tag="ul"
+                                className="block-list"
+                                group={{
+                                    name: 'shared',
+                                    pull: false,
+                                    put: true
+                                }}
+                            >
+                            </Sortable>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid">
+                    <div className="title" style={{marginTop: 100}}>Controlled Component</div>
+                    <h4>Clone items from left to right without duplication.</h4>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <Sortable
+                                ref="group-left"
+                                tag="ul"
+                                className="block-list"
+                                sort={false}
+                                group={{
+                                    name: 'shared',
+                                    pull: 'clone',
+                                    put: false
+                                }}
+                                onChange={(items) => {
+                                    this.setState({ cloneControlledSource: items });
+                                }}
+                            >
+                                {cloneControlledSource}
+                            </Sortable>
+                        </div>
+                        <div className="col-sm-6">
+                            <Sortable
+                                ref="group-right"
+                                tag="ul"
+                                className="block-list"
+                                group={{
+                                    name: 'shared',
+                                    pull: false,
+                                    put: true
+                                }}
+                                onChange={(items) => {
+                                    items = uniq(items); // Remove duplicate items
+                                    this.setState({ cloneControlledTarget: items });
+                                }}
+                            >
+                                {cloneControlledTarget}
                             </Sortable>
                         </div>
                     </div>
