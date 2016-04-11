@@ -43,6 +43,7 @@ Then, include these scripts into your html file:
 ```
 
 ## Usage
+File: sortable-list.jsx
 ```jsx
 import React from 'react';
 import Sortable from 'react-sortablejs';
