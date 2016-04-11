@@ -5,9 +5,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react", "react-dom", "sortablejs"], factory);
 	else if(typeof exports === 'object')
-		exports["Sortable"] = factory(require("react"), require("react-dom"), require("sortablejs"));
+		exports["ReactSortable"] = factory(require("react"), require("react-dom"), require("sortablejs"));
 	else
-		root["Sortable"] = factory(root["React"], root["ReactDOM"], root["Sortable"]);
+		root["ReactSortable"] = factory(root["React"], root["ReactDOM"], root["Sortable"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
