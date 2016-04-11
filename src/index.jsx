@@ -8,6 +8,14 @@ const store ={
 };
 
 export default class extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func,
+        tag: React.PropTypes.string
+    };
+    static defaultProps = {
+        tag: 'div'
+    };
+
     sortable = null;
 
     componentDidMount() {
@@ -57,8 +65,7 @@ export default class extends React.Component {
         this.sortable = Sortable.create(ReactDOM.findDOMNode(this), options);
     }
     render() {
-        return (
-            <div className={this.props.className}>{this.props.children}</div>
-        );
+        const { children, className, tag } = this.props;
+        return React.DOM[tag]({ className }, children);
     }
 }
