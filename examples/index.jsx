@@ -74,6 +74,9 @@ class App extends React.Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <Sortable
+                                options={{
+                                    animation: 150
+                                }}
                                 className="block-list"
                                 ref={c => {
                                     if (c) {
@@ -102,6 +105,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <Sortable
                                 options={{
+                                    animation: 150,
                                     group: {
                                         name: 'shared',
                                         pull: true,
@@ -120,6 +124,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <Sortable
                                 options={{
+                                    animation: 150,
                                     group: {
                                         name: 'shared',
                                         pull: true,
@@ -144,6 +149,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <Sortable
                                 options={{
+                                    animation: 150,
                                     sort: false,
                                     group: {
                                         name: 'clone1',
@@ -160,6 +166,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <Sortable
                                 options={{
+                                    animation: 150,
                                     group: {
                                         name: 'clone1',
                                         pull: false,
@@ -180,6 +187,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <Sortable
                                 options={{
+                                    animation: 150,
                                     sort: false,
                                     group: {
                                         name: 'clone2',
@@ -199,6 +207,7 @@ class App extends React.Component {
                         <div className="col-sm-6">
                             <Sortable
                                 options={{
+                                    animation: 150,
                                     group: {
                                         name: 'clone2',
                                         pull: false,
