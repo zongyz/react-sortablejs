@@ -42,6 +42,18 @@ Then, include these scripts into your html file:
 </body>
 ```
 
+Use <b>&lt;ReactSortable /&gt;</b> instead of <b>&lt;Sortable /&gt;</b> in your JSX code since the Sortable library will export a <b>window.Sortable</b> object if you're running JSX code directly in the browser. For example:
+```jsx
+<ReactSortable
+    tag="ul"
+    onChange={(order) =>
+        this.props.onChange(order);
+    }}
+>
+    {items}
+</ReactSortable>
+```
+
 ## Usage
 File: sortable-list.jsx
 ```jsx
