@@ -1,4 +1,4 @@
-/*! react-sortablejs v1.0.0 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
+/*! react-sortablejs v1.0.1 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("react"), require("react-dom"), require("sortablejs"));
@@ -167,6 +167,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 
 	            this.sortable = _sortablejs2.default.create(_reactDom2.default.findDOMNode(this), options);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            if (this.sortable) {
+	                this.sortable.destroy();
+	                this.sortable = null;
+	            }
 	        }
 	    }, {
 	        key: 'render',
