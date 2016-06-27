@@ -1,10 +1,35 @@
+sudo: required
 dist: trusty
+group: edge
+
 language: node_js
+
+os:
+  - linux
+
 node_js:
+  - '6'
   - '5'
   - '4'
-  - '0.12'
-  - '0.10'
-  - 'iojs'
+
 after_success:
   - npm run coveralls
+  - npm run coverage-clean
+
+before_deploy:
+  - echo "Deploying to GitHub releases"
+  - ls -al releases
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "o0U/7jPTtMV74yYt00MZ40on6VHaX8VAiv5MWeQeGS6T4lubjeZxmbWmEwLhgRP6exD7QPm0rt4wiZ18vqSOQAhXJBa5RVBBWV5pFM9Mp1cDuLPrl/6Z5a/x/BFjCtQQ2qg7f+pT0GuXUDTrn9VUiZ29SfMAbukxclARCUopQdbo7slQyDld/c2n9fIb31lrrEKwcqTh42dQOqLQbyMbMVsF+pJmwreJYdg/1pntxADh5vgEGZlSdkhMEk247LEI7paKa+b9v/k83bQ82uWk4SF+ORXO/RIgMaK0UoMGXAodMvj2NGfmDnXiTR/f2Ao8MQid+LB5eJInaJgkjv8+/l9epZydptkwRghNsFHNxWQ8I8ojZrKIa5yhgiDLQucChCeueZ7J7/Mh4+jdCGWuugv8bs7SL5mLENa4BHj4g8tDlrFUZv3IVQi2Yin6SkUdjiWKjez+oI4TCaYXu7ciU81SzeVVLDNMTXOChnC5IeFngCg3ySoWgccf68Mv9rf4b93o5ZBQtxtAKR5GVUp3n22rjqBr3ZoAlFyHXij9tU3ZbCPi+OgrBLa5LZ/yKO4DZ8bVo/vc/z5IjJpMOY3intNHvZhOgYidsVwj468tSek8e2ECpA4fwK3pcZs+HV5wA6vDzLCuMg9kgjXGrStCJD8HnDQw3N3xcQVXbp2AQr0="
+  file_glob: true
+  file:
+    - 'releases/*.*'
+  overwrite: true
+  skip_cleanup: true
+  on:
+    # https://docs.travis-ci.com/user/deployment#Conditional-Releases-with-on
+    tags: true  # Deploy app only when a tag is applied to the commit
+    node: '4'
