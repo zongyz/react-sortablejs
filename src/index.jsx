@@ -33,7 +33,6 @@ module.exports = class extends React.Component {
         options: {},
         tag: 'div'
     };
-
     sortable = null;
 
     componentDidMount() {
@@ -83,6 +82,12 @@ module.exports = class extends React.Component {
         });
 
         this.sortable = Sortable.create(ReactDOM.findDOMNode(this), options);
+    }
+    componentWillUnmount() {
+        if (this.sortable) {
+            this.sortable.destroy();
+            this.sortable = null;
+        }
     }
     render() {
         const { children, className, tag } = this.props;
