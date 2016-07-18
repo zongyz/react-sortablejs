@@ -92,7 +92,8 @@ const SortableList = ({ items, onChange }) => {
                 // DOM nodes untouched. You have to change state to re-render the component.
                 // @param {Array} order An ordered array of items defined by the `data-id` attribute.
                 // @param {Object} sortable The sortable instance.
-                onChange={(order, sortable) => {
+                // @param {Event} evt The event object.
+                onChange={(order, sortable, evt) => {
                     onChange(order);
                 }}
             >
@@ -196,7 +197,7 @@ class App extends React.Component {
             <div>
                 <Sortable
                     tag="ul" // Defaults to "div"
-                    onChange={(order, sortable) => {
+                    onChange={(order, sortable, evt) => {
                         this.setState({ items: order });
                     }}
                 >
