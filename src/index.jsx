@@ -7,22 +7,6 @@ const store = {
     activeComponent: null
 };
 
-const extend = (target, ...sources) => {
-    target = target || {};
-    for (let index = 0; index < sources.length; index++) {
-        let obj = sources[index];
-        if (!obj) {
-            continue;
-        }
-        for (let key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                target[key] = obj[key];
-            }
-        }
-    }
-    return target;
-};
-
 module.exports = class extends React.Component {
     static propTypes = {
         options: React.PropTypes.object,
@@ -36,7 +20,7 @@ module.exports = class extends React.Component {
     sortable = null;
 
     componentDidMount() {
-        const options = extend({}, this.props.options);
+        const options = { ...this.props.options };
 
         [
             'onStart',
