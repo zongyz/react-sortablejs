@@ -23333,6 +23333,8 @@
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _class, _temp2;
@@ -23362,26 +23364,6 @@
 	    activeComponent: null
 	};
 	
-	var extend = function extend(target) {
-	    for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	        sources[_key - 1] = arguments[_key];
-	    }
-	
-	    target = target || {};
-	    for (var index = 0; index < sources.length; index++) {
-	        var obj = sources[index];
-	        if (!obj) {
-	            continue;
-	        }
-	        for (var key in obj) {
-	            if (obj.hasOwnProperty(key)) {
-	                target[key] = obj[key];
-	            }
-	        }
-	    }
-	    return target;
-	};
-	
 	module.exports = (_temp2 = _class = function (_React$Component) {
 	    _inherits(_class, _React$Component);
 	
@@ -23392,8 +23374,8 @@
 	
 	        _classCallCheck(this, _class);
 	
-	        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	            args[_key2] = arguments[_key2];
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
 	        }
 	
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.sortable = null, _temp), _possibleConstructorReturn(_this, _ret);
@@ -23404,7 +23386,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 	
-	            var options = extend({}, this.props.options);
+	            var options = _extends({}, this.props.options);
 	
 	            ['onStart', 'onEnd', 'onAdd', 'onSort', 'onUpdate', 'onRemove', 'onFilter', 'onMove'].forEach(function (name) {
 	                var eventHandler = options[name];
@@ -23428,10 +23410,10 @@
 	                                evt.item.parentNode.removeChild(evt.item);
 	                            }
 	
-	                            remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable);
+	                            remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable, evt);
 	                        }
 	
-	                        _this2.props.onChange && _this2.props.onChange(items, _this2.sortable);
+	                        _this2.props.onChange && _this2.props.onChange(items, _this2.sortable, evt);
 	                    }
 	
 	                    setTimeout(function () {
