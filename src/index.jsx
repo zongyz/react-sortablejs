@@ -69,10 +69,10 @@ module.exports = class extends React.Component {
                             evt.item.parentNode.removeChild(evt.item);
                         }
 
-                        remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable);
+                        remote.props.onChange && remote.props.onChange(remoteItems, remote.sortable, evt);
                     }
 
-                    this.props.onChange && this.props.onChange(items, this.sortable);
+                    this.props.onChange && this.props.onChange(items, this.sortable, evt);
                 }
 
                 setTimeout(() => {
