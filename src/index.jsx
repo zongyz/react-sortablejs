@@ -59,9 +59,15 @@ module.exports = class extends React.Component {
                     this.props.onChange && this.props.onChange(items, this.sortable, evt);
                 }
 
-                setTimeout(() => {
-                    eventHandler && eventHandler(evt);
-                }, 0);
+                switch (evt.type) {
+                    case 'move':
+                        if (eventHandler) return eventHandler(evt);
+                    default: 
+                        setTimeout(() => {
+                            eventHandler && eventHandler(evt);
+                        }, 0);
+                }
+                
             }
         });
 
