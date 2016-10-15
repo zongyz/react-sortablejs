@@ -23416,6 +23416,11 @@
 	                        _this2.props.onChange && _this2.props.onChange(items, _this2.sortable, evt);
 	                    }
 	
+	                    if (evt.type === 'move') {
+	                        var canMove = eventHandler ? eventHandler(evt) : true;
+	                        return canMove;
+	                    }
+	
 	                    setTimeout(function () {
 	                        eventHandler && eventHandler(evt);
 	                    }, 0);
