@@ -11,11 +11,13 @@ module.exports = class extends React.Component {
     static propTypes = {
         options: React.PropTypes.object,
         onChange: React.PropTypes.func,
-        tag: React.PropTypes.string
+        tag: React.PropTypes.string,
+        style: React.PropTypes.object
     };
     static defaultProps = {
         options: {},
-        tag: 'div'
+        tag: 'div',
+        style: {}
     };
     sortable = null;
 
@@ -79,7 +81,7 @@ module.exports = class extends React.Component {
         }
     }
     render() {
-        const { children, className, tag } = this.props;
-        return React.DOM[tag]({ className }, children);
+        const { children, className, tag, style } = this.props;
+        return React.DOM[tag]({ className, style }, children);
     }
 }
