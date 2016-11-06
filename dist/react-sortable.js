@@ -1,4 +1,4 @@
-/*! react-sortablejs v1.1.1 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
+/*! react-sortablejs v1.1.2 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("react"), require("react-dom"), require("sortablejs"));
@@ -170,8 +170,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var children = _props.children;
 	            var className = _props.className;
 	            var tag = _props.tag;
+	            var style = _props.style;
 
-	            return _react2.default.DOM[tag]({ className: className }, children);
+	            return _react2.default.DOM[tag]({ className: className, style: style }, children);
 	        }
 	    }]);
 
@@ -179,10 +180,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react2.default.Component), _class.propTypes = {
 	    options: _react2.default.PropTypes.object,
 	    onChange: _react2.default.PropTypes.func,
-	    tag: _react2.default.PropTypes.string
+	    tag: _react2.default.PropTypes.string,
+	    style: _react2.default.PropTypes.object
 	}, _class.defaultProps = {
 	    options: {},
-	    tag: 'div'
+	    tag: 'div',
+	    style: {}
 	}, _temp2);
 
 /***/ },
