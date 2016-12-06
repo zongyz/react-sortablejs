@@ -9,6 +9,7 @@
   ],
   "description": "A React component built on top of Sortable (https://github.com/RubaXa/Sortable).",
   "dependencies": {
+    "react": "~0.14.0",
     "Sortable": "~1.4.2"
   },
   "keywords": [
