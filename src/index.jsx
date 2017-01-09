@@ -25,19 +25,23 @@ module.exports = class extends React.Component {
         const options = { ...this.props.options };
 
         [
+            'onChoose',
             'onStart',
             'onEnd',
             'onAdd',
-            'onSort',
             'onUpdate',
+            'onSort',
             'onRemove',
             'onFilter',
-            'onMove'
+            'onMove',
+            'onClone'
         ].forEach((name) => {
             const eventHandler = options[name];
 
-            options[name] = (evt) => {
-                if (name === 'onStart') {
+            options[name] = (...params) => {
+                const [evt] = params;
+
+                if (name === 'onChoose') {
                     store.nextSibling = evt.item.nextElementSibling;
                     store.activeComponent = this;
                 } else if ((name === 'onAdd' || name === 'onUpdate') && this.props.onChange) {
@@ -62,7 +66,8 @@ module.exports = class extends React.Component {
                 }
 
                 if (evt.type === 'move') {
-                    const canMove = eventHandler ? eventHandler(evt) : true;
+                    const [evt, originalEvent] = params;
+                    const canMove = eventHandler ? eventHandler(evt, originalEvent) : true;
                     return canMove;
                 }
 
