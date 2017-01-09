@@ -191,8 +191,8 @@ class App extends React.Component {
                                     sort: false,
                                     group: {
                                         name: 'clone2',
-                                        pull: 'clone',
-                                        put: false
+                                        pull: true,
+                                        put: true
                                     }
                                 }}
                                 className="block-list"
@@ -210,7 +210,7 @@ class App extends React.Component {
                                     animation: 150,
                                     group: {
                                         name: 'clone2',
-                                        pull: false,
+                                        pull: true,
                                         put: true
                                     }
                                 }}

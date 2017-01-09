@@ -1,4 +1,4 @@
-/*! react-sortablejs v1.2.1 | (c) 2016 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
+/*! react-sortablejs v1.3.0 | (c) 2017 Cheton Wu <cheton@gmail.com> | MIT | https://github.com/cheton/react-sortable */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("react"), require("react-dom"), require("sortablejs"));
@@ -114,11 +114,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var options = _extends({}, this.props.options);
 
-	            ['onStart', 'onEnd', 'onAdd', 'onSort', 'onUpdate', 'onRemove', 'onFilter', 'onMove'].forEach(function (name) {
+	            ['onChoose', 'onStart', 'onEnd', 'onAdd', 'onUpdate', 'onSort', 'onRemove', 'onFilter', 'onMove', 'onClone'].forEach(function (name) {
 	                var eventHandler = options[name];
 
-	                options[name] = function (evt) {
-	                    if (name === 'onStart') {
+	                options[name] = function () {
+	                    for (var _len2 = arguments.length, params = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	                        params[_key2] = arguments[_key2];
+	                    }
+
+	                    var evt = params[0];
+
+
+	                    if (name === 'onChoose') {
 	                        store.nextSibling = evt.item.nextElementSibling;
 	                        store.activeComponent = _this2;
 	                    } else if ((name === 'onAdd' || name === 'onUpdate') && _this2.props.onChange) {
@@ -143,7 +150,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 
 	                    if (evt.type === 'move') {
-	                        var canMove = eventHandler ? eventHandler(evt) : true;
+	                        var _evt = params[0],
+	                            originalEvent = params[1];
+
+	                        var canMove = eventHandler ? eventHandler(_evt, originalEvent) : true;
 	                        return canMove;
 	                    }
 
