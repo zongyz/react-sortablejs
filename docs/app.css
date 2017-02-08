@@ -9,17 +9,17 @@ html, body {
     font-family: sans-serif;
     font-weight: 300;
     color: #333;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-    padding: 20px;
+    margin-bottom: 20px;
     min-height: 100%;
-    font-size: 20px;
 }
 
-#container {
-    width: 80%;
-    min-width: 960px;
-    margin: auto;
-    position: relative;
+a {
+    color: #333;
+}
+a:hover {
+    color: #000;
 }
 
 ul {
@@ -29,6 +29,7 @@ ul {
 }
 
 .title {
+    font-size: 20px;
     color: #fff;
     position: relative;
     background-color: #ff7373;

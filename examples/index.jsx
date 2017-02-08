@@ -57,7 +57,7 @@ class App extends React.Component {
 
         return (
             <div>
-                <div className="container-fluid" style={{marginTop: 50}}>
+                <div style={{marginTop: 50}}>
                     <div className="title">Simple List</div>
                     <div className="form-group">
                         <button
@@ -90,7 +90,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="container-fluid">
+                <div>
                     <div className="title" style={{marginTop: 50}}>Shared Group</div>
                     <div className="form-group">
                         <button
@@ -142,7 +142,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="container-fluid">
+                <div>
                     <div className="title" style={{marginTop: 50}}>Uncontrolled Component</div>
                     <h4>Clone items from left to right. DOM elements are duplicated.</h4>
                     <div className="row">
@@ -180,7 +180,7 @@ class App extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="container-fluid">
+                <div>
                     <div className="title" style={{marginTop: 50}}>Controlled Component</div>
                     <h4>Clone items from left to right without duplication.</h4>
                     <div className="row">
