@@ -1,5 +1,6 @@
 import extend from 'lodash/extend';
 import random from 'lodash/random';
+import uniqueId from 'lodash/uniqueId';
 import uniq from 'lodash/uniq';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -37,22 +38,22 @@ class App extends React.Component {
     }
     render() {
         const simpleList = this.state.simpleList.map((val, key) => (
-            <li key={key} data-id={val}>List Item {val}</li>
+            <li key={uniqueId()} data-id={val}>List Item {val}</li>
         ));
         const groupLeft = this.state.groupLeft.map((val, key) => (
-            <div key={key} data-id={val}>{val}</div>
+            <div key={uniqueId()} data-id={val}>{val}</div>
         ));
         const groupRight = this.state.groupRight.map((val, key) => (
-            <div key={key} data-id={val}>{val}</div>
+            <div key={uniqueId()} data-id={val}>{val}</div>
         ));
         const cloneUncontrolled = this.state.cloneUncontrolled.map((val, key) => (
-            <li key={key} data-id={val}>{val}</li>
+            <li key={uniqueId()} data-id={val}>{val}</li>
         ));
         const cloneControlledSource = this.state.cloneControlledSource.map((val, key) => (
-            <li key={key} data-id={val}>{val}</li>
+            <li key={uniqueId()} data-id={val}>{val}</li>
         ));
         const cloneControlledTarget = this.state.cloneControlledTarget.map((val, key) => (
-            <li key={key} data-id={val}>{val}</li>
+            <li key={uniqueId()} data-id={val}>{val}</li>
         ));
 
         return (
