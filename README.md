@@ -57,6 +57,7 @@ Use <b>&lt;ReactSortable /&gt;</b> instead of <b>&lt;Sortable /&gt;</b> in your 
 ## Usage
 File: sortable-list.jsx
 ```js
+import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import Sortable from 'react-sortablejs';
 
@@ -67,7 +68,7 @@ const SortableList = ({ items, onChange }) => {
         const order = sortable.toArray();
         onChange(order.reverse());
     };
-    const listItems = items.map((val, key) => (<li key={key} data-id={val}>List Item: {val}</li>));
+    const listItems = items.map(val => (<li key={uniqueId()} data-id={val}>List Item: {val}</li>));
 
     return (
         <div>
@@ -147,6 +148,7 @@ ReactDOM.render(
 An uncontrolled component allows [Sortable](https://github.com/RubaXa/Sortable) to touch DOM nodes. It's useful when you don't need to maintain any state changes.
 
 ```js
+import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'react-sortablejs';
@@ -157,7 +159,7 @@ class App extends React.Component {
     };
 
     render() {
-        const items = this.state.items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
+        const items = this.state.items.map(val => (<li key={uniqueId()} data-id={val}>{val}</li>));
 
         return (
             <div>
@@ -181,6 +183,7 @@ ReactDOM.render(
 A controlled component will keep DOM nodes untouched. You have to change state to re-render the component.
 
 ```js
+import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from '../src';
@@ -191,7 +194,7 @@ class App extends React.Component {
     };
 
     render() {
-        const items = this.state.items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
+        const items = this.state.items.map(val => (<li key={uniqueId()} data-id={val}>{val}</li>));
 
         return (
             <div>
@@ -219,12 +222,13 @@ An example of using the `group` option to drag elements from one list into anoth
 
 File: shared-group.jsx
 ```js
+import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import Sortable from '../src';
 
 // Functional Component
 const SharedGroup = ({ items }) => {
-    items = items.map((val, key) => (<li key={key} data-id={val}>{val}</li>));
+    items = items.map(val => (<li key={uniqueId()} data-id={val}>{val}</li>));
 
     return (
         <Sortable
