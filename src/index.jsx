@@ -1,4 +1,5 @@
-import React from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Sortable from 'sortablejs';
 
@@ -7,12 +8,12 @@ const store = {
     activeComponent: null
 };
 
-module.exports = class extends React.Component {
+module.exports = class extends Component {
     static propTypes = {
-        options: React.PropTypes.object,
-        onChange: React.PropTypes.func,
-        tag: React.PropTypes.string,
-        style: React.PropTypes.object
+        options: PropTypes.object,
+        onChange: PropTypes.func,
+        tag: PropTypes.string,
+        style: PropTypes.object
     };
     static defaultProps = {
         options: {},
