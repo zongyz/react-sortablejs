@@ -1,30 +1,42 @@
-/* eslint no-var: 0 */
 var path = require('path');
 var webpack = require('webpack');
-var nib = require('nib');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var stylusLoader = require('stylus-loader');
+var nib = require('nib');
 
 module.exports = {
     devtool: 'source-map',
     entry: path.resolve(__dirname, 'index.jsx'),
     output: {
         path: path.join(__dirname, '../docs'),
-        filename: 'bundle.js'
+        filename: 'bundle.js?[hash]'
     },
     module: {
         rules: [
-            {
-                test: /\.json$/,
-                loader: 'json-loader'
-            },
+            // http://survivejs.com/webpack_react/linting_in_webpack/
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader',
+                loader: 'eslint-loader',
+                enforce: 'pre',
                 exclude: /node_modules/
             },
             {
                 test: /\.styl$/,
-                loader: 'style-loader!css-loader!stylus-loader'
+                loader: 'stylint-loader',
+                enforce: 'pre'
+            },
+            {
+                test: /\.jsx?$/,
+                loader: 'babel-loader',
+                exclude: /(node_modules|bower_components)/
+            },
+            {
+                test: /\.styl$/,
+                use: [
+                    'style-loader',
+                    'css-loader?camelCase&modules&importLoaders=1&localIdentName=[local]---[hash:base64:5]',
+                    'stylus-loader'
+                ]
             },
             {
                 test: /\.css$/,
@@ -33,14 +45,14 @@ module.exports = {
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader',
-                query: {
+                options: {
                     limit: 8192
                 }
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'url-loader',
-                query: {
+                options: {
                     limit: 10000,
                     mimetype: 'application/font-woff'
                 }
@@ -53,8 +65,10 @@ module.exports = {
     },
     plugins: [
         new webpack.LoaderOptionsPlugin({
-            debug: true
+            debug: true,
         }),
+        new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new stylusLoader.OptionsPlugin({
             default: {
                 // nib - CSS3 extensions for Stylus
@@ -63,11 +77,9 @@ module.exports = {
                 import: ['~nib/lib/nib/index.styl']
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            mangle: false
+        new HtmlWebpackPlugin({
+            filename: '../docs/index.html',
+            template: 'index.html'
         })
     ],
     resolve: {
@@ -79,7 +91,8 @@ module.exports = {
         lazy: false,
         // https://webpack.github.io/docs/node.js-api.html#compiler
         watchOptions: {
-            poll: true // use polling instead of native watchers
+            poll: true, // use polling instead of native watchers
+            ignored: /node_modules/
         }
     }
 };
