@@ -1,14 +1,15 @@
+/* eslint consistent-return: 0 */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Sortable from 'sortablejs';
+import SortableJS from 'sortablejs';
 
 const store = {
     nextSibling: null,
     activeComponent: null
 };
 
-module.exports = class extends Component {
+class Sortable extends Component {
     static propTypes = {
         options: PropTypes.object,
         onChange: PropTypes.func,
@@ -75,10 +76,10 @@ module.exports = class extends Component {
                 setTimeout(() => {
                     eventHandler && eventHandler(evt);
                 }, 0);
-            }
+            };
         });
 
-        this.sortable = Sortable.create(ReactDOM.findDOMNode(this), options);
+        this.sortable = SortableJS.create(ReactDOM.findDOMNode(this), options);
     }
     componentWillUnmount() {
         if (this.sortable) {
@@ -87,7 +88,15 @@ module.exports = class extends Component {
         }
     }
     render() {
-        const { children, className, tag, style } = this.props;
-        return React.DOM[tag]({ className, style }, children);
+        const { tag: Component, ...props } = this.props;
+
+        delete props.options;
+        delete props.onChange;
+
+        return (
+            <Component {...props} />
+        );
     }
 }
+
+export default Sortable;
