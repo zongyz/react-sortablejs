@@ -186,7 +186,7 @@ A controlled component will keep DOM nodes untouched. You have to change state t
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Sortable from '../src';
+import Sortable from 'react-sortablejs';
 
 class App extends React.Component {
     state = {
@@ -224,7 +224,7 @@ File: shared-group.jsx
 ```js
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
-import Sortable from '../src';
+import Sortable from 'react-sortablejs';
 
 // Functional Component
 const SharedGroup = ({ items }) => {
