@@ -89,6 +89,7 @@ module.exports = {
     devServer: {
         noInfo: false,
         lazy: false,
+        disableHostCheck: true,
         // https://webpack.github.io/docs/node.js-api.html#compiler
         watchOptions: {
             poll: true, // use polling instead of native watchers
