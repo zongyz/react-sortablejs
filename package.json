@@ -1,7 +1,7 @@
 {
   "name": "react-sortablejs",
   "version": "1.4.0",
-  "description": "A React component built on top of Sortable (https://github.com/RubaXa/Sortable).",
+  "description": "A React component built on top of Sortable (https://github.com/SortableJS/Sortable).",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "npm run lint && npm test && npm run build && npm run dist && npm run build-examples && npm run release",
@@ -21,14 +21,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cheton/react-sortable.git"
+    "url": "git+https://github.com/SortableJS/react-sortablejs.git"
   },
   "author": "Cheton Wu <cheton@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cheton/react-sortable/issues"
+    "url": "https://github.com/SortableJS/react-sortablejs/issues"
   },
-  "homepage": "https://github.com/cheton/react-sortable",
+  "homepage": "https://github.com/SortableJS/react-sortablejs",
   "keywords": [
     "react",
     "react-component",
