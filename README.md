@@ -1,15 +1,15 @@
-# react-sortable [![build status](https://travis-ci.org/cheton/react-sortable.svg?branch=master)](https://travis-ci.org/cheton/react-sortable) [![Coverage Status](https://coveralls.io/repos/github/cheton/react-sortable/badge.svg?branch=master)](https://coveralls.io/github/cheton/react-sortable?branch=master)
+# react-sortablejs [![build status](https://travis-ci.org/SortableJS/react-sortablejs.svg?branch=master)](https://travis-ci.org/SortableJS/react-sortablejs) [![Coverage Status](https://coveralls.io/repos/github/SortableJS/react-sortablejs/badge.svg?branch=master)](https://coveralls.io/github/SortableJS/react-sortablejs?branch=master)
 
 [![NPM](https://nodei.co/npm/react-sortablejs.png?downloads=true&stars=true)](https://www.npmjs.com/package/react-sortablejs)
 
-A React component built on top of Sortable (https://github.com/RubaXa/Sortable).
+A React component built on top of Sortable (https://github.com/SortableJS/Sortable).
 
-- Demo: http://cheton.github.io/react-sortable
+- Demo: https://sortablejs.github.io/react-sortablejs/
 
-The [sample code](https://github.com/cheton/react-sortable/blob/master/examples/index.jsx) can be found in the [examples](https://github.com/cheton/react-sortable/tree/master/examples) directory.
+The [sample code](https://github.com/SortableJS/react-sortablejs/blob/master/examples/index.jsx) can be found in the [examples](https://github.com/SortableJS/react-sortablejs/tree/master/examples) directory.
 
 ## Notice
-There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/cheton/react-sortable/wiki/Migration-Guide) while upgrading from earlier versions.
+There is a major breaking change since v1.0. Checkout [Migration Guide](https://github.com/SortableJS/react-sortablejs/wiki/Migration-Guide) while upgrading from earlier versions.
 
 ## Installation
 
@@ -20,13 +20,13 @@ npm install --save react react-dom sortablejs@1.6.1  # Install peerDependencies
 npm install --save react-sortablejs
 ```
 
-Checkout the [examples](https://github.com/cheton/react-sortable/tree/dev/examples) directory for a complete setup.
+Checkout the [examples](https://github.com/SortableJS/react-sortablejs/tree/dev/examples) directory for a complete setup.
 
 ### Standalone ES5 module
 You can create a standalone ES5 module as shown below:
 ```bash
-$ git clone https://github.com/cheton/react-sortable.git
-$ cd react-sortable
+$ git clone https://github.com/SortableJS/react-sortablejs.git
+$ cd react-sortablejs
 $ npm install
 $ npm run build && npm run dist
 ```
