@@ -82,7 +82,7 @@ class Sortable extends Component {
             };
         });
 
-        this.sortable = SortableJS.create(ReactDOM.findDOMNode(this), options);
+        this.sortable = SortableJS.create(this.node, options);
     }
     componentWillUnmount() {
         if (this.sortable) {
@@ -97,7 +97,7 @@ class Sortable extends Component {
         delete props.onChange;
 
         return (
-            <Component {...props} />
+            <Component {...props} ref={(node) => { return this.node = node; }} />
         );
     }
 }
