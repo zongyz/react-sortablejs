@@ -1,7 +1,6 @@
 /* eslint consistent-return: 0 */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import SortableJS from 'sortablejs';
 
 const store = {
@@ -19,11 +18,13 @@ class Sortable extends Component {
         ]),
         style: PropTypes.object
     };
+
     static defaultProps = {
         options: {},
         tag: 'div',
         style: {}
     };
+
     sortable = null;
 
     componentDidMount() {
@@ -82,22 +83,31 @@ class Sortable extends Component {
             };
         });
 
-        this.sortable = SortableJS.create(ReactDOM.findDOMNode(this), options);
+        this.sortable = SortableJS.create(this.node, options);
     }
+
     componentWillUnmount() {
         if (this.sortable) {
             this.sortable.destroy();
             this.sortable = null;
         }
     }
-    render() {
-        const { tag: Component, ...props } = this.props;
 
-        delete props.options;
-        delete props.onChange;
+    render() {
+        const {
+            tag: Component,
+            options, // eslint-disable-line
+            onChange, // eslint-disable-line
+            ...props
+        } = this.props;
 
         return (
-            <Component {...props} />
+            <Component
+                {...props}
+                ref={node => {
+                    this.node = node;
+                }}
+            />
         );
     }
 }
