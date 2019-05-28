@@ -258,7 +258,7 @@ const App = (props) => {
     return (
         <div>
             <SharedGroup
-                items={['Apple', 'Banaba', 'Cherry', 'Grape']}
+                items={['Apple', 'Banana', 'Cherry', 'Grape']}
             />
             <br/>
             <SharedGroup
