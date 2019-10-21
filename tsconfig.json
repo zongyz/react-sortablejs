@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "module": "esnext",
+    "downlevelIteration": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
+  },
+  "include": [
+    "src",
+    // "local-types/sortablejs"
+  ],
+  "exclude": [
+    "node_modules",
+    "__tests__",
+  ]
+}
