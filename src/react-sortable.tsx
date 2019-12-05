@@ -23,22 +23,12 @@ import {
 /** Holds a global reference for which react element is being dragged */
 const store: Store = { dragging: null };
 
-/**
- * A component for making the first layer of children sortable,
- * using `SortableJS` to manipulate the DOM.
- */
-// todo: make assumptions about input
-// always contains ID or UUID. function or name can be past as identifier
-// is always an array of Objects `{}`.
-// immediate children are always the class
-
 export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   private ref: RefObject<HTMLElement>;
 
   constructor(props: ReactSortableProps<T>) {
     super(props);
-    // todo: forward ref this whole component.
-    //
+    /** @todo forward ref this component */
     this.ref = createRef<HTMLElement>();
   }
 
@@ -56,13 +46,13 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   render() {
     const { tag, style, className } = this.props;
     const classicProps = { style, className };
-    const tagCheck = !tag || tag === null ? "div" : tag;
+    /** if no tag, default to a `div` element */
+    const newTag = !tag || tag === null ? "div" : tag;
     const newChildren: ReactNode = modifyChildren(this.props);
     return createElement(
-      tagCheck,
+      newTag,
       {
-        // todo: add forward and assign it as per below
-        // will this cook up
+        /** @todo find a way (perhaps with the callback) to allow AntD components to work */
         ref: this.ref,
         ...classicProps
       },
@@ -80,7 +70,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     return el[key];
   }
 
-  /** Converts all the props from `ReactSortable` into an object that `Sortable.create(el, [options])` can use */
+  /** Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
   makeOptions(): Options {
     const DOMHandlers: HandledMethodNames[] = [
       "onAdd",
@@ -116,7 +106,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     };
   }
 
-  /** Prepares a method that will be used in the sortable options to call an `on[Handler]` prop & an `on[Handler]` ReactSortable method  */
+  /** Prepares a method that will be used in the sortable options to call an `on[Handler]` prop & an `on[Handler]` ReactSortable method.  */
   prepareOnHandlerPropAndDOM(evtName: HandledMethodNames) {
     return (evt: SortableEvent) => {
       // call the component prop
@@ -142,10 +132,13 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     if (propEvent) propEvent(evt, this.sortable, store);
   }
 
+  // SORTABLE DOM HANDLING
+
   /** Called when an element is dropped into the list from another list */
   onAdd(evt: SortableEvent) {
     const { list, setList } = this.props;
     removeNode(evt.item);
+
     const newState: T[] = [...list];
     const newItem = store.dragging!.props.list[evt.oldIndex!];
     newState.splice(evt.newIndex!, 0, newItem);
@@ -157,6 +150,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     const { item, from, oldIndex, clone, pullMode } = evt;
     insertNodeAt(from, item, oldIndex!);
     if (pullMode === "clone") return removeNode(clone);
+
     const { list, setList } = this.props;
     const newState: T[] = [...list];
     newState.splice(oldIndex!, 1);
@@ -193,13 +187,18 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   }
 
   /** Called when a clone is made. It replaces an element in with a function */
+  onClone(evt: SortableEvent) {
   // are we in the same list? if so, do nothing
-  onClone(evt: SortableEvent) {}
+  }
+
+  /** @todo */
   onSelect(evt: SortableEvent) {
     // append the class name the classes of the item
     // do it on the item?
     // a seperate state?
   }
+
+  /** @todo */
   onDeselect(evt: SortableEvent) {
     // remove the clast name of the child
   }
