@@ -7,8 +7,8 @@ export function Basic() {
     { id: 2, name: "fiona" },
     { id: 3, name: "donkey" }
   ]);
-  return (
-    <ReactSortable list={list} setList={setList}>
+  return  (
+    <ReactSortable animation={150} list={list} setList={setList}>
       {list.map(item => (
         <div key={item.id}>{item.name}</div>
       ))}
