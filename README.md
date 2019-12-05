@@ -4,9 +4,17 @@ React component wrapping [SortableJS](https://github.com/SortableJS/Sortable) wr
 
 ## Features to add & things to do:
 
-- examples page in github pages.
-- tests.
-- clone function and dom change
+- Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
+- Manually ensure examples function correctly.
+- Creat tests for examples (for 'ron)
+- DOM handler functions
+  - onMove
+  - onClone
+  - onSpill
+  - Multidrag plugin
+    - onSelect
+    - onDeselect
+- export Sortable Plugins
 
 ## Features
 
@@ -39,16 +47,16 @@ yarn add react-sortablejs-typescript
 ### Function Component
 
 ```tsx
-import React, { FC, useState } from 'react'
-import { ReactSortable } from 'react-sortablejs-typescript'
+import React, { FC, useState } from "react";
+import { ReactSortable } from "react-sortablejs-typescript";
 
 interface ItemType {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export const BasicFunction: FC = props => {
-  const [state, setState] = useState<ItemType[]>([{ id: '1', name: 'shrek' }])
+  const [state, setState] = useState<ItemType[]>([{ id: "1", name: "shrek" }]);
 
   return (
     <ReactSortable list={state} setList={setState}>
@@ -56,32 +64,35 @@ export const BasicFunction: FC = props => {
         <div key={item.id}>{item.name}</div>
       ))}
     </ReactSortable>
-  )
-}
+  );
+};
 ```
 
 ### Class Component
 
 ```tsx
-import React, { Component } from 'react'
-import { ReactSortable } from 'react-sortablejs-typescript'
+import React, { Component } from "react";
+import { ReactSortable } from "react-sortablejs-typescript";
 
 interface BasicClassState {
-  list: { id: string; name: string }[]
+  list: { id: string; name: string }[];
 }
 
 export class BasicClass extends Component<{}, BasicClassState> {
   state: BasicClassState = {
-    list: [{ id: '1', name: 'shrek' }]
-  }
+    list: [{ id: "1", name: "shrek" }]
+  };
   render() {
     return (
-      <ReactSortable list={this.state.list} setList={newState => this.setState({ list: newState })}>
+      <ReactSortable
+        list={this.state.list}
+        setList={newState => this.setState({ list: newState })}
+      >
         {this.state.list.map(item => (
           <div key={item.id}>{item.name}</div>
         ))}
       </ReactSortable>
-    )
+    );
   }
 }
 ```
@@ -144,30 +155,31 @@ Sortable affects the DOM, adding, and removing nodes when it needs to in order t
 This is just a warning, but can be annoying when developing. Instead of passing `setState` in directly, be explicit in your callback:
 
 ```tsx
-import React, { FC, useState } from 'react'
-import { ReactSortable } from 'react-sortablejs-typescript'
+import React, { FC, useState } from "react";
+import { ReactSortable } from "react-sortablejs-typescript";
 
 interface ItemType {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export const BasicFunction: FC = props => {
-  const [state, setState] = useState<ItemType[]>([{ id: '1', name: 'shrek' }])
+  const [state, setState] = useState<ItemType[]>([{ id: "1", name: "shrek" }]);
 
   return (
     // `sortable` and `store` are here just to show what arguments have been passed.
     // They are not required to be used.
-    <ReactSortable list={state} setList={(newState, sortable, store) => setState(newState)}>
+    <ReactSortable
+      list={state}
+      setList={(newState, sortable, store) => setState(newState)}
+    >
       {state.map(item => (
         <div key={item.id}>{item.name}</div>
       ))}
     </ReactSortable>
-  )
-}
+  );
+};
 ```
-
-
 
 From the react type definitions:
 
