@@ -1,33 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "noImplicitAny": true,
-    "outDir": "dist",
-    "esModuleInterop": true,
+    "incremental": true, /* Enable incremental compilation */
+    "strict": true, /* Enable all strict type-checking options. */
+    "target": "es5", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
+    "module": "commonjs", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "jsx": "react", /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noEmit": true,
-    "jsx": "react",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "module": "esnext",
-    "downlevelIteration": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ]
+    "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
   },
-  "include": [
-    "src",
-    // "local-types/sortablejs"
-  ],
-  "exclude": [
-    "node_modules",
-    "__tests__",
-  ]
 }
