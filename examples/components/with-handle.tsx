@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { ReactSortable } from "../../src";
 import styled from "styled-components";
+import { threes, Item } from "./shared";
 
 export function WithHandle() {
-  const [list, setList] = useState([
-    { id: 1, name: "shrek" },
-    { id: 2, name: "fiona" },
-    { id: 3, name: "donkey" }
-  ]);
+  const [list, setList] = useState(threes);
 
   return (
     <ReactSortable
@@ -17,26 +14,22 @@ export function WithHandle() {
       setList={setList}
     >
       {list.map(item => (
-        <Container key={item.id}>
+        <Item key={item.id}>
           <Handle className="handle" />
-          <div>{item.name}</div>
-        </Container>
+          <span>{item.name}</span>
+        </Item>
       ))}
     </ReactSortable>
   );
 }
 
 const Handle = styled.div`
-  width: 4rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: inherit;
   background: #ffff;
   margin-right: 1rem;
   border-radius: 0.4rem;
   :hover {
     background-color: #fffa;
   }
-`;
-
-const Container = styled.div`
-  display: flex;
 `;
