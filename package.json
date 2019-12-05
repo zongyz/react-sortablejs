@@ -26,6 +26,9 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.7",
     "sortablejs": "1.10.1"
   },
   "devDependencies": {

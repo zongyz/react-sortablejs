@@ -2,6 +2,11 @@ import React from "react";
 import { hydrate, render } from "react-dom";
 import { App } from "./app";
 
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+library.add(fas);
+
 const element = document.getElementById("app");
 if (!element) throw new Error("root element was not found");
 
