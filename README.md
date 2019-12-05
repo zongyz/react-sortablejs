@@ -5,10 +5,8 @@ React component wrapping [SortableJS](https://github.com/SortableJS/Sortable) wr
 ## Features to add & things to do:
 
 - examples page in github pages.
-- add a pretty picture.
 - tests.
 - clone function and dom change
-- provide a context wrapper for `store` object, to enhance security.
 
 ## Features
 
