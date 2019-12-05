@@ -1,20 +1,24 @@
-import { Children, cloneElement, PropsWithChildren, ReactElement } from 'react'
-import { Options } from 'sortablejs'
-import { AllMethodNames, ReactSortableProps } from './types'
+import { Children, cloneElement, PropsWithChildren, ReactElement } from "react";
+import { Options } from "sortablejs";
+import { AllMethodNames, ReactSortableProps } from "./types";
 
 /**
- * @summary adds the attribute `data-id` to children
- * @param children
+ * @summary uses the key the attribute `data-id` to children, which is used internally by SortableJS.
+ * @param children ReactSortable children
  */
-export function modifyChildren<T>(props: PropsWithChildren<ReactSortableProps<T>>) {
-  const { children, dataIdAttr } = props
+export function modifyChildren<T>(
+  props: PropsWithChildren<ReactSortableProps<T>>
+) {
+  const { children, dataIdAttr } = props;
+  // if no children, don't do anything.
+  if (!children || children == null) return null;
 
-  if (!children || children == null) return null
-  return Children.map(children as ReactElement<any>[], (child: ReactElement, index) =>
-    cloneElement(child, {
-      [dataIdAttr || 'data-id']: child.key
-    })
-  )
+  const keyProperty = dataIdAttr || "data-id";
+  const newChildren = Children.map(
+    children as ReactElement<any>[],
+    (child: ReactElement) => cloneElement(child, { [keyProperty]: child.key })
+  );
+  return newChildren;
 }
 
 /**
@@ -22,7 +26,7 @@ export function modifyChildren<T>(props: PropsWithChildren<ReactSortableProps<T>
  * @param node
  */
 export function removeNode(node: HTMLElement) {
-  if (node.parentElement !== null) node.parentElement.removeChild(node)
+  if (node.parentElement !== null) node.parentElement.removeChild(node);
 }
 
 /**
@@ -31,9 +35,14 @@ export function removeNode(node: HTMLElement) {
  * @param newChild
  * @param position a number that is not negative
  */
-export function insertNodeAt(parent: HTMLElement, newChild: HTMLElement, position: number) {
-  const refChild = position === 0 ? parent.children[0] : parent.children[position - 1]
-  parent.insertBefore(newChild, refChild)
+export function insertNodeAt(
+  parent: HTMLElement,
+  newChild: HTMLElement,
+  position: number
+) {
+  const refChild =
+    position === 0 ? parent.children[0] : parent.children[position - 1];
+  parent.insertBefore(newChild, refChild);
 }
 
 // todo:
@@ -73,6 +82,6 @@ export function destructurePropsForOptions<T>(
     onSelect,
     onDeselect,
     ...options
-  } = props
-  return options
+  } = props;
+  return options;
 }
