@@ -5,7 +5,7 @@ import {
   ReactNode,
   RefObject
 } from "react";
-import Sortable, { Options, SortableEvent } from "sortablejs";
+import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
 import {
   AllMethodsExceptMove,
   HandledMethodNames,
@@ -95,14 +95,18 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     NonDOMHandlers.forEach(
       name => (newOptions[name] = this.prepareOnHandlerProp(name))
     );
+
+    /** onMove has 2 arguments and needs to be handled seperately. */
+    const onMove = (evt: MoveEvent, originalEvt: Event) => {
+      const { onMove } = this.props;
+      const defaultValue = evt.willInsertAfter || -1;
+      if (!onMove) return defaultValue;
+      return onMove(evt, originalEvt, this.sortable, store) || defaultValue;
+    };
+
     return {
       ...newOptions,
-      onMove: (evt, originalEvt) => {
-        const { onMove } = this.props;
-        const defaultValue = evt.willInsertAfter || -1;
-        if (!onMove) return defaultValue;
-        return onMove(evt, originalEvt, this.sortable, store) || defaultValue;
-      }
+      onMove
     };
   }
 
@@ -188,7 +192,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
 
   /** Called when a clone is made. It replaces an element in with a function */
   onClone(evt: SortableEvent) {
-  // are we in the same list? if so, do nothing
+    // are we in the same list? if so, do nothing
   }
 
   /** @todo */
