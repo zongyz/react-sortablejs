@@ -1,21 +1,39 @@
-import React, { PropsWithChildren, useState } from "react";
-import { ReactSortable } from "../../src/index";
-import { Item, threes } from "./shared";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { ReactSortable } from "../../src/index";
 import { Item, threes } from "../util";
 
 export function SharedList() {
   const [list1, setList1] = useState(threes);
   const [list2, setList2] = useState(threes);
   return (
-    <Flex>
-      <List list={list1} setList={setList1} />
-      <List list={list2} setList={setList2} />
-    </Flex>
+    <Container>
+      <ReactSortable
+        list={list1}
+        setList={setList1}
+        animation={150}
+        group="shared-group-name"
+      >
+        {list1.map(item => (
+          <Item key={item.id}>{item.name}</Item>
+        ))}
+      </ReactSortable>
+      <ReactSortable
+        list={list2}
+        setList={setList2}
+        animation={150}
+        group="shared-group-name"
+      >
+        {list1.map(item => (
+          <Item key={item.id}>{item.name}</Item>
+        ))}
+      </ReactSortable>
+    </Container>
   );
 }
 
-const Flex = styled.div`
+/** Wraps internal components for styling. */
+const Container = styled.div`
   display: flex;
   width: inherit;
   & > * {
@@ -26,27 +44,3 @@ const Flex = styled.div`
     }
   }
 `;
-
-function List<T extends ID>(props: PropsWithChildren<ListProps<T>>) {
-  const { children, ...rest } = props;
-  const { list } = props;
-  const defaultChildren = list.map(item => (
-    <Item key={item.id}>{item.name}</Item>
-  ));
-  return (
-    <ReactSortable animation={150} group="shared-group-name" {...rest}>
-      {children || defaultChildren}
-    </ReactSortable>
-  );
-}
-
-interface ListProps<T extends ID> {
-  list: T[];
-  setList: (newList: T[]) => void;
-}
-
-interface ID {
-  id: string | number;
-  name: string;
-  [property: string]: any;
-}
