@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ReactSortable } from "../../src";
 import styled from "styled-components";
-import { threes, Item } from "./shared";
+import { threes, Item } from "../util";
 
 export function WithHandle() {
   const [list, setList] = useState(threes);

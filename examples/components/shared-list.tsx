@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useState } from "react";
 import { ReactSortable } from "../../src/index";
 import { Item, threes } from "./shared";
 import styled from "styled-components";
+import { Item, threes } from "../util";
 
 export function SharedList() {
   const [list1, setList1] = useState(threes);
