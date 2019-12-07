@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MultiDrag, ReactSortable } from "../../src";
+import { Swap, ReactSortable } from "../../src";
 import { Item, threes } from "../util";
 
-export function MultiDragExample() {
+export function SwapExample() {
   const [list, setList] = useState(threes);
   return (
     <ReactSortable
-      multiDrag
-      plugins={[new MultiDrag()]}
+      swap
+      plugins={[new Swap()]}
       list={list}
       setList={setList}
       animation={150}
     >
       {list.map(item => (
-        <MultiDragItem key={item.id}>{item.name}</MultiDragItem>
+        <SwapItem key={item.id}>{item.name}</SwapItem>
       ))}
     </ReactSortable>
   );
 }
 
-const MultiDragItem = styled(Item)`
-  &.sortable-selected {
-    background-color: #0a0a;
+const SwapItem = styled(Item)`
+  &.sortable-swap-highlight {
+    background-color: #fa0a;
   }
 `;
