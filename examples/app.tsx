@@ -10,7 +10,7 @@ function Contents() {
       {components.map(([name, Component], index) => (
         <Container key={index}>
           <Title>
-            {index} -  {name}
+            {index + 1} -  {name}
           </Title>
           <Component key={name} />
         </Container>
