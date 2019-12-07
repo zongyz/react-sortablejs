@@ -21,5 +21,3 @@ switch (process.env.NODE_ENV) {
     throw new Error("Node environment not detected");
 }
 
-//@ts-ignore
-if (module.hot) module.hot.accept();
