@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactSortable } from "../../src/index";
-import { Item, threes } from "../util";
+import { Item, threes, createId } from "../util";
 
 export function Cloning() {
   const [list1, setList1] = useState(threes);
@@ -13,6 +13,7 @@ export function Cloning() {
         setList={setList1}
         animation={150}
         group={{ name: "cloning-group-name", pull: "clone" }}
+        clone={item => ({ ...item, id: createId() })}
       >
         {list1.map(item => (
           <Item key={item.id}>{item.name}</Item>
@@ -23,8 +24,10 @@ export function Cloning() {
         setList={setList2}
         animation={150}
         group={{ name: "cloning-group-name", pull: "clone" }}
+        clone={item => ({ ...item, id: createId() })}
+
       >
-        {list1.map(item => (
+        {list2.map(item => (
           <Item key={item.id}>{item.name}</Item>
         ))}
       </ReactSortable>
