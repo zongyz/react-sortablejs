@@ -2,14 +2,14 @@ import React, { ReactElement } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import * as Examples from "./components";
 //@ts-ignore
-import Banner from "../react-sortablejs.png";
+// import Banner from "../react-sortablejs.png";
 const components = Object.entries(Examples);
 
 function Contents() {
   return (
     <Wrapper>
       <StyledImage>
-        <img src={Banner} />
+        {/* <img src={Banner} /> */}
       </StyledImage>
       <Grid>
         {components.map(([name, Component], index) => (
