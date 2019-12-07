@@ -1,15 +1,18 @@
 import styled from "styled-components";
+import { ItemInterface } from "../src";
 
 let id = 0;
 
 export const createId = () => id++;
 
+const defs = { chosen: false, filtered: false, selected: false };
+
 /** Generates uniquie id's for each item when generated */
-export const threes = () => [
-  { id: id++, name: "shrek" },
-  { id: id++, name: "fiona" },
-  { id: id++, name: "donkey" },
-  { id: id++, name: "Lord Faarquad" }
+export const threes = (): ItemInterface[] => [
+  { id: id++, name: "shrek", ...defs },
+  { id: id++, name: "fiona", ...defs },
+  { id: id++, name: "donkey", ...defs, selected: true },
+  { id: id++, name: "Lord Faarquad", ...defs }
 ];
 
 export const Item = styled.div`
