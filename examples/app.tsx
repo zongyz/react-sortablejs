@@ -1,12 +1,17 @@
 import React, { ReactElement } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import * as Examples from "./components";
-
+//@ts-ignore
+import Banner from "../react-sortablejs.png";
 const components = Object.entries(Examples);
 
 function Contents() {
   return (
     <Wrapper>
+      <StyledImage>
+        <img src={Banner} />
+      </StyledImage>
+      <Grid>
       {components.map(([name, Component], index) => (
         <Container key={index}>
           <Title>
@@ -18,6 +23,17 @@ function Contents() {
     </Wrapper>
   );
 }
+
+const StyledImage = styled.div`
+  display: flex;
+  width: inherit;
+  height: 200px;
+  justify-content: center;
+  & > img {
+    height: inherit;
+  }
+`;
+
 const Title = styled.h4`
   margin-bottom: 0.4rem;
 `;
