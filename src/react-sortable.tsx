@@ -1,29 +1,33 @@
 import {
+  Children,
+  cloneElement,
   Component,
   createElement,
   createRef,
-  ReactNode,
+  ReactElement,
   RefObject
 } from "react";
-import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
+import Sortable, { MoveEvent, Options, SortableEvent, Swap } from "sortablejs";
 import {
   AllMethodsExceptMove,
   HandledMethodNames,
   ReactSortableProps,
   Store,
-  UnHandledMethodNames
+  UnHandledMethodNames,
+  ItemInterface
 } from "./types";
-import {
-  destructurePropsForOptions,
-  insertNodeAt,
-  modifyChildren,
-  removeNode
-} from "./util";
+import { destructurePropsForOptions, insertNodeAt, removeNode } from "./util";
 
 /** Holds a global reference for which react element is being dragged */
 const store: Store = { dragging: null };
-
-export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
+/**
+ * React is built for synchornizing data with the browser.
+ *
+ * Data should be an object.
+ */
+export class ReactSortable<T extends ItemInterface> extends Component<
+  ReactSortableProps<T>
+> {
   private ref: RefObject<HTMLElement>;
 
   static defaultProps: Partial<ReactSortableProps<any>> = {
@@ -35,17 +39,18 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     super(props);
     /** @todo forward ref this component */
     this.ref = createRef<HTMLElement>();
+    const { plugins } = props;
+    // mount plugins if any
+    if (plugins) {
+      if (plugins instanceof Array) Sortable.mount(...plugins);
+      else Sortable.mount(plugins);
+    }
   }
 
   componentDidMount() {
     if (this.ref.current === null) return;
     const newOptions = this.makeOptions();
     Sortable.create(this.ref.current, newOptions);
-    // mount plugins if any
-    const { plugins } = this.props;
-    if (!plugins) return;
-    if (plugins instanceof Array) Sortable.mount(...plugins);
-    else Sortable.mount(plugins);
   }
 
   render() {
@@ -54,7 +59,6 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
 
     /** if no tag, default to a `div` element */
     const newTag = !tag || tag === null ? "div" : tag;
-    const newChildren: ReactNode = modifyChildren(this.props);
     return createElement(
       newTag,
       {
@@ -62,7 +66,33 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
         ref: this.ref,
         ...classicProps
       },
-      newChildren
+      this.getChildren()
+    );
+  }
+
+  // dev provides the class names and the app will asign them do the dom properly
+  private getChildren() {
+    const {
+      children,
+      dataIdAttr,
+      selectedClass,
+      chosenClass,
+      dragClass,
+      fallbackClass,
+      ghostClass,
+      swapClass
+    } = this.props;
+
+    // if no children, don't do anything.
+    if (!children || children == null) return null;
+
+    const dataid = dataIdAttr || "data-id";
+    const className = "";
+
+    return Children.map(children as ReactElement<any>[], child =>
+      cloneElement(child, {
+        [dataid]: child.key
+      })
     );
   }
 
@@ -73,10 +103,16 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
     const key = Object.keys(el).find(k => k.includes("Sortable"));
     if (!key) return null;
     //@ts-ignore - I know what I'm doing.
-    return el[key];
+    return el[key] as Sortable;
   }
 
-  /** Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
+  /**  const { plugins } = props;
+    // mount plugins if any
+    if (plugins) {
+      if (plugins instanceof Array) Sortable.mount(...plugins);
+      else Sortable.mount(plugins);
+    }
+  }Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
   makeOptions(): Options {
     const DOMHandlers: HandledMethodNames[] = [
       "onAdd",
@@ -167,7 +203,6 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
       const [oldItem] = newState.splice(oldIndex!, 1);
       const newItem = this.props.clone!(oldItem, evt);
 
-      console.log({ oldItem, newItem });
       newState.splice(oldIndex!, 0, newItem);
       setList(newState, this.sortable, store);
       return;
@@ -212,6 +247,8 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
 
   /** @todo */
   onSelect(evt: SortableEvent) {
+    const { oldIndex, newIndex } = evt;
+    console.log({ oldIndex, newIndex });
     // append the class name the classes of the item
     // do it on the item?
     // a seperate state?

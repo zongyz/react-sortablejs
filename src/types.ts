@@ -1,21 +1,31 @@
-import Sortable, { SortableEvent, Options, MoveEvent } from 'sortablejs'
+import Sortable, { SortableEvent, Options, MoveEvent } from "sortablejs";
 
-import { ForwardRefExoticComponent, RefAttributes, ReactHTML, CSSProperties } from 'react'
+import {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  ReactHTML,
+  CSSProperties
+} from "react";
 
-import { ReactSortable } from './react-sortable'
+import { ReactSortable } from "./react-sortable";
 
-//
-// TYPES
-//
+export interface ItemInterface {
+  id: string | number;
+  selected?: boolean;
+  chosen?: boolean;
+  filtered?: boolean;
+  [property: string]: any;
+}
+
 export interface ReactSortableProps<T> extends ReactSortableOptions {
   /**
    * The list of items to use.
    */
-  list: T[]
+  list: T[];
   /**
    * Sets the state for your list of items.
    */
-  setList: (newState: T[], sortable: Sortable | null, store: Store) => void
+  setList: (newState: T[], sortable: Sortable | null, store: Store) => void;
   /**
    * If parsing in a component WITHOUT a ref, an error will be thrown.
    *
@@ -24,13 +34,13 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
    * @example
    * forwardRef<HTMLElement, YOURPROPS>((props, ref) => <button {...props} ref={ref} />)
    */
-  tag?: ForwardRefExoticComponent<RefAttributes<any>> | keyof ReactHTML
-  style?: CSSProperties
-  className?: string
+  tag?: ForwardRefExoticComponent<RefAttributes<any>> | keyof ReactHTML;
+  style?: CSSProperties;
+  className?: string;
   /**
    * Parse the plugins you'd like to use in Sortable.
    */
-  plugins?: Sortable.Plugin | Array<Sortable.Plugin>
+  plugins?: Sortable.Plugin | Array<Sortable.Plugin>;
   /**
    * If this is provided, the function will replace the clone in place.
    *
@@ -38,14 +48,14 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
    * the original element will be moved to `B`
    * and the new clone will be placed in `A`
    */
-  clone?: (currentItem: T, evt: SortableEvent) => T
+  clone?: (currentItem: T, evt: SortableEvent) => T;
 }
 
 /**
  * Used as
  */
 export interface Store {
-  dragging: null | ReactSortable<any>
+  dragging: null | ReactSortable<any>;
 }
 
 //
@@ -77,42 +87,46 @@ export type ReactSortableOptions = Omit<Options, AllMethodNames> &
       originalEvent: Event,
       sortable: Sortable | null,
       store: Store
-    ) => boolean | -1 | 1 | void
-  }
+    ) => boolean | -1 | 1 | void;
+  };
 
 // STRINGS
 
 /** All method names starting with `on` in `Sortable.Options` */
 export type AllMethodNames =
-  | 'onAdd'
-  | 'onChange'
-  | 'onChoose'
-  | 'onClone'
-  | 'onEnd'
-  | 'onFilter'
-  | 'onMove'
-  | 'onRemove'
-  | 'onSort'
-  | 'onSpill'
-  | 'onStart'
-  | 'onUnchoose'
-  | 'onUpdate'
-  | 'onSelect'
-  | 'onDeselect'
+  | "onAdd"
+  | "onChange"
+  | "onChoose"
+  | "onClone"
+  | "onEnd"
+  | "onFilter"
+  | "onMove"
+  | "onRemove"
+  | "onSort"
+  | "onSpill"
+  | "onStart"
+  | "onUnchoose"
+  | "onUpdate"
+  | "onSelect"
+  | "onDeselect";
 
 /** Method names that fire in `this`, when this is react-sortable */
 export type HandledMethodNames =
-  | 'onAdd'
-  | 'onRemove'
-  | 'onUpdate'
-  | 'onStart'
-  | 'onEnd'
-  | 'onSpill'
-  | 'onSelect'
-  | 'onDeselect'
-  | 'onClone'
-export type UnHandledMethodNames = Exclude<AllMethodsExceptMove, HandledMethodNames | 'onMove'>
+  | "onAdd"
+  | "onRemove"
+  | "onUpdate"
+  | "onStart"
+  | "onEnd"
+  | "onSpill"
+  | "onSelect"
+  | "onDeselect"
+  | "onClone";
+
+export type UnHandledMethodNames = Exclude<
+  AllMethodsExceptMove,
+  HandledMethodNames | "onMove"
+>;
 /**
  * Same as `SortableMethodKeys` type but with out the string `onMove`.
  */
-export type AllMethodsExceptMove = Exclude<AllMethodNames, 'onMove'>
+export type AllMethodsExceptMove = Exclude<AllMethodNames, "onMove">;
