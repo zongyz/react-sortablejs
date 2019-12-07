@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { ReactSortable } from "../../src";
+import { ReactSortable, ItemInterface } from "../../src";
 import { Item, threes } from "../util";
 import styled from "styled-components";
 
 function createState() {
-  return threes().map((item, index) => ({ ...item, filter: index === 2 }));
+  return threes().map((item, index) => ({
+    ...item,
+    filter: index === 2
+  })) as ItemInterface[];
 }
 
 export function Filter() {
