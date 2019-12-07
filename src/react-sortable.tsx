@@ -26,6 +26,9 @@ const store: Store = { dragging: null };
 export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   private ref: RefObject<HTMLElement>;
 
+  static defaultProps: Partial<ReactSortableProps<any>> = {
+  };
+
   constructor(props: ReactSortableProps<T>) {
     super(props);
     /** @todo forward ref this component */
