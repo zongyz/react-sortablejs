@@ -27,6 +27,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   private ref: RefObject<HTMLElement>;
 
   static defaultProps: Partial<ReactSortableProps<any>> = {
+    clone: item => item,
   };
 
   constructor(props: ReactSortableProps<T>) {
@@ -160,6 +161,17 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
 
     const { list, setList } = this.props;
     const newState: T[] = [...list];
+    if (pullMode === "clone") {
+      removeNode(clone);
+
+      const [oldItem] = newState.splice(oldIndex!, 1);
+      const newItem = this.props.clone!(oldItem, evt);
+
+      console.log({ oldItem, newItem });
+      newState.splice(oldIndex!, 0, newItem);
+      setList(newState, this.sortable, store);
+      return;
+    }
     newState.splice(oldIndex!, 1);
     setList(newState, this.sortable, store);
   }
