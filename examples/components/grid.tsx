@@ -20,14 +20,13 @@ export function Grid() {
 
 const StyledReactSortable = styled(ReactSortable)`
   display: grid;
-  grid-template-columns: repeat(6, auto);
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
   gap: 0.5rem;
 `;
 
 const GridItem = styled(Item)`
   height: 2rem;
   & > * {
-    margin: auto
+    margin: auto;
   }
-  /* width: 100px; */
 `;
