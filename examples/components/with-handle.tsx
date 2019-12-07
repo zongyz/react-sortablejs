@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ReactSortable } from "../../src";
 import styled from "styled-components";
 import { threes, Item } from "../util";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export function WithHandle() {
   const [list, setList] = useState(threes);
 
@@ -14,22 +14,22 @@ export function WithHandle() {
       setList={setList}
     >
       {list.map(item => (
-        <Item key={item.id}>
-          <Handle className="handle" />
-          <span>{item.name}</span>
-        </Item>
+        <CustomItem key={item.id}>
+          <FontAwesomeIcon className="handle" icon="grip-lines" />
+          <Span>{item.name}</Span>
+        </CustomItem>
       ))}
     </ReactSortable>
   );
 }
 
-const Handle = styled.div`
-  width: 1.5rem;
-  height: inherit;
-  background: #ffff;
-  margin-right: 1rem;
-  border-radius: 0.4rem;
-  :hover {
-    background-color: #fffa;
+const CustomItem = styled(Item)`
+  align-items: center;
+  & > * {
+    margin: auto unset;
   }
+`;
+
+const Span = styled.span`
+  margin-left: .5rem;
 `;
