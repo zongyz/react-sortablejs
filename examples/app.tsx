@@ -12,17 +12,31 @@ function Contents() {
         <img src={Banner} />
       </StyledImage>
       <Grid>
-      {components.map(([name, Component], index) => (
-        <Container key={index}>
-          <Title>
-            {index + 1} -  {name}
-          </Title>
-          <Component key={name} />
-        </Container>
-      ))}
+        {components.map(([name, Component], index) => (
+          <Container key={index}>
+            <Title>
+              {index + 1} - {name}
+            </Title>
+            <Component key={name} />
+          </Container>
+        ))}
+      </Grid>
     </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 70rem;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+`;
 
 const StyledImage = styled.div`
   display: flex;
@@ -38,14 +52,16 @@ const Title = styled.h4`
   margin-bottom: 0.4rem;
 `;
 
-const Wrapper = styled.div`
+const Grid = styled.div`
   display: grid;
-  padding: 2rem;
-  margin: 0 auto;
+  padding: 1rem;
   background-color: #eee;
-  max-width: 100rem;
-  gap: 20px;
-  @media (max-width: 900px) {
+  border-radius: .7rem;
+  gap: 1rem;
+  animation: ease 200ms;
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    gap: 0.5rem;
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   }
   grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
@@ -56,12 +72,6 @@ const Container = styled.div`
   background-color: #ccc;
   padding: 1rem;
 `;
-
-// handle
-// animations
-// different types of state
-// // lists, objects
-// callbacks
 
 export function App() {
   return (
