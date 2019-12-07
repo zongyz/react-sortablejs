@@ -28,6 +28,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
 
   static defaultProps: Partial<ReactSortableProps<any>> = {
     clone: item => item,
+    selectedClass: "sortable-selected"
   };
 
   constructor(props: ReactSortableProps<T>) {
@@ -50,6 +51,7 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   render() {
     const { tag, style, className } = this.props;
     const classicProps = { style, className };
+
     /** if no tag, default to a `div` element */
     const newTag = !tag || tag === null ? "div" : tag;
     const newChildren: ReactNode = modifyChildren(this.props);
@@ -157,8 +159,6 @@ export class ReactSortable<T> extends Component<ReactSortableProps<T>> {
   onRemove(evt: SortableEvent) {
     const { item, from, oldIndex, clone, pullMode } = evt;
     insertNodeAt(from, item, oldIndex!);
-    if (pullMode === "clone") return removeNode(clone);
-
     const { list, setList } = this.props;
     const newState: T[] = [...list];
     if (pullMode === "clone") {
