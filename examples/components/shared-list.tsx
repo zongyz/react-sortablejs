@@ -24,7 +24,7 @@ export function SharedList() {
         animation={150}
         group="shared-group-name"
       >
-        {list1.map(item => (
+        {list2.map(item => (
           <Item key={item.id}>{item.name}</Item>
         ))}
       </ReactSortable>
