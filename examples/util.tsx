@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 let id = 0;
 
+export const createId = () => id++;
+
 /** Generates uniquie id's for each item when generated */
 export const threes = () => [
   { id: id++, name: "shrek" },
