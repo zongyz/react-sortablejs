@@ -5,20 +5,29 @@ import { AllMethodNames, ReactSortableProps } from "./types";
 /**
  * @summary uses the key the attribute `data-id` to children, which is used internally by SortableJS.
  * @param children ReactSortable children
+ * @todo string concat for sortbale-selected
  */
 export function modifyChildren<T>(
   props: PropsWithChildren<ReactSortableProps<T>>
 ) {
-  const { children, dataIdAttr } = props;
+  const { children, dataIdAttr, className: _className, selectedClass } = props;
   // if no children, don't do anything.
   if (!children || children == null) return null;
 
-  const keyProperty = dataIdAttr || "data-id";
-  const newChildren = Children.map(
-    children as ReactElement<any>[],
-    (child: ReactElement) => cloneElement(child, { [keyProperty]: child.key })
-  );
-  return newChildren;
+  const dataid = dataIdAttr || "data-id";
+  // const className = (_className || "").split(" ").reduce((acc, curr, _,array) => {
+  //   if (array.includes())
+  //   return "";
+  // });
+
+  const childFunction = (child: ReactElement) => {
+    return cloneElement(child, {
+      [dataid]: child.key,
+      // className
+    });
+  };
+
+  return Children.map(children as ReactElement<any>[], childFunction);
 }
 
 /**
