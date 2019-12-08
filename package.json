@@ -15,12 +15,12 @@
     "local-types"
   ],
   "scripts": {
-    "start": "parcel examples/index.html --open --out-dir .server ",
+    "start": "parcel examples/index.html --out-dir .server ",
     "build": " rollup --config config/rollup.config.js",
     "watch": "parcel watch src/index.ts",
     "examples": "parcel build examples/index.html --out-dir docs",
     "examples:static": "ts-node examples/scripts/build-examples.tsx && parcel build examples/scripts/index.html --out-dir docs",
-    "test": "yarn testcafe --speed 0.5 chrome ./tests/index.ts "
+    "test": "yarn testcafe --app \"yarn start\" --speed 0.5 chrome ./tests/index.ts "
   },
   "peerDependencies": {
     "react": "^16.9.0",
