@@ -54,8 +54,8 @@ export class ReactSortable<T extends ItemInterface> extends Component<
   }
 
   render() {
-    const { tag, style, className } = this.props;
-    const classicProps = { style, className };
+    const { tag, style, className, id } = this.props;
+    const classicProps = { style, className,id };
 
     /** if no tag, default to a `div` element */
     const newTag = !tag || tag === null ? "div" : tag;

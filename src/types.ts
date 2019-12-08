@@ -37,6 +37,7 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
   tag?: ForwardRefExoticComponent<RefAttributes<any>> | keyof ReactHTML;
   style?: CSSProperties;
   className?: string;
+  id?: string;
   /**
    * Parse the plugins you'd like to use in Sortable.
    */
