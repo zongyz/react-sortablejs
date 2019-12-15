@@ -6,7 +6,7 @@ React component wrapping [SortableJS](https://github.com/SortableJS/Sortable) wr
 
 - [x] Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
 - [ ] Create all tests for examples (for 'ron)
-  - Currently we;ve got a few.
+  - Currently weve got a few.
 - [ ] Test the following UI component libraries:
   - [ ] MaterialUI
   - [ ] AntD
@@ -19,6 +19,8 @@ React component wrapping [SortableJS](https://github.com/SortableJS/Sortable) wr
 ## Features
 
 ### SortableJS
+
+Everything you love about SortableJS, including to but not limited to:
 
 - [x] Drag and Drop between lists
 - [x] Multidrag and Swap plugin support.
@@ -55,7 +57,7 @@ import React, { FC, useState } from "react";
 import { ReactSortable } from "react-sortablejs-typescript";
 
 interface ItemType {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -192,6 +194,14 @@ Sortable affects the DOM, adding, and removing nodes/css when it needs to in ord
 This component reverses many of it's actions of the DOM so React can handle this when the state changes.
 
 ## Caveats / Gotchas
+
+### `key !== index`
+
+DO NOT use the index as a key for your list items. Sorting will not work.
+
+In all the examples above, I used an object with an ID. You should do the same!
+
+I may even enforce this into the design to eliminate errors.
 
 ### `setState()`
 
