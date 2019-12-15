@@ -41,6 +41,7 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
   /**
    * Parse the plugins you'd like to use in Sortable.
    */
+  // @ts-ignore - pull request created for @types
   plugins?: Sortable.Plugin | Array<Sortable.Plugin>;
   /**
    * If this is provided, the function will replace the clone in place.
@@ -53,7 +54,9 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
 }
 
 /**
- * Used as
+ * Holds the react component as a reference so we can access it's store.
+ * 
+ * Mainly used to access `props.list` within another components.
  */
 export interface Store {
   dragging: null | ReactSortable<any>;
