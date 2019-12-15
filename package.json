@@ -15,7 +15,7 @@
     "local-types"
   ],
   "scripts": {
-    "start": "parcel examples/index.html --out-dir .server ",
+    "start": "parcel examples/index.html --out-dir temp/server --cache-dir temp/cache ",
     "build": " rollup --config config/rollup.config.js",
     "watch": "parcel watch src/index.ts",
     "examples": "parcel build examples/index.html --out-dir docs",
