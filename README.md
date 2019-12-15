@@ -2,19 +2,19 @@
 
 React component wrapping [SortableJS](https://github.com/SortableJS/Sortable) written in Typescript!
 
-## Features to add & things to do:
+## TODO list before releasing on react-sortable v2.x
 
-- Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
-- Manually ensure examples function correctly.
-- Creat tests for examples (for 'ron)
-- DOM handler functions
-  - onMove
-  - onClone
-  - onSpill
-  - Multidrag plugin
-    - onSelect
-    - onDeselect
-- export Sortable Plugins
+- [x] Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
+- [ ] Create all tests for examples (for 'ron)
+  - Currently we;ve got a few.
+- [ ] Test the following UI component libraries:
+  - [ ] MaterialUI
+  - [ ] AntD
+  - [x] Styled Components
+  - [ ] React Bootstrap
+  - [ ] React Grommet
+  - [ ] React Toolbox
+  - [ ] Your suggestion? :)
 
 ## Features
 
