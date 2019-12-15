@@ -39,7 +39,7 @@
     "@types/node": "12.7.5",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
-    "@types/sortablejs": "file:src/local-types/sortablejs",
+    "@types/sortablejs": "^1.10.0",
     "@types/styled-components": "^4.1.19",
     "cheerio": "^1.0.0-rc.3",
     "parcel-bundler": "^1.12.4",
@@ -49,6 +49,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-typescript2": "^0.25.3",
     "styled-components": "^4.3.2",
+    "testcafe": "^1.7.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.6.3"
   }

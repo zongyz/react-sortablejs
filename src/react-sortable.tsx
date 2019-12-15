@@ -193,6 +193,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
 
   /** Called when an element is removed from the list into another list */
   onRemove(evt: SortableEvent) {
+    //@ts-ignore - pullMode not in types. Request made.
     const { item, from, oldIndex, clone, pullMode } = evt;
     insertNodeAt(from, item, oldIndex!);
     const { list, setList } = this.props;

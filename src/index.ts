@@ -11,7 +11,6 @@ export {
   MoveEvent,
   Options,
   PullResult,
-  Plugin,
   PutResult,
   SortableEvent,
   SortableOptions,

@@ -20,6 +20,5 @@
     },
     "include": [
         "../src",
-        "../src/local-types/sortablejs"
     ],
 }
