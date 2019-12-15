@@ -5,7 +5,7 @@
     "email": "waynevspersonal@gmail.com"
   },
   "license": "MIT",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -27,8 +27,8 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "sortablejs": "1.10.1",
-    "@types/sortablejs": "^1.10.0"
+    "@types/sortablejs": "^1.10.0",
+    "sortablejs": "1.10.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
