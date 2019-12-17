@@ -1,16 +1,22 @@
-# `react-sortablejs-typescript`
+# `react-sortablejs`
 
-React component wrapping [SortableJS](https://github.com/SortableJS/Sortable) written in Typescript!
+React component wrapping [SortableJS](https://github.com/SortableJS/Sortable)!
 
-## TODO list before releasing on react-sortable v2.x
+We're now on version 2.0! A major API overhaul with typescript types.
+
+Consider trying it out if you had any troubles earlier.
+
+## Things still to do.
+
+We've released version 2.0,
 
 - [x] Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
 - [ ] Create all tests for examples (for 'ron)
   - Currently weve got a few.
 - [ ] Test the following UI component libraries:
-  - [ ] MaterialUI
-  - [ ] AntD
   - [x] Styled Components
+  - [ ] AntD
+  - [ ] MaterialUI
   - [ ] React Bootstrap
   - [ ] React Grommet
   - [ ] React Toolbox
