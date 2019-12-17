@@ -94,4 +94,4 @@ var t=arguments[3];function n(t){return(n="function"==typeof Symbol&&"symbol"==t
 },{}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});var r=e(require("react")),t=require("react-dom"),o=require("./app"),a=require("@fortawesome/free-solid-svg-icons"),u=require("@fortawesome/fontawesome-svg-core");u.library.add(a.fas);var s=document.getElementById("app");if(!s)throw new Error("root element was not found");t.hydrate(r.default.createElement(o.App,null),s);
 },{"react":"n8MK","react-dom":"NKHc","./app":"owv9","@fortawesome/free-solid-svg-icons":"lmHt","@fortawesome/fontawesome-svg-core":"T2ws"}]},{},["zo2T"], null)
-//# sourceMappingURL=/examples.9e3e29ac.js.map
+//# sourceMappingURL=examples.9e3e29ac.js.map
