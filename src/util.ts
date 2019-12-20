@@ -14,15 +14,14 @@ export function removeNode(node: HTMLElement) {
  * @summary Inserts a `newChild` inside the `parent` at index number `position`
  * @param parent
  * @param newChild
- * @param position a number that is not negative
+ * @param index a number that is not negative
  */
 export function insertNodeAt(
   parent: HTMLElement,
   newChild: HTMLElement,
-  position: number
+  index: number
 ) {
-  const refChild =
-    position === 0 ? parent.children[0] : parent.children[position - 1];
+  const refChild = parent.children[index] || null;
   parent.insertBefore(newChild, refChild);
 }
 
