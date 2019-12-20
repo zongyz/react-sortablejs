@@ -207,16 +207,93 @@ export class ReactSortable<T extends ItemInterface> extends Component<
   }
 
   /** Called when sorting is changed within the same list */
-  onUpdate(evt: SortableEvent) {
-    const { item, from, oldIndex, newIndex } = evt;
-    removeNode(item);
-    insertNodeAt(from, item, oldIndex!);
+  onUpdate(evt: MultiDragEvent) {
+    const mode = (() => {
+      if (evt.oldIndicies.length > 0) return "multidrag";
+      if (evt.swapItem) return "swap";
+      return "normal";
+    })();
+
+    switch (mode) {
+      case "normal": {
+        removeNode(evt.item);
+        insertNodeAt(evt.from, evt.item, evt.oldIndex!);
+
+        const { list, setList } = this.props;
+        const newState: T[] = [...list];
+        const [oldItem] = newState.splice(evt.oldIndex!, 1);
+        newState.splice(evt.newIndex!, 0, oldItem);
+        return setList(newState, this.sortable, store);
+      }
+      case "swap": {
+        // item that was dragged
+        removeNode(evt.item);
+        insertNodeAt(evt.from, evt.item, evt.oldIndex!);
+
+        // item that was landed on for the swap
+        removeNode(evt.swapItem!);
+        insertNodeAt(evt.from, evt.swapItem!, evt.newIndex!);
+
+        const { list, setList } = this.props;
+        const newState: T[] = [...list];
+
+        const customs = [
+          {
+            element: evt.item,
+            oldIndex: evt.oldIndex!,
+            newIndex: evt.newIndex!
+          },
+          {
+            element: evt.swapItem!,
+            oldIndex: evt.newIndex!,
+            newIndex: evt.oldIndex!
+          }
+        ]
+          .map(curr => ({ ...curr, item: newState[curr.oldIndex] }))
+          .sort((a, b) => a.oldIndex - b.oldIndex);
+
+        // DOM element management
+        customs.forEach(curr => removeNode(curr.element));
+        customs.forEach(curr =>
+          insertNodeAt(evt.from, curr.element, curr.oldIndex)
+        );
+
+        customs.reverse().forEach(curr => newState.splice(curr.oldIndex, 1));
+        customs.forEach(curr => newState.splice(curr.newIndex, 0, curr.item));
+
+        return setList(newState, this.sortable, store);
+      }
+      case "multidrag": {
+        const newOldIndices = evt.oldIndicies.map((curr, index) => ({
+          element: curr.multiDragElement,
+          oldIndex: curr.index,
+          newIndex: evt.newIndicies[index].index
+        }));
+
+        // DOM element management
+        newOldIndices.forEach(curr => removeNode(curr.element));
+        newOldIndices.forEach(curr =>
+          insertNodeAt(evt.from, curr.element, curr.oldIndex)
+        );
 
     const { list, setList } = this.props;
     const newState: T[] = [...list];
-    const [oldItem] = newState.splice(oldIndex!, 1);
-    newState.splice(newIndex!, 0, oldItem);
-    setList(newState, this.sortable, store);
+
+        newOldIndices
+          // remove old items in state, starting from the end.
+          .reverse()
+          .map(curr => ({
+            ...curr,
+            item: newState.splice(curr.oldIndex, 1).pop()
+          }))
+          // insert new items, starting from the front.
+          .reverse()
+          .forEach(curr => {
+            newState.splice(curr.newIndex, 0, curr.item!);
+          });
+        return setList(newState, this.sortable, store);
+      }
+    }
   }
 
   /** Called when the dragging starts */
