@@ -7,12 +7,12 @@ import { AllMethodNames, ReactSortableProps } from "./types";
  */
 export declare function removeNode(node: HTMLElement): void;
 /**
- * @summary Inserts a `newChild` inside the `parent` at index number `position`
- * @param parent
- * @param newChild
- * @param position a number that is not negative
+ * Inserts the `newChild` node at the given index in a parent
+ * @param parent The parent HTML Element.
+ * @param newChild A HTML eement to add as a child of the parent.
+ * @param index index of the parent to place the new child in.
  */
-export declare function insertNodeAt(parent: HTMLElement, newChild: HTMLElement, position: number): void;
+export declare function insertNodeAt(parent: HTMLElement, newChild: HTMLElement, index: number): void;
 /**
  * Removes the following group of properties from `props`,
  * leaving only `Sortable.Options` without any `on` methods.

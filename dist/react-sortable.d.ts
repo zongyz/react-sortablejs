@@ -1,6 +1,6 @@
 import { Component, ReactElement } from "react";
 import Sortable, { Options, SortableEvent } from "sortablejs";
-import { AllMethodsExceptMove, HandledMethodNames, ReactSortableProps, ItemInterface } from "./types";
+import { AllMethodsExceptMove, HandledMethodNames, ItemInterface, ReactSortableProps } from "./types";
 /**
  * React is built for synchornizing data with the browser.
  *
@@ -15,13 +15,7 @@ export declare class ReactSortable<T extends ItemInterface> extends Component<Re
     private getChildren;
     /** Appends the `sortable` property to this component */
     private get sortable();
-    /**  const { plugins } = props;
-      // mount plugins if any
-      if (plugins) {
-        if (plugins instanceof Array) Sortable.mount(...plugins);
-        else Sortable.mount(plugins);
-      }
-    }Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
+    /** Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
     makeOptions(): Options;
     /** Prepares a method that will be used in the sortable options to call an `on[Handler]` prop & an `on[Handler]` ReactSortable method.  */
     prepareOnHandlerPropAndDOM(evtName: HandledMethodNames): (evt: Sortable.SortableEvent) => void;
@@ -34,7 +28,7 @@ export declare class ReactSortable<T extends ItemInterface> extends Component<Re
     /** Called when an element is removed from the list into another list */
     onRemove(evt: SortableEvent): void;
     /** Called when sorting is changed within the same list */
-    onUpdate(evt: SortableEvent): void;
+    onUpdate(evt: MultiDragEvent): void;
     /** Called when the dragging starts */
     onStart(evt: SortableEvent): void;
     /** Called when the dragging ends */
@@ -48,4 +42,14 @@ export declare class ReactSortable<T extends ItemInterface> extends Component<Re
     /** @todo */
     onDeselect(evt: SortableEvent): void;
 }
+interface MultiIndices {
+    multiDragElement: HTMLElement;
+    index: number;
+}
+interface MultiDragEvent extends SortableEvent {
+    oldIndicies: MultiIndices[];
+    newIndicies: MultiIndices[];
+    swapItem: HTMLElement | null;
+}
+export {};
 //# sourceMappingURL=react-sortable.d.ts.map
