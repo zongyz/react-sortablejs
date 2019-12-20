@@ -152,6 +152,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
       // call the component prop
       this.callOnHandlerProp(evt, evtName);
       // calls state change
+      //@ts-ignore - until @types multidrag item is in
       this[evtName](evt);
     };
   }
@@ -187,7 +188,6 @@ export class ReactSortable<T extends ItemInterface> extends Component<
 
   /** Called when an element is removed from the list into another list */
   onRemove(evt: SortableEvent) {
-    //@ts-ignore - pullMode not in types. Request made.
     const { item, from, oldIndex, clone, pullMode } = evt;
     insertNodeAt(from, item, oldIndex!);
     const { list, setList } = this.props;
@@ -330,4 +330,18 @@ export class ReactSortable<T extends ItemInterface> extends Component<
   onDeselect(evt: SortableEvent) {
     // remove the clast name of the child
   }
+}
+
+
+// everything below this point can be removes 
+// once @types has been merged. PR submited
+interface MultiIndices {
+  multiDragElement: HTMLElement;
+  index: number;
+}
+
+interface MultiDragEvent extends SortableEvent {
+  oldIndicies: MultiIndices[];
+  newIndicies: MultiIndices[];
+  swapItem: HTMLElement | null;
 }
