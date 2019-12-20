@@ -42,7 +42,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     const { plugins } = props;
     // mount plugins if any
     if (plugins) {
-      if (plugins instanceof Array) Sortable.mount(...plugins);
+      if (Array.isArray(plugins)) Sortable.mount(...plugins);
       else Sortable.mount(plugins);
     }
   }
