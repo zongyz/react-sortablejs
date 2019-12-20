@@ -106,13 +106,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     return el[key] as Sortable;
   }
 
-  /**  const { plugins } = props;
-    // mount plugins if any
-    if (plugins) {
-      if (plugins instanceof Array) Sortable.mount(...plugins);
-      else Sortable.mount(plugins);
-    }
-  }Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
+  /** Converts all the props from `ReactSortable` into the `options` object that `Sortable.create(el, [options])` can use. */
   makeOptions(): Options {
     const DOMHandlers: HandledMethodNames[] = [
       "onAdd",
