@@ -7,14 +7,14 @@ import {
   ReactElement,
   RefObject
 } from "react";
-import Sortable, { MoveEvent, Options, SortableEvent, Swap } from "sortablejs";
+import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
 import {
   AllMethodsExceptMove,
   HandledMethodNames,
+  ItemInterface,
   ReactSortableProps,
   Store,
-  UnHandledMethodNames,
-  ItemInterface
+  UnHandledMethodNames
 } from "./types";
 import { destructurePropsForOptions, insertNodeAt, removeNode } from "./util";
 
@@ -55,7 +55,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
 
   render() {
     const { tag, style, className, id } = this.props;
-    const classicProps = { style, className,id };
+    const classicProps = { style, className, id };
 
     /** if no tag, default to a `div` element */
     const newTag = !tag || tag === null ? "div" : tag;
@@ -87,7 +87,6 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     if (!children || children == null) return null;
 
     const dataid = dataIdAttr || "data-id";
-    const className = "";
 
     return Children.map(children as ReactElement<any>[], child =>
       cloneElement(child, {
@@ -276,8 +275,8 @@ export class ReactSortable<T extends ItemInterface> extends Component<
           insertNodeAt(evt.from, curr.element, curr.oldIndex)
         );
 
-    const { list, setList } = this.props;
-    const newState: T[] = [...list];
+        const { list, setList } = this.props;
+        const newState: T[] = [...list];
 
         newOldIndices
           // remove old items in state, starting from the end.
@@ -320,7 +319,6 @@ export class ReactSortable<T extends ItemInterface> extends Component<
   /** @todo */
   onSelect(evt: SortableEvent) {
     const { oldIndex, newIndex } = evt;
-    console.log({ oldIndex, newIndex });
     // append the class name the classes of the item
     // do it on the item?
     // a seperate state?
