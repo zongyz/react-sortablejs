@@ -9,6 +9,8 @@ import {
 
 import { ReactSortable } from "./react-sortable";
 
+//@todo: remove dynamic types and create declarative types instead for readability of user.
+// add these in docs as well
 export interface ItemInterface {
   id: string | number;
   selected?: boolean;
