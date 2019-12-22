@@ -17,6 +17,7 @@ import {
   UnHandledMethodNames
 } from "./types";
 import { destructurePropsForOptions, insertNodeAt, removeNode } from "./util";
+import classNames from "classnames";
 
 /** Holds a global reference for which react element is being dragged */
 const store: Store = { dragging: null };
@@ -69,29 +70,49 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     );
   }
 
-  // dev provides the class names and the app will asign them do the dom properly
   private getChildren() {
     const {
       children,
       dataIdAttr,
+      className: prevClassName,
       selectedClass = "sortable-selected",
       chosenClass = "sortable-chosen",
       dragClass = "sortable-drag",
       fallbackClass = "sortable-falback",
       ghostClass = "sortable-ghost",
-      swapClass = "sortable-swap-highlight"
+      swapClass = "sortable-swap-highlight",
+      filter = "sortable-filter",
+      list
     } = this.props;
 
     // if no children, don't do anything.
     if (!children || children == null) return null;
-
     const dataid = dataIdAttr || "data-id";
 
-    return Children.map(children as ReactElement<any>[], child =>
-      cloneElement(child, {
-        [dataid]: child.key
-      })
+    return Children.map(children as ReactElement<any>[], (child, index) => {
+      const item = list[index];
     );
+  }
+      // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
+      const filtered = typeof filter === "string" && {
+        [filter]: !!item.filtered
+      };
+
+      const className = classNames(prevClassName, {
+        [selectedClass]: item.selected,
+        [chosenClass]: item.chosen,
+        ...filtered
+        // [dragClass]: true,
+        // [fallbackClass]: true,
+        // [ghostClass]: true,
+        // [swapClass]: true
+      });
+
+      return cloneElement(child, {
+        [dataid]: child.key,
+        className
+      });
+    });
   }
 
   /** Appends the `sortable` property to this component */
