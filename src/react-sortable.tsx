@@ -31,8 +31,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
   private ref: RefObject<HTMLElement>;
 
   static defaultProps: Partial<ReactSortableProps<any>> = {
-    clone: item => item,
-    selectedClass: "sortable-selected"
+    clone: item => item
   };
 
   constructor(props: ReactSortableProps<T>) {
@@ -75,12 +74,12 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     const {
       children,
       dataIdAttr,
-      selectedClass,
-      chosenClass,
-      dragClass,
-      fallbackClass,
-      ghostClass,
-      swapClass
+      selectedClass = "sortable-selected",
+      chosenClass = "sortable-chosen",
+      dragClass = "sortable-drag",
+      fallbackClass = "sortable-falback",
+      ghostClass = "sortable-ghost",
+      swapClass = "sortable-swap-highlight"
     } = this.props;
 
     // if no children, don't do anything.
