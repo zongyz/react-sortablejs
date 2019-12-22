@@ -39,13 +39,16 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     super(props);
     /** @todo forward ref this component */
     this.ref = createRef<HTMLElement>();
-    const { plugins } = props;
-    // mount plugins if any
-    if (plugins) {
-      if (Array.isArray(plugins)) Sortable.mount(...plugins);
-      else Sortable.mount(plugins);
+    //@ts-ignore
+    if (props.plugins)
+      throw new Error(`
+DO NOT USE THE PLUGINS PROP TO MOUNT PLUGINS!
+
+Instead, mount it with "Sortable.mount(new MultiDrag())"
+
+Please read the updated README.md at https://github.com/SortableJS/react-sortablejs.
+`);
     }
-  }
 
   componentDidMount() {
     if (this.ref.current === null) return;
