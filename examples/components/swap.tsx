@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Swap, ReactSortable, Sortable } from "../../src";
+import { ReactSortable, Sortable, Swap } from "../../src";
 import { Item, threes } from "../util";
 
 Sortable.mount(new Swap());
