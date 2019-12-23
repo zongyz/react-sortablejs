@@ -243,12 +243,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   /** Called when sorting is changed within the same list */
   onUpdate(evt: MultiDragEvent) {
-    const mode = (() => {
-      if (evt.oldIndicies.length > 0) return "multidrag";
-      if (evt.swapItem) return "swap";
-      return "normal";
-    })();
-
+    const mode = getMode(evt);
     switch (mode) {
       case "normal": {
         removeNode(evt.item);

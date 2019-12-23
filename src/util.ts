@@ -25,9 +25,12 @@ export function insertNodeAt(
   parent.insertBefore(newChild, refChild);
 }
 
-// todo:
-// add `onSpilled` and other functions, if any, to this exclusion list
-// they must also be handled by `ReactSortable.makeOptions`
+
+export function getMode(evt: MultiDragEvent) {
+  if (evt.oldIndicies.length > 0) return "multidrag";
+  if (evt.swapItem) return "swap";
+  return "normal";
+}
 /**
  * Removes the following group of properties from `props`,
  * leaving only `Sortable.Options` without any `on` methods.
