@@ -1,16 +1,13 @@
 import React, { ReactElement } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import * as Examples from "./components";
-//@ts-ignore
-// import Banner from "../react-sortablejs.png";
+import b from "json-beautify";
+
 const components = Object.entries(Examples);
 
 function Contents() {
   return (
     <Wrapper>
-      <StyledImage>
-        {/* <img src={Banner} /> */}
-      </StyledImage>
       <Grid>
         {components.map(([name, Component], index) => (
           <Container key={index}>
@@ -24,6 +21,17 @@ function Contents() {
     </Wrapper>
   );
 }
+
+const Code = styled.pre`
+  display: block;
+  background-color: #0003;
+  padding: 1rem;
+  font-size: 0.7rem;
+  border-radius: 0.25rem;
+  word-wrap: break-word;
+  overflow: default;
+  text-overflow: default;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,7 +64,7 @@ const Grid = styled.div`
   display: grid;
   padding: 1rem;
   background-color: #eee;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   gap: 1rem;
   animation: ease 200ms;
   @media (max-width: 600px) {
