@@ -1,6 +1,8 @@
+import classNames from 'classnames';
 import { createElement, Children, cloneElement, createRef, Component } from 'react';
-import Sortable$1 from 'sortablejs';
-export { MultiDrag, Swap } from 'sortablejs';
+import Sortable from 'sortablejs';
+export { MultiDrag, default as Sortable, Swap } from 'sortablejs';
+import invariant from 'tiny-invariant';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -95,9 +97,72 @@ function insertNodeAt(parent, newChild, index) {
     var refChild = parent.children[index] || null;
     parent.insertBefore(newChild, refChild);
 }
-// todo:
-// add `onSpilled` and other functions, if any, to this exclusion list
-// they must also be handled by `ReactSortable.makeOptions`
+function removeNodes(customs) {
+    customs.forEach(function (curr) { return removeNode(curr.element); });
+}
+function insertNodes(customs) {
+    customs.forEach(function (curr) {
+        insertNodeAt(curr.parentElement, curr.element, curr.oldIndex);
+    });
+}
+function createCustoms(evt, list) {
+    var mode = getMode(evt);
+    var parentElement = { parentElement: evt.from };
+    var custom = [];
+    switch (mode) {
+        case "normal":
+            var item = {
+                element: evt.item,
+                newIndex: evt.newIndex,
+                oldIndex: evt.oldIndex,
+                parentElement: evt.from
+            };
+            custom = [item];
+            break;
+        case "swap":
+            var drag = __assign({ element: evt.item, oldIndex: evt.oldIndex, newIndex: evt.newIndex }, parentElement);
+            var swap = __assign({ element: evt.swapItem, oldIndex: evt.newIndex, newIndex: evt.oldIndex }, parentElement);
+            custom = [drag, swap];
+            break;
+        case "multidrag":
+            custom = evt.oldIndicies.map(function (curr, index) { return (__assign({ element: curr.multiDragElement, oldIndex: curr.index, newIndex: evt.newIndicies[index].index }, parentElement)); });
+            break;
+    }
+    var customs = createNormalized(custom, list);
+    return customs;
+}
+/** moves items form old index to new index without breaking anything ideally. */
+function handleStateChanges(normalized, list) {
+    var a = handleStateRemove(normalized, list);
+    var b = handleStateAdd(normalized, a);
+    return b;
+}
+function handleStateRemove(normalized, list) {
+    var newList = __spread(list);
+    normalized
+        .concat()
+        .reverse()
+        .forEach(function (curr) { return newList.splice(curr.oldIndex, 1); });
+    return newList;
+}
+function handleStateAdd(normalized, list) {
+    var newList = __spread(list);
+    normalized.forEach(function (curr) { return newList.splice(curr.newIndex, 0, curr.item); });
+    return newList;
+}
+function getMode(evt) {
+    if (evt.oldIndicies.length > 0)
+        return "multidrag";
+    if (evt.swapItem)
+        return "swap";
+    return "normal";
+}
+function createNormalized(inputs, list) {
+    var normalized = inputs
+        .map(function (curr) { return (__assign(__assign({}, curr), { item: list[curr.oldIndex] })); })
+        .sort(function (a, b) { return a.oldIndex - b.oldIndex; });
+    return normalized;
+}
 /**
  * Removes the following group of properties from `props`,
  * leaving only `Sortable.Options` without any `on` methods.
@@ -113,55 +178,60 @@ function destructurePropsForOptions(props) {
 }
 
 /** Holds a global reference for which react element is being dragged */
+// @todo - use context to manage this. How does one use 2 different providers?
 var store = { dragging: null };
-/**
- * React is built for synchornizing data with the browser.
- *
- * Data should be an object.
- */
 var ReactSortable = /** @class */ (function (_super) {
     __extends(ReactSortable, _super);
     function ReactSortable(props) {
         var _this = _super.call(this, props) || this;
-        /** @todo forward ref this component */
+        // @todo forward ref this component
         _this.ref = createRef();
-        var plugins = props.plugins;
-        // mount plugins if any
-        if (plugins) {
-            if (Array.isArray(plugins))
-                Sortable$1.mount.apply(Sortable$1, __spread(plugins));
-            else
-                Sortable$1.mount(plugins);
-        }
+        // make all state false because we can't change sortable unless a mouse gesture is made.
+        var newList = __spread(props.list).map(function (item) { return (__assign(__assign({}, item), { chosen: false, selected: false })); });
+        props.setList(newList, _this.sortable, store);
+        invariant(
+        //@ts-ignore
+        !props.plugins, "\nPlugins prop is no longer supported.\nInstead, mount it with \"Sortable.mount(new MultiDrag())\"\nPlease read the updated README.md at https://github.com/SortableJS/react-sortablejs.\n      ");
         return _this;
     }
     ReactSortable.prototype.componentDidMount = function () {
         if (this.ref.current === null)
             return;
         var newOptions = this.makeOptions();
-        Sortable$1.create(this.ref.current, newOptions);
+        Sortable.create(this.ref.current, newOptions);
     };
     ReactSortable.prototype.render = function () {
         var _a = this.props, tag = _a.tag, style = _a.style, className = _a.className, id = _a.id;
         var classicProps = { style: style, className: className, id: id };
-        /** if no tag, default to a `div` element */
+        // if no tag, default to a `div` element.
         var newTag = !tag || tag === null ? "div" : tag;
         return createElement(newTag, __assign({ 
-            /** @todo find a way (perhaps with the callback) to allow AntD components to work */
+            // @todo - find a way (perhaps with the callback) to allow AntD components to work
             ref: this.ref }, classicProps), this.getChildren());
     };
-    // dev provides the class names and the app will asign them do the dom properly
     ReactSortable.prototype.getChildren = function () {
-        var _a = this.props, children = _a.children, dataIdAttr = _a.dataIdAttr, selectedClass = _a.selectedClass, chosenClass = _a.chosenClass, dragClass = _a.dragClass, fallbackClass = _a.fallbackClass, ghostClass = _a.ghostClass, swapClass = _a.swapClass;
+        var _a = this.props, children = _a.children, dataIdAttr = _a.dataIdAttr, prevClassName = _a.className, _b = _a.selectedClass, selectedClass = _b === void 0 ? "sortable-selected" : _b, _c = _a.chosenClass, chosenClass = _c === void 0 ? "sortable-chosen" : _c, _d = _a.dragClass, _e = _a.fallbackClass, _f = _a.ghostClass, _g = _a.swapClass, _h = _a.filter, filter = _h === void 0 ? "sortable-filter" : _h, list = _a.list;
         // if no children, don't do anything.
         if (!children || children == null)
             return null;
         var dataid = dataIdAttr || "data-id";
-        return Children.map(children, function (child) {
-            var _a;
-            return cloneElement(child, (_a = {},
-                _a[dataid] = child.key,
-                _a));
+        return Children.map(children, function (child, index) {
+            var _a, _b, _c;
+            var item = list[index];
+            // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
+            var filtered = typeof filter === "string" && (_a = {},
+                _a[filter.replace(".", "")] = !!item.filtered,
+                _a);
+            var className = classNames(prevClassName, __assign((_b = {}, _b[selectedClass] = item.selected, _b[chosenClass] = item.chosen, _b), filtered
+            // [dragClass]: true,
+            // [fallbackClass]: true,
+            // [ghostClass]: true,
+            // [swapClass]: true
+            ));
+            return cloneElement(child, (_c = {},
+                _c[dataid] = child.key,
+                _c.className = className,
+                _c));
         });
     };
     Object.defineProperty(ReactSortable.prototype, "sortable", {
@@ -184,19 +254,21 @@ var ReactSortable = /** @class */ (function (_super) {
         var _this = this;
         var DOMHandlers = [
             "onAdd",
-            "onUpdate",
-            "onRemove",
-            "onStart",
+            "onChoose",
+            "onDeselect",
             "onEnd",
+            "onRemove",
+            "onSelect",
             "onSpill",
-            "onClone"
+            "onStart",
+            "onUnchoose",
+            "onUpdate"
         ];
         var NonDOMHandlers = [
-            "onUnchoose",
-            "onChoose",
+            "onChange",
+            "onClone",
             "onFilter",
-            "onSort",
-            "onChange"
+            "onSort"
         ];
         var newOptions = destructurePropsForOptions(this.props);
         DOMHandlers.forEach(function (name) { return (newOptions[name] = _this.prepareOnHandlerPropAndDOM(name)); });
@@ -237,145 +309,106 @@ var ReactSortable = /** @class */ (function (_super) {
             propEvent(evt, this.sortable, store);
     };
     // SORTABLE DOM HANDLING
-    /** Called when an element is dropped into the list from another list */
     ReactSortable.prototype.onAdd = function (evt) {
         var _a = this.props, list = _a.list, setList = _a.setList;
-        removeNode(evt.item);
-        var newState = __spread(list);
-        var newItem = store.dragging.props.list[evt.oldIndex];
-        newState.splice(evt.newIndex, 0, newItem);
-        setList(newState, this.sortable, store);
+        var otherList = __spread(store.dragging.props.list);
+        var customs = createCustoms(evt, otherList);
+        removeNodes(customs);
+        var newList = handleStateAdd(customs, list);
+        setList(newList, this.sortable, store);
     };
-    /** Called when an element is removed from the list into another list */
     ReactSortable.prototype.onRemove = function (evt) {
-        var item = evt.item, from = evt.from, oldIndex = evt.oldIndex, clone = evt.clone, pullMode = evt.pullMode;
-        insertNodeAt(from, item, oldIndex);
+        var _this = this;
         var _a = this.props, list = _a.list, setList = _a.setList;
-        var newState = __spread(list);
-        if (pullMode === "clone") {
-            removeNode(clone);
-            var _b = __read(newState.splice(oldIndex, 1), 1), oldItem = _b[0];
-            var newItem = this.props.clone(oldItem, evt);
-            newState.splice(oldIndex, 0, newItem);
-            setList(newState, this.sortable, store);
-            return;
+        var mode = getMode(evt);
+        var customs = createCustoms(evt, list);
+        insertNodes(customs);
+        var newList = __spread(list);
+        // remove state if not in clone mode. otherwise, keep.
+        if (evt.pullMode !== "clone")
+            newList = handleStateRemove(customs, newList);
+        // if clone, it doesn't really remove. instead it clones in place.
+        // @todo -
+        else {
+            // switch used to get the clone
+            var customClones = customs;
+            switch (mode) {
+                case "multidrag":
+                    customClones = customs.map(function (item, index) { return (__assign(__assign({}, item), { element: evt.clones[index] })); });
+                    break;
+                case "normal":
+                    customClones = customs.map(function (item, index) { return (__assign(__assign({}, item), { element: evt.clone })); });
+                    break;
+                case "swap":
+                default: {
+                    invariant(true, "mode \"" + mode + "\" cannot clone. Please remove \"props.clone\" from <ReactSortable/> when using the \"" + mode + "\" plugin");
+                }
+            }
+            removeNodes(customClones);
+            // replace selected items with cloned items
+            customs.forEach(function (curr) {
+                var index = curr.oldIndex;
+                var newItem = _this.props.clone(curr.item, evt);
+                newList.splice(index, 1, newItem);
+            });
         }
-        newState.splice(oldIndex, 1);
-        setList(newState, this.sortable, store);
+        // remove item.selected from list
+        newList = newList.map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
+        setList(newList, this.sortable, store);
     };
-    /** Called when sorting is changed within the same list */
     ReactSortable.prototype.onUpdate = function (evt) {
-        var mode = (function () {
-            if (evt.oldIndicies.length > 0)
-                return "multidrag";
-            if (evt.swapItem)
-                return "swap";
-            return "normal";
-        })();
-        switch (mode) {
-            case "normal": {
-                removeNode(evt.item);
-                insertNodeAt(evt.from, evt.item, evt.oldIndex);
-                var _a = this.props, list = _a.list, setList = _a.setList;
-                var newState = __spread(list);
-                var _b = __read(newState.splice(evt.oldIndex, 1), 1), oldItem = _b[0];
-                newState.splice(evt.newIndex, 0, oldItem);
-                return setList(newState, this.sortable, store);
-            }
-            case "swap": {
-                // item that was dragged
-                removeNode(evt.item);
-                insertNodeAt(evt.from, evt.item, evt.oldIndex);
-                // item that was landed on for the swap
-                removeNode(evt.swapItem);
-                insertNodeAt(evt.from, evt.swapItem, evt.newIndex);
-                var _c = this.props, list = _c.list, setList = _c.setList;
-                var newState_1 = __spread(list);
-                var customs = [
-                    {
-                        element: evt.item,
-                        oldIndex: evt.oldIndex,
-                        newIndex: evt.newIndex
-                    },
-                    {
-                        element: evt.swapItem,
-                        oldIndex: evt.newIndex,
-                        newIndex: evt.oldIndex
-                    }
-                ]
-                    .map(function (curr) { return (__assign(__assign({}, curr), { item: newState_1[curr.oldIndex] })); })
-                    .sort(function (a, b) { return a.oldIndex - b.oldIndex; });
-                // DOM element management
-                customs.forEach(function (curr) { return removeNode(curr.element); });
-                customs.forEach(function (curr) {
-                    return insertNodeAt(evt.from, curr.element, curr.oldIndex);
-                });
-                customs.reverse().forEach(function (curr) { return newState_1.splice(curr.oldIndex, 1); });
-                customs.forEach(function (curr) { return newState_1.splice(curr.newIndex, 0, curr.item); });
-                return setList(newState_1, this.sortable, store);
-            }
-            case "multidrag": {
-                var newOldIndices = evt.oldIndicies.map(function (curr, index) { return ({
-                    element: curr.multiDragElement,
-                    oldIndex: curr.index,
-                    newIndex: evt.newIndicies[index].index
-                }); });
-                // DOM element management
-                newOldIndices.forEach(function (curr) { return removeNode(curr.element); });
-                newOldIndices.forEach(function (curr) {
-                    return insertNodeAt(evt.from, curr.element, curr.oldIndex);
-                });
-                var _d = this.props, list = _d.list, setList = _d.setList;
-                var newState_2 = __spread(list);
-                newOldIndices
-                    // remove old items in state, starting from the end.
-                    .reverse()
-                    .map(function (curr) { return (__assign(__assign({}, curr), { item: newState_2.splice(curr.oldIndex, 1).pop() })); })
-                    // insert new items, starting from the front.
-                    .reverse()
-                    .forEach(function (curr) {
-                    newState_2.splice(curr.newIndex, 0, curr.item);
-                });
-                return setList(newState_2, this.sortable, store);
-            }
-        }
+        var _a = this.props, list = _a.list, setList = _a.setList;
+        var customs = createCustoms(evt, list);
+        removeNodes(customs);
+        insertNodes(customs);
+        var newList = handleStateChanges(customs, list);
+        return setList(newList, this.sortable, store);
     };
-    /** Called when the dragging starts */
     ReactSortable.prototype.onStart = function (evt) {
         store.dragging = this;
     };
-    /** Called when the dragging ends */
     ReactSortable.prototype.onEnd = function (evt) {
         store.dragging = null;
     };
-    /** Called when the `onSpill` plugin is activated */
+    ReactSortable.prototype.onChoose = function (evt) {
+        var _a = this.props, list = _a.list, setList = _a.setList;
+        var newList = __spread(list);
+        newList[evt.oldIndex].chosen = true;
+        setList(newList, this.sortable, store);
+    };
+    ReactSortable.prototype.onUnchoose = function (evt) {
+        var _a = this.props, list = _a.list, setList = _a.setList;
+        var newList = __spread(list);
+        newList[evt.oldIndex].chosen = false;
+        setList(newList, this.sortable, store);
+    };
     ReactSortable.prototype.onSpill = function (evt) {
         var _a = this.props, removeOnSpill = _a.removeOnSpill, revertOnSpill = _a.revertOnSpill;
         if (removeOnSpill && !revertOnSpill)
             removeNode(evt.item);
     };
-    /** Called when a clone is made. It replaces an element in with a function */
-    ReactSortable.prototype.onClone = function (evt) {
-        // are we in the same list? if so, do nothing
-    };
-    /** @todo */
     ReactSortable.prototype.onSelect = function (evt) {
-        var oldIndex = evt.oldIndex, newIndex = evt.newIndex;
-        // append the class name the classes of the item
-        // do it on the item?
-        // a seperate state?
+        var _a = this.props, list = _a.list, setList = _a.setList;
+        var newList = __spread(list).map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
+        evt.newIndicies.forEach(function (curr) {
+            var index = curr.index;
+            newList[index].selected = true;
+        });
+        setList(newList, this.sortable, store);
     };
-    /** @todo */
     ReactSortable.prototype.onDeselect = function (evt) {
-        // remove the clast name of the child
+        var _a = this.props, list = _a.list, setList = _a.setList;
+        var newList = __spread(list).map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
+        evt.oldIndicies.forEach(function (curr) {
+            var index = curr.index;
+            newList[index].selected = true;
+        });
+        setList(newList, this.sortable, store);
     };
     ReactSortable.defaultProps = {
-        clone: function (item) { return item; },
-        selectedClass: "sortable-selected"
+        clone: function (item) { return item; }
     };
     return ReactSortable;
 }(Component));
 
-var Sortable = Sortable$1;
-
-export { ReactSortable, Sortable };
+export { ReactSortable };
