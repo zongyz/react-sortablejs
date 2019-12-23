@@ -1,15 +1,13 @@
-import Sortable, { SortableEvent, Options, MoveEvent } from "sortablejs";
-
 import {
+  CSSProperties,
   ForwardRefExoticComponent,
-  RefAttributes,
   ReactHTML,
-  CSSProperties
+  RefAttributes
 } from "react";
-
+import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
 import { ReactSortable } from "./react-sortable";
 
-//@todo: remove dynamic types and create declarative types instead for readability of user.
+// @todo: remove dynamic types and create declarative types instead for readability of user.
 // add these in docs as well
 export interface ItemInterface {
   /** The unique id associated with your item. It's recommended this is the same as the key prop for your list item. */
@@ -23,7 +21,9 @@ export interface ItemInterface {
   [property: string]: any;
 }
 
-export interface ReactSortableProps<T> extends ReactSortableOptions {
+export interface ReactSortableProps<T>
+  extends ReactSortableOptions,
+    Omit<Options, AllMethodNames> {
   /**
    * The list of items to use.
    */
@@ -41,14 +41,6 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
    * forwardRef<HTMLElement, YOURPROPS>((props, ref) => <button {...props} ref={ref} />)
    */
   tag?: ForwardRefExoticComponent<RefAttributes<any>> | keyof ReactHTML;
-  style?: CSSProperties;
-  className?: string;
-  id?: string;
-  /**
-   * Parse the plugins you'd like to use in Sortable.
-   */
-  // @ts-ignore - pull request created for @types
-  plugins?: Sortable.Plugin | Array<Sortable.Plugin>;
   /**
    * If this is provided, the function will replace the clone in place.
    *
@@ -57,11 +49,16 @@ export interface ReactSortableProps<T> extends ReactSortableOptions {
    * and the new clone will be placed in `A`
    */
   clone?: (currentItem: T, evt: SortableEvent) => T;
+
+  // other classic DOM attributes.
+  style?: CSSProperties;
+  className?: string;
+  id?: string;
 }
 
 /**
  * Holds the react component as a reference so we can access it's store.
- * 
+ *
  * Mainly used to access `props.list` within another components.
  */
 export interface Store {
@@ -72,33 +69,30 @@ export interface Store {
 // TYPES FOR METHODS
 //
 
-// OPTIONS
-
 /**
  * Change the `on[...]` methods in Sortable.Options,
  * so that they all have an extra arg that is `store: Store`
  */
-export type ReactSortableOptions = Omit<Options, AllMethodNames> &
-  Partial<
-    Record<
-      AllMethodsExceptMove,
-      (evt: SortableEvent, sortable: Sortable | null, store: Store) => void
-    >
-  > & {
-    /**
-     * The default sortable behaviour has been changed.
-     *
-     * If the return value is void, then the defaults will kick in.
-     * it saves the user trying to figure it out.
-     * and they can just use onmove as a callback value
-     */
-    onMove?: (
-      evt: MoveEvent,
-      originalEvent: Event,
-      sortable: Sortable | null,
-      store: Store
-    ) => boolean | -1 | 1 | void;
-  };
+export type ReactSortableOptions = Partial<
+  Record<
+    AllMethodsExceptMove,
+    (evt: SortableEvent, sortable: Sortable | null, store: Store) => void
+  >
+> & {
+  /**
+   * The default sortable behaviour has been changed.
+   *
+   * If the return value is void, then the defaults will kick in.
+   * it saves the user trying to figure it out.
+   * and they can just use onmove as a callback value
+   */
+  onMove?: (
+    evt: MoveEvent,
+    originalEvent: Event,
+    sortable: Sortable | null,
+    store: Store
+  ) => boolean | -1 | 1 | void;
+};
 
 // STRINGS
 
@@ -131,7 +125,7 @@ export type HandledMethodNames =
   | "onSelect"
   | "onDeselect"
   | "onChoose"
-  | "onUnchoose"
+  | "onUnchoose";
 
 export type UnHandledMethodNames = Exclude<
   AllMethodsExceptMove,
