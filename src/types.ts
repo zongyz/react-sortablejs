@@ -12,9 +12,13 @@ import { ReactSortable } from "./react-sortable";
 //@todo: remove dynamic types and create declarative types instead for readability of user.
 // add these in docs as well
 export interface ItemInterface {
+  /** The unique id associated with your item. It's recommended this is the same as the key prop for your list item. */
   id: string | number;
+  /** When true, the item is selected using MultiDrag */
   selected?: boolean;
+  /** When true, the item is deemed "chosen", which basically just a mousedown event. */
   chosen?: boolean;
+  /** When true, it will not be possible to pick this item up in the list. */
   filtered?: boolean;
   [property: string]: any;
 }
