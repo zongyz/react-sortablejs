@@ -63,7 +63,7 @@ Instead, mount it with "Sortable.mount(new MultiDrag())"
 
 Please read the updated README.md at https://github.com/SortableJS/react-sortablejs.
 `);
-    }
+  }
 
   componentDidMount() {
     if (this.ref.current === null) return;
@@ -249,9 +249,9 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     switch (mode) {
       case "normal":
         const item = {
-            element: evt.item,
+          element: evt.item,
           newIndex: evt.newIndex!,
-            oldIndex: evt.oldIndex!,
+          oldIndex: evt.oldIndex!,
           parentElement: evt.from
         };
         custom = [item];
@@ -264,8 +264,8 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
           ...parentElement
         };
         const swap: Input = {
-            element: evt.swapItem!,
-            oldIndex: evt.newIndex!,
+          element: evt.swapItem!,
+          oldIndex: evt.newIndex!,
           newIndex: evt.oldIndex!,
           ...parentElement
         };
@@ -280,7 +280,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
         }));
         break;
     }
-        const { list, setList } = this.props;
+    const { list, setList } = this.props;
     const customs = createNormalized(custom, list);
     handleDOMChanges(customs);
     const newList = handleStateChanges(customs, list);
@@ -303,7 +303,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     newList[evt.oldIndex!].chosen = true;
     setList(newList, this.sortable, store);
   }
-  
+
   onUnchoose(evt: SortableEvent) {
     const { list, setList } = this.props;
     const newList = [...list];
@@ -332,7 +332,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   }
 }
 
-// everything below this point can be removes 
+// everything below this point can be removes
 // once @types has been merged. PR submited
 interface MultiIndices {
   multiDragElement: HTMLElement;
