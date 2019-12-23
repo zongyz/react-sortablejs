@@ -110,7 +110,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
       // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
       const filtered = typeof filter === "string" && {
-        [filter]: !!item.filtered
+        [filter.replace(".", "")]: !!item.filtered
       };
 
       const className = classNames(prevClassName, {
