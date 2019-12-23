@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { MultiDrag, ReactSortable, Sortable } from "../../src";
-import { Item, threes } from "../util";
+import { Item, threes, createId } from "../util";
 
-Sortable.mount(new MultiDrag())
+Sortable.mount(new MultiDrag());
 
 export function MultiDragExample() {
   const [list, setList] = useState(threes);
@@ -16,13 +16,14 @@ export function MultiDragExample() {
         list={list}
         setList={setList}
         animation={150}
-        group="shrek"
+        group={{ name: "shrek", pull: "clone" }}
+        clone={item => ({ ...item, id: createId() })}
       >
         {list.map(item => (
           <MultiDragItem key={item.id}>{item.name}</MultiDragItem>
         ))}
       </ReactSortable>
-      <ReactSortable  
+      <ReactSortable
         multiDrag
         list={list1}
         setList={setList1}
@@ -38,7 +39,7 @@ export function MultiDragExample() {
 }
 
 const Column = styled.div`
-   display: flex;
+  display: flex;
   width: inherit;
   & > * {
     width: 100%;
