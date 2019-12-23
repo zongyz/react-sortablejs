@@ -45,11 +45,28 @@ export function handleStateChanges<T extends ItemInterface>(
   normalized: Normalized<T>[],
   list: T[]
 ): T[] {
+  const a = handleStateRemove(normalized, list);
+  const b = handleStateAdd(normalized, a);
+  return b;
+}
+
+export function handleStateRemove<T extends ItemInterface>(
+  normalized: Normalized<T>[],
+  list: T[]
+): T[] {
   const newList = [...list];
   normalized
     .concat()
     .reverse()
     .forEach(curr => newList.splice(curr.oldIndex, 1));
+  return newList;
+}
+
+export function handleStateAdd<T extends ItemInterface>(
+  normalized: Normalized<T>[],
+  list: T[]
+): T[] {
+  const newList = [...list];
   normalized.forEach(curr => newList.splice(curr.newIndex, 0, curr.item));
   return newList;
 }
