@@ -321,15 +321,21 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   onSelect(evt: SortableEvent) {
     const { list, setList } = this.props;
-    const newList = [...list];
-    newList[evt.oldIndex!].selected = true;
+    const newList = [...list].map(item => ({ ...item, selected: false }));
+    (evt as MultiDragEvent).newIndicies.forEach(curr => {
+      const index = curr.index;
+      newList[index].selected = true;
+    });
     setList(newList, this.sortable, store);
   }
 
   onDeselect(evt: SortableEvent) {
     const { list, setList } = this.props;
-    const newList = [...list];
-    newList[evt.oldIndex!].selected = false;
+    const newList = [...list].map(item => ({ ...item, selected: false }));
+    (evt as MultiDragEvent).newIndicies.forEach(curr => {
+      const index = curr.index;
+      newList[index].selected = true;
+    });
     setList(newList, this.sortable, store);
   }
 }
