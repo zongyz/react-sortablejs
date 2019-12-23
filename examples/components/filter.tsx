@@ -3,15 +3,9 @@ import { ReactSortable, ItemInterface } from "../../src";
 import { Item, threes } from "../util";
 import styled from "styled-components";
 
-function createState() {
-  return threes().map((item, index) => ({
-    ...item,
-    filter: index === 2
-  })) as ItemInterface[];
-}
 
 export function Filter() {
-  const [list, setList] = useState(createState);
+  const [list, setList] = useState(threes);
   return (
     <ReactSortable
       filter=".filter"
@@ -20,7 +14,7 @@ export function Filter() {
       animation={150}
     >
       {list.map(item => (
-        <CustomItem className={item.filter ? "filter" : ""} key={item.id}>
+        <CustomItem key={item.id}>
           {item.name}
         </CustomItem>
       ))}

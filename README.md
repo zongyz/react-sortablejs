@@ -8,11 +8,14 @@ Consider trying it out if you had any troubles earlier.
 
 ## Things still to do.
 
-We've released version 2.0,
+We've released version 2.0 but there are still some things to do. We needed public feedback and a major release was the easiest way to get it.
 
 - [x] Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
-- [ ] Create all tests for examples (for 'ron)
-  - Currently weve got a few.
+- [ ] Examples with code underneath.
+- [ ] List Props in readme.
+- [ ] Allow React to manage class names. Halfway there.
+- [x] Write docs for plugins
+- [ ] Create all tests for examples (for 'ron). Started
 - [ ] Test the following UI component libraries:
   - [x] Styled Components
   - [ ] AntD
@@ -21,6 +24,40 @@ We've released version 2.0,
   - [ ] React Grommet
   - [ ] React Toolbox
   - [ ] Your suggestion? :)
+
+
+## Table of Contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Features](#features)
+  - [SortableJS](#sortablejs)
+  - [Component Specific](#component-specific)
+- [Installation](#installation)
+- [Learn](#learn)
+- [Usage/Examples](#usageexamples)
+  - [Function Component](#function-component)
+  - [Class Component](#class-component)
+- [Plugins](#plugins)
+- [Sortable API](#sortable-api)
+- [React API](#react-api)
+  - [id, className, style](#id-classname-style)
+  - [list](#list)
+  - [setList](#setlist)
+  - [clone](#clone)
+  - [tag](#tag)
+    - [HTML Element](#html-element)
+    - [Custom Component](#custom-component)
+- [How does it work?](#how-does-it-work)
+- [Caveats / Gotchas](#caveats--gotchas)
+  - [`key !== index`](#key--index)
+  - [Nesting](#nesting)
+    - [Problem](#problem)
+    - [What does work?](#what-does-work)
+    - [Solutions](#solutions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Features
 
@@ -43,16 +80,23 @@ If you find any features lacking, create an issue and/or pull request.
 ## Installation
 
 ```shell
-npm install --save react-sortablejs-typescript
+npm install --save react-sortablejs
 # OR
-yarn add react-sortablejs-typescript
+yarn add react-sortablejs
 ```
 
-## What you should endeavour to know.
+Please note that `sortablejs` is not required, as it's bundled in this component.
 
-- Explore the [Sortable Options API](https://github.com/SortableJS/Sortable#options)
-- Array.map
-- React.forwardRef
+## Learn
+
+Here is the TLDR of what sortable is:
+
+```md
+- Shopping List: # list of items / sortable. This represents `react-sortablejs`
+  - eggs # list item. These are all the items in the list and is what you move around.
+  - bread # list item
+  - milk # list item
+```
 
 ## Usage/Examples
 
@@ -112,7 +156,123 @@ export class BasicClass extends Component<{}, BasicClassState> {
 }
 ```
 
-### ReactSortable renders a `div` as the parent by default.
+## Plugins
+
+Sortable has some pretty cool pplugins such as MultiDrag and Swap.
+
+By Default:
+
+- AutoScroll is premounted and enabled.
+- OnSpill is premounted and NOT enabled.
+- MultiDrag and Swap and NOT premounted and NOT enabled
+
+You must mount mount the plugin with sortable **ONCE ONLY**.
+
+```tsx
+import React from "react";
+import { ReactSortable, Sortable, MultiDrag, Swap } from "react-sortablejs";
+
+// mount whatever plugins you'd like to. These are the only current options.
+Sortable.mount(new MultiDrag(), new Swap());
+
+const App = () => {
+  const [state, setState] = useState([
+    { id: 1, name: "shrek" },
+    { id: 2, name: "fiona" }
+  ]);
+
+  return (
+    <ReactSortable
+      multiDrag // enables mutidrag
+      // OR
+      swap // enables swap
+    >
+      {state.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+    </ReactSortable>
+  );
+};
+```
+
+## Sortable API
+
+For a comprehensive list of options, please visit https://github.com/SortableJS/Sortable#options.
+
+Those options are applied as follows.
+
+```tsx
+Sortable.create(element, {
+  group: " groupName",
+  animation: 200,
+  delayOnTouchStart: true,
+  delay: 2
+});
+
+// --------------------------
+// Will now be..
+// --------------------------
+
+import React from "react";
+import { ReactSortable } from "react-sortablejs";
+
+const App = () => {
+  const [state, setState] = useState([
+    { id: 1, name: "shrek" },
+    { id: 2, name: "fiona" }
+  ]);
+
+  return (
+    <ReactSortable
+      // here they are!
+      group="groupName"
+      animation={200}
+      delayOnTouchStart={true}
+      delay={2}
+    >
+      {state.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+    </ReactSortable>
+  );
+};
+```
+
+## React API
+
+### id, className, style
+
+Thes are all defaults DOM attributes. Nothing special here.
+
+### list
+
+The same as `state` in `const [ state, setState] = useState([{ id: 1}, {id: 2}])`
+
+`state` must be an array of items, with each item being an object that has the following shape:
+
+```ts
+  /** The unique id associated with your item. It's recommended this is the same as the key prop for your list item. */
+  id: string | number;
+  /** When true, the item is selected using MultiDrag */
+  selected?: boolean;
+  /** When true, the item is deemed "chosen", which basically just a mousedown event. */
+  chosen?: boolean;
+  /** When true, it will not be possible to pick this item up in the list. */
+  filtered?: boolean;
+  [property: string]: any;
+```
+
+### setList
+
+The same as `setState` in `const [ state, setState] = useState([{ id: 1}, {id: 2}])`
+
+### clone
+
+If you're using `{group: { name: 'groupName', pull: 'clone'}}`, this means your in 'clone' mode. You should provide a function for this.
+
+Check out the source code of the clone example for more information. I'll write it here soon.
+
+### tag
 
 ReactSortable is a `div` element by default. This can be changed to be any HTML element (for example `ul`, `ol`)
 or can be a React component.
@@ -130,18 +290,13 @@ Just add the string and ReactSortable will use a `li` instead of a `div`.
 import React, { FC, useState, forwardRef } from "react";
 import { ReactSortable } from "react-sortablejs-typescript";
 
-interface ItemType {
-  id: string;
-  name: string;
-}
-
 export const BasicFunction: FC = props => {
-  const [state, setState] = useState<ItemType[]>([{ id: "1", name: "shrek" }]);
+  const [state, setState] = useState([{ id: "1", name: "shrek" }]);
 
   return (
     <ReactSortable tag="ul" list={state} setList={setState}>
       {state.map(item => (
-        <div key={item.id}>{item.name}</div>
+        <li key={item.id}>{item.name}</li>
       ))}
     </ReactSortable>
   );
@@ -151,15 +306,9 @@ export const BasicFunction: FC = props => {
 #### Custom Component
 
 When using a custom component in the `tag` prop, the only component it allows is a `forwardRef` component.
-
-#### Solution
+Currently we only support components who use the `React.forwardRef` API.
 
 If it doesn't have one, you can add one using `React.forwardRef()`.
-This fantastic API allows the ref to be visible when creating components.
-
-Use this when third party UI libraries.
-
-**NOTE:** You may experience inconsistencies with this until we launch the proper version.
 
 > todo: Some third party UI components may have nested elements to create the look they're after.
 > This could be an issue and not sure how to fix.
@@ -168,18 +317,13 @@ Use this when third party UI libraries.
 import React, { FC, useState, forwardRef } from "react";
 import { ReactSortable } from "react-sortablejs-typescript";
 
-interface ItemType {
-  id: string;
-  name: string;
-}
-
-// This is just like a normal component, but the
+// This is just like a normal component, but now has a ref.
 const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => {
   return <div ref={ref}>{props.children}</div>;
 });
 
 export const BasicFunction: FC = props => {
-  const [state, setState] = useState<ItemType[]>([
+  const [state, setState] = useState([
     { id: 1, name: "shrek" },
     { id: 2, name: "fiona" }
   ]);
@@ -208,77 +352,6 @@ DO NOT use the index as a key for your list items. Sorting will not work.
 In all the examples above, I used an object with an ID. You should do the same!
 
 I may even enforce this into the design to eliminate errors.
-
-### `setState()`
-
-#### Problem
-
-`setState` takes one argument only. If we look in the type defs, it does say that it has a second argument, but it is already deprecated. ReactSortable passes three arguments to `setState`.
-
-If you pass the `setState` straight from a `useState` hook, it will work as expected. However, there will be a warning in the console:
-
-> Warning: State updates from the useState() and useReducer() Hooks don't support the second callback argument.
-> To execute a side effect after rendering, declare it in the component body with useEffect().
-
-It's just a warning and there's nothing to worry about. Nothing will break if you leave the messages there.
-
-```tsx
-import React, { FC, useState } from "react";
-import { ReactSortable } from "react-sortablejs-typescript";
-
-interface ItemType {
-  id: string;
-  name: string;
-}
-
-export const BasicFunction: FC = props => {
-  const [state, setState] = useState<ItemType[]>([{ id: "1", name: "shrek" }]);
-
-  return (
-    <ReactSortable
-      list={state}
-      // will cause warnings in dev mode only.
-      setList={setState}
-    >
-      {state.map(item => (
-        <div key={item.id}>{item.name}</div>
-      ))}
-    </ReactSortable>
-  );
-};
-```
-
-This is just a warning, but can be annoying when developing.
-
-Instead of passing `setState` in directly, be explicit in your callback:
-
-```tsx
-import React, { FC, useState } from "react";
-import { ReactSortable } from "react-sortablejs-typescript";
-
-interface ItemType {
-  id: string;
-  name: string;
-}
-
-export const BasicFunction: FC = props => {
-  const [state, setState] = useState<ItemType[]>([{ id: "1", name: "shrek" }]);
-
-  return (
-    // `sortable` and `store` arguments are here just to show what arguments have been passed.
-    // They are not required to be used and you shouldn't really need them.
-    <ReactSortable
-      list={state}
-      // will not cause warnings in dev mode only.
-      setList={(newState, sortable, store) => setState(newState)}
-    >
-      {state.map(item => (
-        <div key={item.id}>{item.name}</div>
-      ))}
-    </ReactSortable>
-  );
-};
-```
 
 ### Nesting
 

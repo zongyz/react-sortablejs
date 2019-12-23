@@ -1,6 +1,7 @@
 export { ReactSortable } from "./react-sortable";
 export * from "./types";
 export {
+  default as Sortable,
   MultiDrag,
   Swap,
   DOMRect,
@@ -14,6 +15,3 @@ export {
   SortableOptions,
   Utils
 } from "sortablejs";
-
-import SortableGlobal from "sortablejs";
-export const Sortable = SortableGlobal;
