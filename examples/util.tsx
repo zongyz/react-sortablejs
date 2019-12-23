@@ -11,7 +11,7 @@ const defs = { chosen: false, filtered: false, selected: false };
 export const threes = (): ItemInterface[] => [
   { id: id++, name: "shrek", ...defs },
   { id: id++, name: "fiona", ...defs },
-  { id: id++, name: "donkey", ...defs, selected: true },
+  { id: id++, name: "donkey", ...defs, selected: true, filtered: true },
   { id: id++, name: "Lord Faarquad", ...defs }
 ];
 
