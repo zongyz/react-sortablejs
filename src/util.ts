@@ -1,5 +1,7 @@
 import { PropsWithChildren } from "react";
 import { Options } from "sortablejs";
+import { ItemInterface } from "../dist";
+import { MultiDragEvent } from "./react-sortable";
 import { AllMethodNames, ReactSortableProps } from "./types";
 
 /**
@@ -57,6 +59,28 @@ export function getMode(evt: MultiDragEvent) {
   if (evt.swapItem) return "swap";
   return "normal";
 }
+
+export function createNormalized<T extends ItemInterface>(
+  inputs: Input[],
+  list: T[]
+): Normalized<T>[] {
+  const normalized = inputs
+    .map<Normalized<T>>(curr => ({ ...curr, item: list[curr.oldIndex] }))
+    .sort((a, b) => a.oldIndex - b.oldIndex);
+  return normalized;
+}
+
+export interface Input {
+  parentElement: HTMLElement;
+  element: HTMLElement;
+  oldIndex: number;
+  newIndex: number;
+}
+
+export interface Normalized<T> extends Input {
+  item: T;
+}
+
 /**
  * Removes the following group of properties from `props`,
  * leaving only `Sortable.Options` without any `on` methods.
