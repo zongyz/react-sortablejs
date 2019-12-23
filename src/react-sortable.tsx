@@ -9,6 +9,7 @@ import {
   RefObject
 } from "react";
 import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
+import invariant from "tiny-invariant";
 import {
   AllMethodsExceptMove,
   HandledMethodNames,
@@ -18,16 +19,16 @@ import {
   UnHandledMethodNames
 } from "./types";
 import {
-  createNormalized,
+  createCustoms,
   destructurePropsForOptions,
   getMode,
-  handleDOMChanges,
+  handleStateAdd,
   handleStateChanges,
-  Input,
-  insertNodeAt,
-  removeNode
+  handleStateRemove,
+  insertNodes,
+  removeNode,
+  removeNodes
 } from "./util";
-
 /** Holds a global reference for which react element is being dragged */
 // @todo - use context to manage this. How does one use 2 different providers?
 const store: Store = { dragging: null };
@@ -53,18 +54,16 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     }));
 
     props.setList(newList, this.sortable, store);
-
-    //@ts-ignore
-    if (props.plugins)
-      throw new Error(`
-DO NOT USE THE PLUGINS PROP TO MOUNT PLUGINS!
-
+    invariant(
+      //@ts-ignore
+      !props.plugins,
+      `
+Plugins prop is no longer supported.
 Instead, mount it with "Sortable.mount(new MultiDrag())"
-
 Please read the updated README.md at https://github.com/SortableJS/react-sortablejs.
-`);
+      `
+    );
   }
-
   componentDidMount() {
     if (this.ref.current === null) return;
     const newOptions = this.makeOptions();
@@ -232,8 +231,10 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     if (pullMode === "clone") {
       removeNode(clone);
 
-      const [oldItem] = newState.splice(oldIndex!, 1);
-      const newItem = this.props.clone!(oldItem, evt);
+          invariant(
+            true,
+            `mode "${mode}" cannot clone. Please remove "props.clone" from <ReactSortable/> when using the "${mode}" plugin`
+          );
 
       newState.splice(oldIndex!, 0, newItem);
       setList(newState, this.sortable, store);
