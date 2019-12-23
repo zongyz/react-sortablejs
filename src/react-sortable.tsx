@@ -74,7 +74,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const { tag, style, className, id } = this.props;
     const classicProps = { style, className, id };
 
-    /** if no tag, default to a `div` element */
+    // if no tag, default to a `div` element.
     const newTag = !tag || tag === null ? "div" : tag;
     return createElement(
       newTag,
@@ -279,12 +279,10 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     return setList(newList, this.sortable, store);
   }
 
-  /** Called when the dragging starts */
   onStart(evt: SortableEvent) {
     store.dragging = this;
   }
 
-  /** Called when the dragging ends */
   onEnd(evt: SortableEvent) {
     store.dragging = null;
   }
@@ -303,7 +301,6 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     setList(newList, this.sortable, store);
   }
 
-  /** Called when the `onSpill` plugin is activated */
   onSpill(evt: SortableEvent) {
     const { removeOnSpill, revertOnSpill } = this.props;
     if (removeOnSpill && !revertOnSpill) removeNode(evt.item);
@@ -330,7 +327,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   }
 }
 
-// everything below this point can be removes
+// everything below this point can be removed
 // once @types has been merged. PR submited
 interface MultiIndices {
   multiDragElement: HTMLElement;
@@ -338,6 +335,8 @@ interface MultiIndices {
 }
 
 export interface MultiDragEvent extends SortableEvent {
+  // @todo - add this to @types
+  clones: HTMLElement[];
   oldIndicies: MultiIndices[];
   newIndicies: MultiIndices[];
   swapItem: HTMLElement | null;
