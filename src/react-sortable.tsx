@@ -145,19 +145,21 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   makeOptions(): Options {
     const DOMHandlers: HandledMethodNames[] = [
       "onAdd",
-      "onUpdate",
-      "onRemove",
-      "onStart",
+      "onChoose",
+      "onDeselect",
       "onEnd",
+      "onRemove",
+      "onSelect",
       "onSpill",
+      "onStart",
       "onUnchoose",
-      "onChoose"
+      "onUpdate"
     ];
     const NonDOMHandlers: UnHandledMethodNames[] = [
+      "onChange",
       "onClone",
       "onFilter",
-      "onSort",
-      "onChange"
+      "onSort"
     ];
     const newOptions: Options = destructurePropsForOptions(this.props);
     DOMHandlers.forEach(
