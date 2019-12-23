@@ -343,22 +343,18 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     if (removeOnSpill && !revertOnSpill) removeNode(evt.item);
   }
 
-  /** Called when a clone is made. It replaces an element in with a function */
-  onClone(evt: SortableEvent) {
-    // are we in the same list? if so, do nothing
-  }
-
-  /** @todo */
   onSelect(evt: SortableEvent) {
-    const { oldIndex, newIndex } = evt;
-    // append the class name the classes of the item
-    // do it on the item?
-    // a seperate state?
+    const { list, setList } = this.props;
+    const newList = [...list];
+    newList[evt.oldIndex!].selected = true;
+    setList(newList, this.sortable, store);
   }
 
-  /** @todo */
   onDeselect(evt: SortableEvent) {
-    // remove the clast name of the child
+    const { list, setList } = this.props;
+    const newList = [...list];
+    newList[evt.oldIndex!].selected = false;
+    setList(newList, this.sortable, store);
   }
 }
 
