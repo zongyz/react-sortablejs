@@ -211,81 +211,70 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   // SORTABLE DOM HANDLING
 
-  /** Called when an element is dropped into the list from another list */
-  onAdd(evt: SortableEvent) {
+  onAdd(evt: MultiDragEvent) {
     const { list, setList } = this.props;
-    removeNode(evt.item);
-
-    const newState: T[] = [...list];
-    const newItem = store.dragging!.props.list[evt.oldIndex!];
-    newState.splice(evt.newIndex!, 0, newItem);
-    setList(newState, this.sortable, store);
+    const otherList = [...store.dragging!.props.list];
+    const customs = createCustoms(evt, otherList);
+    removeNodes(customs);
+    const newList = handleStateAdd(customs, list);
+    setList(newList, this.sortable, store);
   }
 
-  /** Called when an element is removed from the list into another list */
-  onRemove(evt: SortableEvent) {
-    const { item, from, oldIndex, clone, pullMode } = evt;
-    insertNodeAt(from, item, oldIndex!);
+  onRemove(evt: MultiDragEvent) {
     const { list, setList } = this.props;
-    const newState: T[] = [...list];
-    if (pullMode === "clone") {
-      removeNode(clone);
+    const mode = getMode(evt);
+    const customs = createCustoms(evt, list);
+    insertNodes(customs);
 
+    let newList = [...list];
+    // remove state if not in clone mode. otherwise, keep.
+    if (evt.pullMode !== "clone") newList = handleStateRemove(customs, newList);
+    // if clone, it doesn't really remove. instead it clones in place.
+    // @todo -
+    else {
+      // switch used to get the clone
+      let customClones = customs;
+      switch (mode) {
+        case "multidrag":
+          customClones = customs.map((item, index) => ({
+            ...item,
+            element: evt.clones[index]
+          }));
+          break;
+        case "normal":
+          customClones = customs.map((item, index) => ({
+            ...item,
+            element: evt.clone
+          }));
+          break;
+        case "swap":
+        default: {
           invariant(
             true,
             `mode "${mode}" cannot clone. Please remove "props.clone" from <ReactSortable/> when using the "${mode}" plugin`
           );
+        }
+      }
+      removeNodes(customClones);
 
-      newState.splice(oldIndex!, 0, newItem);
-      setList(newState, this.sortable, store);
-      return;
+      // replace selected items with cloned items
+      customs.forEach(curr => {
+        const index = curr.oldIndex;
+        const newItem = this.props.clone!(curr.item, evt);
+        newList.splice(index, 1, newItem);
+      });
     }
-    newState.splice(oldIndex!, 1);
-    setList(newState, this.sortable, store);
+
+    // remove item.selected from list
+    newList = newList.map(item => ({ ...item, selected: false }));
+    setList(newList, this.sortable, store);
   }
 
-  /** Called when sorting is changed within the same list */
   onUpdate(evt: MultiDragEvent) {
-    const mode = getMode(evt);
-    const parentElement = { parentElement: evt.from };
-    let custom: Input[] = [];
-    switch (mode) {
-      case "normal":
-        const item = {
-          element: evt.item,
-          newIndex: evt.newIndex!,
-          oldIndex: evt.oldIndex!,
-          parentElement: evt.from
-        };
-        custom = [item];
-        break;
-      case "swap":
-        const drag: Input = {
-          element: evt.item,
-          oldIndex: evt.oldIndex!,
-          newIndex: evt.newIndex!,
-          ...parentElement
-        };
-        const swap: Input = {
-          element: evt.swapItem!,
-          oldIndex: evt.newIndex!,
-          newIndex: evt.oldIndex!,
-          ...parentElement
-        };
-        custom = [drag, swap];
-        break;
-      case "multidrag":
-        custom = evt.oldIndicies.map<Input>((curr, index) => ({
-          element: curr.multiDragElement,
-          oldIndex: curr.index,
-          newIndex: evt.newIndicies[index].index,
-          ...parentElement
-        }));
-        break;
-    }
     const { list, setList } = this.props;
-    const customs = createNormalized(custom, list);
-    handleDOMChanges(customs);
+    const customs = createCustoms(evt, list);
+    removeNodes(customs);
+    insertNodes(customs);
     const newList = handleStateChanges(customs, list);
     return setList(newList, this.sortable, store);
   }
@@ -320,20 +309,20 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     if (removeOnSpill && !revertOnSpill) removeNode(evt.item);
   }
 
-  onSelect(evt: SortableEvent) {
+  onSelect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
     const newList = [...list].map(item => ({ ...item, selected: false }));
-    (evt as MultiDragEvent).newIndicies.forEach(curr => {
+    evt.newIndicies.forEach(curr => {
       const index = curr.index;
       newList[index].selected = true;
     });
     setList(newList, this.sortable, store);
   }
 
-  onDeselect(evt: SortableEvent) {
+  onDeselect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
     const newList = [...list].map(item => ({ ...item, selected: false }));
-    (evt as MultiDragEvent).newIndicies.forEach(curr => {
+    evt.oldIndicies.forEach(curr => {
       const index = curr.index;
       newList[index].selected = true;
     });
