@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import {
   Children,
   cloneElement,
@@ -16,8 +17,16 @@ import {
   Store,
   UnHandledMethodNames
 } from "./types";
-import { destructurePropsForOptions, insertNodeAt, removeNode } from "./util";
-import classNames from "classnames";
+import {
+  createNormalized,
+  destructurePropsForOptions,
+  getMode,
+  handleDOMChanges,
+  handleStateChanges,
+  Input,
+  insertNodeAt,
+  removeNode
+} from "./util";
 
 /** Holds a global reference for which react element is being dragged */
 const store: Store = { dragging: null };
