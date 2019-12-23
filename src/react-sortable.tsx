@@ -337,6 +337,20 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     store.dragging = null;
   }
 
+  onChoose(evt: SortableEvent) {
+    const { list, setList } = this.props;
+    const newList = [...list];
+    newList[evt.oldIndex!].chosen = true;
+    setList(newList, this.sortable, store);
+  }
+  
+  onUnchoose(evt: SortableEvent) {
+    const { list, setList } = this.props;
+    const newList = [...list];
+    newList[evt.oldIndex!].chosen = false;
+    setList(newList, this.sortable, store);
+  }
+
   /** Called when the `onSpill` plugin is activated */
   onSpill(evt: SortableEvent) {
     const { removeOnSpill, revertOnSpill } = this.props;
