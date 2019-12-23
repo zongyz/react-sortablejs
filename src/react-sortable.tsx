@@ -146,7 +146,8 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       "onStart",
       "onEnd",
       "onSpill",
-      "onClone"
+      "onUnchoose",
+      "onChoose"
     ];
     const NonDOMHandlers: UnHandledMethodNames[] = [
       "onClone",
