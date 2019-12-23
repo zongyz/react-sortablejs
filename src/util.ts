@@ -25,6 +25,32 @@ export function insertNodeAt(
   parent.insertBefore(newChild, refChild);
 }
 
+// @todo - create a dom handler function for arrays or not at all
+
+/** removes stuff from the dom in a nice order */
+// @todo - do I need parenElement?
+export function handleDOMChanges<T extends ItemInterface>(
+  customs: Normalized<T>[]
+) {
+  customs.forEach(curr => removeNode(curr.element));
+  customs.forEach(curr => {
+    insertNodeAt(curr.parentElement, curr.element, curr.oldIndex);
+  });
+}
+
+/** moves items form old index to new index without breaking anything ideally. */
+export function handleStateChanges<T extends ItemInterface>(
+  normalized: Normalized<T>[],
+  list: T[]
+): T[] {
+  const newList = [...list];
+  normalized
+    .concat()
+    .reverse()
+    .forEach(curr => newList.splice(curr.oldIndex, 1));
+  normalized.forEach(curr => newList.splice(curr.newIndex, 0, curr.item));
+  return newList;
+}
 
 export function getMode(evt: MultiDragEvent) {
   if (evt.oldIndicies.length > 0) return "multidrag";
