@@ -47,6 +47,16 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     super(props);
     // @todo forward ref this component
     this.ref = createRef<HTMLElement>();
+
+    // make all state false because we can't change sortable unless a mouse gesture is made.
+    const newList = [...props.list].map(item => ({
+      ...item,
+      chosen: false,
+      selected: false
+    }));
+
+    props.setList(newList, this.sortable, store);
+
     //@ts-ignore
     if (props.plugins)
       throw new Error(`
