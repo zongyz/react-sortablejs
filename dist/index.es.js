@@ -1,7 +1,7 @@
-import classNames from 'classnames';
-import { createElement, Children, cloneElement, createRef, Component } from 'react';
 import Sortable from 'sortablejs';
 export { MultiDrag, default as Sortable, Swap } from 'sortablejs';
+import classNames from 'classnames';
+import { createElement, Children, cloneElement, createRef, Component } from 'react';
 import invariant from 'tiny-invariant';
 
 /*! *****************************************************************************
@@ -392,6 +392,11 @@ var ReactSortable = /** @class */ (function (_super) {
         var newList = __spread(list).map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
         evt.newIndicies.forEach(function (curr) {
             var index = curr.index;
+            if (index === -1) {
+                console.log("\"" + evt.type + "\" had indice of \"" + curr.index + "\", which is probably -1 and doesn't usually happen here.");
+                console.log(evt);
+                return;
+            }
             newList[index].selected = true;
         });
         setList(newList, this.sortable, store);
@@ -399,8 +404,10 @@ var ReactSortable = /** @class */ (function (_super) {
     ReactSortable.prototype.onDeselect = function (evt) {
         var _a = this.props, list = _a.list, setList = _a.setList;
         var newList = __spread(list).map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
-        evt.oldIndicies.forEach(function (curr) {
+        evt.newIndicies.forEach(function (curr) {
             var index = curr.index;
+            if (index === -1)
+                return;
             newList[index].selected = true;
         });
         setList(newList, this.sortable, store);
@@ -411,4 +418,5 @@ var ReactSortable = /** @class */ (function (_super) {
     return ReactSortable;
 }(Component));
 
+export default ReactSortable;
 export { ReactSortable };

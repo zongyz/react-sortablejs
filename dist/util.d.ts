@@ -1,8 +1,7 @@
 import { PropsWithChildren } from "react";
 import { Options } from "sortablejs";
-import { ItemInterface } from "../dist";
 import { MultiDragEvent } from "./react-sortable";
-import { AllMethodNames, ReactSortableProps } from "./types";
+import { AllMethodNames, ItemInterface, ReactSortableProps } from "./types";
 /**
  * Removes the `node` from the DOM
  * @param node
