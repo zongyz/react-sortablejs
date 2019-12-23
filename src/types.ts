@@ -126,12 +126,14 @@ export type HandledMethodNames =
   | "onSpill"
   | "onSelect"
   | "onDeselect"
-  | "onClone";
+  | "onChoose"
+  | "onUnchoose"
 
 export type UnHandledMethodNames = Exclude<
   AllMethodsExceptMove,
   HandledMethodNames | "onMove"
 >;
+
 /**
  * Same as `SortableMethodKeys` type but with out the string `onMove`.
  */
