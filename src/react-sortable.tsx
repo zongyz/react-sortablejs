@@ -29,12 +29,9 @@ import {
 } from "./util";
 
 /** Holds a global reference for which react element is being dragged */
+// @todo - use context to manage this. How does one use 2 different providers?
 const store: Store = { dragging: null };
-/**
- * React is built for synchornizing data with the browser.
- *
- * Data should be an object.
- */
+
 export class ReactSortable<T extends ItemInterface> extends Component<
   ReactSortableProps<T>
 > {
@@ -83,7 +80,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     return createElement(
       newTag,
       {
-        /** @todo find a way (perhaps with the callback) to allow AntD components to work */
+        // @todo - find a way (perhaps with the callback) to allow AntD components to work
         ref: this.ref,
         ...classicProps
       },
@@ -109,11 +106,9 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     // if no children, don't do anything.
     if (!children || children == null) return null;
     const dataid = dataIdAttr || "data-id";
-
     return Children.map(children as ReactElement<any>[], (child, index) => {
       const item = list[index];
-    );
-  }
+
       // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
       const filtered = typeof filter === "string" && {
         [filter]: !!item.filtered
@@ -389,7 +384,7 @@ interface MultiIndices {
   index: number;
 }
 
-interface MultiDragEvent extends SortableEvent {
+export interface MultiDragEvent extends SortableEvent {
   oldIndicies: MultiIndices[];
   newIndicies: MultiIndices[];
   swapItem: HTMLElement | null;
