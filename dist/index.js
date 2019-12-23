@@ -4,10 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var classNames = _interopDefault(require('classnames'));
-var react = require('react');
 var Sortable = require('sortablejs');
 var Sortable__default = _interopDefault(Sortable);
+var classNames = _interopDefault(require('classnames'));
+var react = require('react');
 var invariant = _interopDefault(require('tiny-invariant'));
 
 /*! *****************************************************************************
@@ -398,6 +398,11 @@ var ReactSortable = /** @class */ (function (_super) {
         var newList = __spread(list).map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
         evt.newIndicies.forEach(function (curr) {
             var index = curr.index;
+            if (index === -1) {
+                console.log("\"" + evt.type + "\" had indice of \"" + curr.index + "\", which is probably -1 and doesn't usually happen here.");
+                console.log(evt);
+                return;
+            }
             newList[index].selected = true;
         });
         setList(newList, this.sortable, store);
@@ -405,8 +410,10 @@ var ReactSortable = /** @class */ (function (_super) {
     ReactSortable.prototype.onDeselect = function (evt) {
         var _a = this.props, list = _a.list, setList = _a.setList;
         var newList = __spread(list).map(function (item) { return (__assign(__assign({}, item), { selected: false })); });
-        evt.oldIndicies.forEach(function (curr) {
+        evt.newIndicies.forEach(function (curr) {
             var index = curr.index;
+            if (index === -1)
+                return;
             newList[index].selected = true;
         });
         setList(newList, this.sortable, store);
@@ -431,3 +438,4 @@ Object.defineProperty(exports, 'Swap', {
     }
 });
 exports.ReactSortable = ReactSortable;
+exports.default = ReactSortable;
