@@ -319,8 +319,9 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   onDeselect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
     const newList = [...list].map(item => ({ ...item, selected: false }));
-    evt.oldIndicies.forEach(curr => {
+    evt.newIndicies.forEach(curr => {
       const index = curr.index;
+      if (index === -1) return;
       newList[index].selected = true;
     });
     setList(newList, this.sortable, store);
