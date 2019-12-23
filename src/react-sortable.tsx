@@ -38,15 +38,14 @@ const store: Store = { dragging: null };
 export class ReactSortable<T extends ItemInterface> extends Component<
   ReactSortableProps<T>
 > {
-  private ref: RefObject<HTMLElement>;
-
   static defaultProps: Partial<ReactSortableProps<any>> = {
     clone: item => item
   };
 
+  private ref: RefObject<HTMLElement>;
   constructor(props: ReactSortableProps<T>) {
     super(props);
-    /** @todo forward ref this component */
+    // @todo forward ref this component
     this.ref = createRef<HTMLElement>();
     //@ts-ignore
     if (props.plugins)
