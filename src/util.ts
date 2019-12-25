@@ -124,7 +124,7 @@ export function handleStateAdd<T extends ItemInterface>(
 }
 
 export function getMode(evt: MultiDragEvent) {
-  if (evt.oldIndicies.length > 0) return "multidrag";
+  if (evt.oldIndicies && evt.oldIndicies.length > 0) return "multidrag";
   if (evt.swapItem) return "swap";
   return "normal";
 }
