@@ -157,7 +157,7 @@ function handleStateAdd(normalized, list) {
     return newList;
 }
 function getMode(evt) {
-    if (evt.oldIndicies.length > 0)
+    if (evt.oldIndicies && evt.oldIndicies.length > 0)
         return "multidrag";
     if (evt.swapItem)
         return "swap";
