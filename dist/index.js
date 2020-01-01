@@ -438,4 +438,3 @@ Object.defineProperty(exports, 'Swap', {
     }
 });
 exports.ReactSortable = ReactSortable;
-exports.default = ReactSortable;

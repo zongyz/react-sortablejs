@@ -15,6 +15,7 @@
     "local-types"
   ],
   "scripts": {
+    "prepublishOnly": "yarn build",
     "start": "parcel examples/index.html --out-dir temp/server --cache-dir temp/cache ",
     "build": "yarn build:rollup && yarn build:tsc",
     "build:rollup": " rollup --config config/rollup.config.js",

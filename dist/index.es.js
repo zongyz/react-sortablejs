@@ -418,5 +418,4 @@ var ReactSortable = /** @class */ (function (_super) {
     return ReactSortable;
 }(Component));
 
-export default ReactSortable;
 export { ReactSortable };
