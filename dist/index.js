@@ -216,7 +216,7 @@ var ReactSortable = /** @class */ (function (_super) {
             ref: this.ref }, classicProps), this.getChildren());
     };
     ReactSortable.prototype.getChildren = function () {
-        var _a = this.props, children = _a.children, dataIdAttr = _a.dataIdAttr, prevClassName = _a.className, _b = _a.selectedClass, selectedClass = _b === void 0 ? "sortable-selected" : _b, _c = _a.chosenClass, chosenClass = _c === void 0 ? "sortable-chosen" : _c, _d = _a.dragClass, _e = _a.fallbackClass, _f = _a.ghostClass, _g = _a.swapClass, _h = _a.filter, filter = _h === void 0 ? "sortable-filter" : _h, list = _a.list;
+        var _a = this.props, children = _a.children, dataIdAttr = _a.dataIdAttr, _b = _a.selectedClass, selectedClass = _b === void 0 ? "sortable-selected" : _b, _c = _a.chosenClass, chosenClass = _c === void 0 ? "sortable-chosen" : _c, _d = _a.dragClass, _e = _a.fallbackClass, _f = _a.ghostClass, _g = _a.swapClass, _h = _a.filter, filter = _h === void 0 ? "sortable-filter" : _h, list = _a.list;
         // if no children, don't do anything.
         if (!children || children == null)
             return null;
@@ -224,6 +224,7 @@ var ReactSortable = /** @class */ (function (_super) {
         return react.Children.map(children, function (child, index) {
             var _a, _b, _c;
             var item = list[index];
+            var prevClassName = child.props.className;
             // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
             var filtered = typeof filter === "string" && (_a = {},
                 _a[filter.replace(".", "")] = !!item.filtered,
