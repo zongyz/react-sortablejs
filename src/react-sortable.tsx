@@ -91,7 +91,6 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const {
       children,
       dataIdAttr,
-      className: prevClassName,
       selectedClass = "sortable-selected",
       chosenClass = "sortable-chosen",
       dragClass = "sortable-drag",
@@ -107,6 +106,9 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const dataid = dataIdAttr || "data-id";
     return Children.map(children as ReactElement<any>[], (child, index) => {
       const item = list[index];
+      const {
+        className: prevClassName,
+      } = child.props;
 
       // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
       const filtered = typeof filter === "string" && {
@@ -316,7 +318,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
           `"${evt.type}" had indice of "${curr.index}", which is probably -1 and doesn't usually happen here.`
         );
         console.log(evt)
-        return 
+        return
       }
       newList[index].selected = true;
     });
