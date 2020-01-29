@@ -280,7 +280,10 @@ var ReactSortable = /** @class */ (function (_super) {
             var defaultValue = evt.willInsertAfter || -1;
             if (!onMove)
                 return defaultValue;
-            return onMove(evt, originalEvt, _this.sortable, store) || defaultValue;
+            var result = onMove(evt, originalEvt, _this.sortable, store);
+            if (typeof result === 'undefined')
+                return false;
+            return result;
         };
         return __assign(__assign({}, newOptions), { onMove: onMove });
     };
