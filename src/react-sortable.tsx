@@ -175,7 +175,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       const { onMove } = this.props;
       const defaultValue = evt.willInsertAfter || -1;
       if (!onMove) return defaultValue;
-      return onMove(evt, originalEvt, this.sortable, store) || defaultValue;
+      return onMove(evt, originalEvt, this.sortable, store);
     };
 
     return {
