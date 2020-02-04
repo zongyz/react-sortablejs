@@ -104,7 +104,7 @@ Here is the TLDR of what sortable is:
 
 ```tsx
 import React, { FC, useState } from "react";
-import { ReactSortable } from "react-sortablejs-typescript";
+import { ReactSortable } from "react-sortablejs";
 
 interface ItemType {
   id: number;
@@ -131,7 +131,7 @@ export const BasicFunction: FC = props => {
 
 ```tsx
 import React, { Component } from "react";
-import { ReactSortable } from "react-sortablejs-typescript";
+import { ReactSortable } from "react-sortablejs";
 
 interface BasicClassState {
   list: { id: string; name: string }[];
@@ -287,8 +287,8 @@ Here we will use a `ul`. You can use any HTML.
 Just add the string and ReactSortable will use a `li` instead of a `div`.
 
 ```tsx
-import React, { FC, useState, forwardRef } from "react";
-import { ReactSortable } from "react-sortablejs-typescript";
+import React, { FC, useState } from "react";
+import { ReactSortable } from "react-sortablejs";
 
 export const BasicFunction: FC = props => {
   const [state, setState] = useState([{ id: "1", name: "shrek" }]);
@@ -315,7 +315,7 @@ If it doesn't have one, you can add one using `React.forwardRef()`.
 
 ```tsx
 import React, { FC, useState, forwardRef } from "react";
-import { ReactSortable } from "react-sortablejs-typescript";
+import { ReactSortable } from "react-sortablejs";
 
 // This is just like a normal component, but now has a ref.
 const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => {
