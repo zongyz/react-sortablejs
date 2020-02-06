@@ -40,4 +40,9 @@ export interface Normalized<T> extends Input {
  * @param props `ReactSortable.Props`
  */
 export declare function destructurePropsForOptions<T>(props: PropsWithChildren<ReactSortableProps<T>>): Exclude<Options, AllMethodNames>;
+/**
+ * Construct a type with the properties of T except for those in type K.
+ * Including this allows for backwards compatibility with earlier versions of TS.
+ */
+export declare type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 //# sourceMappingURL=util.d.ts.map
