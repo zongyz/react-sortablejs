@@ -6,6 +6,7 @@ import {
 } from "react";
 import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
 import { ReactSortable } from "./react-sortable";
+import { Omit } from './util';
 
 // @todo: remove dynamic types and create declarative types instead for readability of user.
 // add these in docs as well

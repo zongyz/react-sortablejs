@@ -1,6 +1,7 @@
 import { CSSProperties, ForwardRefExoticComponent, ReactHTML, RefAttributes } from "react";
 import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
 import { ReactSortable } from "./react-sortable";
+import { Omit } from './util';
 export interface ItemInterface {
     /** The unique id associated with your item. It's recommended this is the same as the key prop for your list item. */
     id: string | number;
