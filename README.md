@@ -158,7 +158,7 @@ export class BasicClass extends Component<{}, BasicClassState> {
 
 ## Plugins
 
-Sortable has some pretty cool pplugins such as MultiDrag and Swap.
+Sortable has some pretty cool plugins such as MultiDrag and Swap.
 
 By Default:
 
