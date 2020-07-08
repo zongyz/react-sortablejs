@@ -47,7 +47,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     this.ref = createRef<HTMLElement>();
 
     // make all state false because we can't change sortable unless a mouse gesture is made.
-    const newList = [...props.list].map(item => ({
+    const newList = props.list.map(item => ({
       ...item,
       chosen: false,
       selected: false
@@ -293,15 +293,29 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   onChoose(evt: SortableEvent) {
     const { list, setList } = this.props;
-    const newList = [...list];
-    newList[evt.oldIndex!].chosen = true;
+    const newList = list.map((item, index) => {
+      if (index === evt.oldIndex) {
+        return {
+          ...item,
+          chosen: true,
+        }
+      }
+      return item;
+    });
     setList(newList, this.sortable, store);
   }
 
   onUnchoose(evt: SortableEvent) {
     const { list, setList } = this.props;
-    const newList = [...list];
-    newList[evt.oldIndex!].chosen = false;
+    const newList = list.map((item, index) => {
+      if (index === evt.oldIndex) {
+        return {
+          ...item,
+          chosen: false,
+        }
+      }
+      return item;
+    });
     setList(newList, this.sortable, store);
   }
 
@@ -312,7 +326,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   onSelect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
-    const newList = [...list].map(item => ({ ...item, selected: false }));
+    const newList = list.map(item => ({ ...item, selected: false }));
     evt.newIndicies.forEach(curr => {
       const index = curr.index;
       if (index === -1) {
@@ -329,7 +343,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   onDeselect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
-    const newList = [...list].map(item => ({ ...item, selected: false }));
+    const newList = list.map(item => ({ ...item, selected: false }));
     evt.newIndicies.forEach(curr => {
       const index = curr.index;
       if (index === -1) return;
