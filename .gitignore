@@ -3,3 +3,5 @@
 node_modules
 temp
 dist
+# todo - get story book only when releasing.
+storybook-static
