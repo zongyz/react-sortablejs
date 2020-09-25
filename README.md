@@ -6,13 +6,16 @@ React bindings to [SortableJS](https://github.com/SortableJS/Sortable)
 
 ## Installation
 
-```shell
-npm install --save react-sortablejs
-# OR
-yarn add react-sortablejs
-```
+`sortablejs` and `@types/sortbalejs` are peer dependencies. The latter only used if intellisense/typescript is desired.
 
-Please note that `sortablejs` is not required, as it's bundled in this component.
+```shell
+npm install --save react-sortablejs sortablejs
+npm install --save-dev @types/sortablejs
+
+# OR
+yarn add react-sortablejs sortablejs
+yarn add -D @types/sortablejs
+```
 
 ## Learn
 
