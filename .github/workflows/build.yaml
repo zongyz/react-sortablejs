@@ -1,4 +1,4 @@
-name: Node.js CI
+name: build
 
 on: [push]
 
@@ -16,7 +16,7 @@ jobs:
 
         # todo - lint commit messages
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use node@${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -36,7 +36,8 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - run: yarn build --if-present
+      - name: Build
+        run: yarn build --if-present
         # todo - make tests
         # - run: yarn test:unit
         # - run: yarn test:compatability
