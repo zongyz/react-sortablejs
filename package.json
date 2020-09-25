@@ -22,7 +22,9 @@
     "build:tsc": "ts-node config/move-files.ts",
     "build:storybook": "build-storybook",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "style": "yarn styles:format && yarn style:lint",
+    "style:format": "prettier -w \"src/**.(ts|tsx)\"",
+    "style:lint": "eslint \"src/**.(ts|tsx)\""
   },
   "release": {
     "plugins": [
