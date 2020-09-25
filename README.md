@@ -6,30 +6,10 @@ We're now on version 2.0! A major API overhaul with typescript types.
 
 Consider trying it out if you had any troubles earlier.
 
-## Things still to do.
-
-We've released version 2.0 but there are still some things to do. We needed public feedback and a major release was the easiest way to get it.
-
-- [x] Create examples from [SortableJS Examples](https://sortablejs.github.io/Sortable/)
-- [ ] Examples with code underneath.
-- [ ] List Props in readme.
-- [ ] Allow React to manage class names. Halfway there.
-- [x] Write docs for plugins
-- [ ] Create all tests for examples (for 'ron). Started
-- [ ] Test the following UI component libraries:
-  - [x] Styled Components
-  - [ ] AntD
-  - [ ] MaterialUI
-  - [ ] React Bootstrap
-  - [ ] React Grommet
-  - [ ] React Toolbox
-  - [ ] Your suggestion? :)
-
-
 ## Table of Contents
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Features](#features)
   - [SortableJS](#sortablejs)
@@ -111,15 +91,15 @@ interface ItemType {
   name: string;
 }
 
-export const BasicFunction: FC = props => {
+export const BasicFunction: FC = (props) => {
   const [state, setState] = useState<ItemType[]>([
     { id: 1, name: "shrek" },
-    { id: 2, name: "fiona" }
+    { id: 2, name: "fiona" },
   ]);
 
   return (
     <ReactSortable list={state} setList={setState}>
-      {state.map(item => (
+      {state.map((item) => (
         <div key={item.id}>{item.name}</div>
       ))}
     </ReactSortable>
@@ -139,15 +119,15 @@ interface BasicClassState {
 
 export class BasicClass extends Component<{}, BasicClassState> {
   state: BasicClassState = {
-    list: [{ id: "1", name: "shrek" }]
+    list: [{ id: "1", name: "shrek" }],
   };
   render() {
     return (
       <ReactSortable
         list={this.state.list}
-        setList={newState => this.setState({ list: newState })}
+        setList={(newState) => this.setState({ list: newState })}
       >
-        {this.state.list.map(item => (
+        {this.state.list.map((item) => (
           <div key={item.id}>{item.name}</div>
         ))}
       </ReactSortable>
@@ -178,7 +158,7 @@ Sortable.mount(new MultiDrag(), new Swap());
 const App = () => {
   const [state, setState] = useState([
     { id: 1, name: "shrek" },
-    { id: 2, name: "fiona" }
+    { id: 2, name: "fiona" },
   ]);
 
   return (
@@ -187,7 +167,7 @@ const App = () => {
       // OR
       swap // enables swap
     >
-      {state.map(item => (
+      {state.map((item) => (
         <div key={item.id}>{item.name}</div>
       ))}
     </ReactSortable>
@@ -206,7 +186,7 @@ Sortable.create(element, {
   group: " groupName",
   animation: 200,
   delayOnTouchStart: true,
-  delay: 2
+  delay: 2,
 });
 
 // --------------------------
@@ -219,7 +199,7 @@ import { ReactSortable } from "react-sortablejs";
 const App = () => {
   const [state, setState] = useState([
     { id: 1, name: "shrek" },
-    { id: 2, name: "fiona" }
+    { id: 2, name: "fiona" },
   ]);
 
   return (
@@ -230,7 +210,7 @@ const App = () => {
       delayOnTouchStart={true}
       delay={2}
     >
-      {state.map(item => (
+      {state.map((item) => (
         <div key={item.id}>{item.name}</div>
       ))}
     </ReactSortable>
@@ -290,12 +270,12 @@ Just add the string and ReactSortable will use a `li` instead of a `div`.
 import React, { FC, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 
-export const BasicFunction: FC = props => {
+export const BasicFunction: FC = (props) => {
   const [state, setState] = useState([{ id: "1", name: "shrek" }]);
 
   return (
     <ReactSortable tag="ul" list={state} setList={setState}>
-      {state.map(item => (
+      {state.map((item) => (
         <li key={item.id}>{item.name}</li>
       ))}
     </ReactSortable>
@@ -322,15 +302,15 @@ const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => {
   return <div ref={ref}>{props.children}</div>;
 });
 
-export const BasicFunction: FC = props => {
+export const BasicFunction: FC = (props) => {
   const [state, setState] = useState([
     { id: 1, name: "shrek" },
-    { id: 2, name: "fiona" }
+    { id: 2, name: "fiona" },
   ]);
 
   return (
     <ReactSortable tag={CustomComponent} list={state} setList={setState}>
-      {state.map(item => (
+      {state.map((item) => (
         <div key={item.id}>{item.name}</div>
       ))}
     </ReactSortable>
