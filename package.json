@@ -11,8 +11,7 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "local-types"
+    "dist"
   ],
   "scripts": {
     "commit": "cz",
