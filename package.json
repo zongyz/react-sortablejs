@@ -50,6 +50,8 @@
     "tiny-invariant": "^1.0.6"
   },
   "devDependencies": {
+    "sortablejs": "^1.10.0",
+    "@types/sortablejs": "^1.10.0",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",

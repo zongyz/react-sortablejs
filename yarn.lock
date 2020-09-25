@@ -1193,9 +1193,9 @@
     csstype "^2.2.0"
 
 "@types/sortablejs@^1.10.0":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.10.1.tgz#a625a9b688ebd588f7722441f4b0ddc2f38a3ee3"
-  integrity sha512-b4vrysEzOPmQMWSYXI2Az6Vpo+3LYsqszrgk3orHpUdzJgvnOtGGquWsUbSPNv5oANMwK/6tQWf9dnENe0vaBQ==
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.10.6.tgz#98725ae08f1dfe28b8da0fdf302c417f5ff043c0"
+  integrity sha512-QRz8Z+uw2Y4Gwrtxw8hD782zzuxxugdcq8X/FkPsXUa1kfslhGzy13+4HugO9FXNo+jlWVcE6DYmmegniIQ30A==
 
 "@types/styled-components@^4.1.19":
   version "4.4.1"
@@ -7842,10 +7842,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-sortablejs@1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.10.1.tgz#3d52b00f871be00f00f84d99a60d120bf3dfe52c"
-  integrity sha512-N6r7GrVmO8RW1rn0cTdvK3JR0BcqecAJ0PmYMCL3ZuqTH3pY+9QyqkmJSkkLyyDvd+AJnwaxTP22Ybr/83V9hQ==
+sortablejs@^1.10.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.12.0.tgz#ee6d7ece3598c2af0feb1559d98595e5ea37cbd6"
+  integrity sha512-bPn57rCjBRlt2sC24RBsu40wZsmLkSo2XeqG8k6DC1zru5eObQUIPPZAQG7W2SJ8FZQYq+BEJmvuw1Zxb3chqg==
 
 source-map-resolve@^0.5.0, source-map-resolve@^0.5.1, source-map-resolve@^0.5.2:
   version "0.5.2"
