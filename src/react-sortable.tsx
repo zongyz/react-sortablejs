@@ -6,7 +6,7 @@ import {
   createElement,
   createRef,
   ReactElement,
-  RefObject
+  RefObject,
 } from "react";
 import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
 import invariant from "tiny-invariant";
@@ -16,7 +16,7 @@ import {
   ItemInterface,
   ReactSortableProps,
   Store,
-  UnHandledMethodNames
+  UnHandledMethodNames,
 } from "./types";
 import {
   createCustoms,
@@ -27,8 +27,9 @@ import {
   handleStateRemove,
   insertNodes,
   removeNode,
-  removeNodes
+  removeNodes,
 } from "./util";
+
 /** Holds a global reference for which react element is being dragged */
 // @todo - use context to manage this. How does one use 2 different providers?
 const store: Store = { dragging: null };
@@ -37,7 +38,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
   ReactSortableProps<T>
 > {
   static defaultProps: Partial<ReactSortableProps<any>> = {
-    clone: item => item
+    clone: (item) => item,
   };
 
   private ref: RefObject<HTMLElement>;
@@ -47,10 +48,10 @@ export class ReactSortable<T extends ItemInterface> extends Component<
     this.ref = createRef<HTMLElement>();
 
     // make all state false because we can't change sortable unless a mouse gesture is made.
-    const newList = props.list.map(item => ({
+    const newList = props.list.map((item) => ({
       ...item,
       chosen: false,
-      selected: false
+      selected: false,
     }));
 
     props.setList(newList, this.sortable, store);
@@ -81,7 +82,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       {
         // @todo - find a way (perhaps with the callback) to allow AntD components to work
         ref: this.ref,
-        ...classicProps
+        ...classicProps,
       },
       this.getChildren()
     );
@@ -98,7 +99,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       ghostClass = "sortable-ghost",
       swapClass = "sortable-swap-highlight",
       filter = "sortable-filter",
-      list
+      list,
     } = this.props;
 
     // if no children, don't do anything.
@@ -106,19 +107,17 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const dataid = dataIdAttr || "data-id";
     return Children.map(children as ReactElement<any>[], (child, index) => {
       const item = list[index];
-      const {
-        className: prevClassName,
-      } = child.props;
+      const { className: prevClassName } = child.props;
 
       // @todo - handle the function if avalable. I don't think anyone will be doing this soon.
       const filtered = typeof filter === "string" && {
-        [filter.replace(".", "")]: !!item.filtered
+        [filter.replace(".", "")]: !!item.filtered,
       };
 
       const className = classNames(prevClassName, {
         [selectedClass]: item.selected,
         [chosenClass]: item.chosen,
-        ...filtered
+        ...filtered,
         // [dragClass]: true,
         // [fallbackClass]: true,
         // [ghostClass]: true,
@@ -127,7 +126,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
       return cloneElement(child, {
         [dataid]: child.key,
-        className
+        className,
       });
     });
   }
@@ -136,7 +135,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   private get sortable(): Sortable | null {
     const el = this.ref.current;
     if (el === null) return null;
-    const key = Object.keys(el).find(k => k.includes("Sortable"));
+    const key = Object.keys(el).find((k) => k.includes("Sortable"));
     if (!key) return null;
     //@ts-ignore - I know what I'm doing.
     return el[key] as Sortable;
@@ -154,20 +153,20 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       "onSpill",
       "onStart",
       "onUnchoose",
-      "onUpdate"
+      "onUpdate",
     ];
     const NonDOMHandlers: UnHandledMethodNames[] = [
       "onChange",
       "onClone",
       "onFilter",
-      "onSort"
+      "onSort",
     ];
     const newOptions: Options = destructurePropsForOptions(this.props);
     DOMHandlers.forEach(
-      name => (newOptions[name] = this.prepareOnHandlerPropAndDOM(name))
+      (name) => (newOptions[name] = this.prepareOnHandlerPropAndDOM(name))
     );
     NonDOMHandlers.forEach(
-      name => (newOptions[name] = this.prepareOnHandlerProp(name))
+      (name) => (newOptions[name] = this.prepareOnHandlerProp(name))
     );
 
     /** onMove has 2 arguments and needs to be handled seperately. */
@@ -175,14 +174,14 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       const { onMove } = this.props;
       const defaultValue = evt.willInsertAfter || -1;
       if (!onMove) return defaultValue;
-      const result =  onMove(evt, originalEvt, this.sortable, store);
-      if (typeof result === 'undefined') return false
-      return result
+      const result = onMove(evt, originalEvt, this.sortable, store);
+      if (typeof result === "undefined") return false;
+      return result;
     };
 
     return {
       ...newOptions,
-      onMove
+      onMove,
     };
   }
 
@@ -220,7 +219,10 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const otherList = [...store.dragging!.props.list];
     const customs = createCustoms(evt, otherList);
     removeNodes(customs);
-    const newList = handleStateAdd(customs, list, evt, clone).map(item => ({ ...item, selected: false }));
+    const newList = handleStateAdd(customs, list, evt, clone).map((item) => ({
+      ...item,
+      selected: false,
+    }));
     setList(newList, this.sortable, store);
   }
 
@@ -242,13 +244,13 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
         case "multidrag":
           customClones = customs.map((item, index) => ({
             ...item,
-            element: evt.clones[index]
+            element: evt.clones[index],
           }));
           break;
         case "normal":
           customClones = customs.map((item, index) => ({
             ...item,
-            element: evt.clone
+            element: evt.clone,
           }));
           break;
         case "swap":
@@ -262,7 +264,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       removeNodes(customClones);
 
       // replace selected items with cloned items
-      customs.forEach(curr => {
+      customs.forEach((curr) => {
         const index = curr.oldIndex;
         const newItem = this.props.clone!(curr.item, evt);
         newList.splice(index, 1, newItem);
@@ -270,7 +272,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     }
 
     // remove item.selected from list
-    newList = newList.map(item => ({ ...item, selected: false }));
+    newList = newList.map((item) => ({ ...item, selected: false }));
     setList(newList, this.sortable, store);
   }
 
@@ -298,7 +300,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
         return {
           ...item,
           chosen: true,
-        }
+        };
       }
       return item;
     });
@@ -312,7 +314,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
         return {
           ...item,
           chosen: false,
-        }
+        };
       }
       return item;
     });
@@ -326,15 +328,15 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   onSelect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
-    const newList = list.map(item => ({ ...item, selected: false }));
-    evt.newIndicies.forEach(curr => {
+    const newList = list.map((item) => ({ ...item, selected: false }));
+    evt.newIndicies.forEach((curr) => {
       const index = curr.index;
       if (index === -1) {
         console.log(
           `"${evt.type}" had indice of "${curr.index}", which is probably -1 and doesn't usually happen here.`
         );
-        console.log(evt)
-        return
+        console.log(evt);
+        return;
       }
       newList[index].selected = true;
     });
@@ -343,8 +345,8 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
   onDeselect(evt: MultiDragEvent) {
     const { list, setList } = this.props;
-    const newList = list.map(item => ({ ...item, selected: false }));
-    evt.newIndicies.forEach(curr => {
+    const newList = list.map((item) => ({ ...item, selected: false }));
+    evt.newIndicies.forEach((curr) => {
       const index = curr.index;
       if (index === -1) return;
       newList[index].selected = true;

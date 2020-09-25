@@ -11,7 +11,7 @@ export {
   SortableEvent,
   SortableOptions,
   Swap,
-  Utils
+  Utils,
 } from "sortablejs";
 export { ReactSortable } from "./react-sortable";
 export * from "./types";

@@ -38,11 +38,11 @@ export function handleDOMChanges<T extends ItemInterface>(
 }
 
 export function removeNodes<T extends ItemInterface>(customs: Normalized<T>[]) {
-  customs.forEach(curr => removeNode(curr.element));
+  customs.forEach((curr) => removeNode(curr.element));
 }
 
 export function insertNodes<T extends ItemInterface>(customs: Normalized<T>[]) {
-  customs.forEach(curr => {
+  customs.forEach((curr) => {
     insertNodeAt(curr.parentElement, curr.element, curr.oldIndex);
   });
 }
@@ -60,7 +60,7 @@ export function createCustoms<T extends ItemInterface>(
         element: evt.item,
         newIndex: evt.newIndex!,
         oldIndex: evt.oldIndex!,
-        parentElement: evt.from
+        parentElement: evt.from,
       };
       custom = [item];
       break;
@@ -69,13 +69,13 @@ export function createCustoms<T extends ItemInterface>(
         element: evt.item,
         oldIndex: evt.oldIndex!,
         newIndex: evt.newIndex!,
-        ...parentElement
+        ...parentElement,
       };
       const swap: Input = {
         element: evt.swapItem!,
         oldIndex: evt.newIndex!,
         newIndex: evt.oldIndex!,
-        ...parentElement
+        ...parentElement,
       };
       custom = [drag, swap];
       break;
@@ -84,7 +84,7 @@ export function createCustoms<T extends ItemInterface>(
         element: curr.multiDragElement,
         oldIndex: curr.index,
         newIndex: evt.newIndicies[index].index,
-        ...parentElement
+        ...parentElement,
       }));
       break;
   }
@@ -110,7 +110,7 @@ export function handleStateRemove<T extends ItemInterface>(
   normalized
     .concat()
     .reverse()
-    .forEach(curr => newList.splice(curr.oldIndex, 1));
+    .forEach((curr) => newList.splice(curr.oldIndex, 1));
   return newList;
 }
 
@@ -121,9 +121,9 @@ export function handleStateAdd<T extends ItemInterface>(
   clone?: ((currentItem: T, evt: Sortable.SortableEvent) => T) | undefined
 ): T[] {
   const newList = [...list];
-  normalized.forEach(curr => {
-    const newItem = (clone && evt) && clone(curr.item, evt); 
-    newList.splice(curr.newIndex, 0, newItem || curr.item)
+  normalized.forEach((curr) => {
+    const newItem = clone && evt && clone(curr.item, evt);
+    newList.splice(curr.newIndex, 0, newItem || curr.item);
   });
   return newList;
 }
@@ -139,7 +139,7 @@ export function createNormalized<T extends ItemInterface>(
   list: T[]
 ): Normalized<T>[] {
   const normalized = inputs
-    .map<Normalized<T>>(curr => ({ ...curr, item: list[curr.oldIndex] }))
+    .map<Normalized<T>>((curr) => ({ ...curr, item: list[curr.oldIndex] }))
     .sort((a, b) => a.oldIndex - b.oldIndex);
   return normalized;
 }
