@@ -56,6 +56,7 @@ export function createCustoms<T extends ItemInterface>(
   let custom = [];
   switch (mode) {
     case "normal":
+      /* eslint-disable */
       const item = {
         element: evt.item,
         newIndex: evt.newIndex!,
@@ -88,6 +89,8 @@ export function createCustoms<T extends ItemInterface>(
       }));
       break;
   }
+  /* eslint-enable */
+
   const customs = createNormalized(custom, list);
   return customs;
 }
@@ -163,6 +166,7 @@ export interface Normalized<T> extends Input {
 export function destructurePropsForOptions<T>(
   props: PropsWithChildren<ReactSortableProps<T>>
 ): Exclude<Options, AllMethodNames> {
+  /* eslint-disable */
   const {
     // react sortable props
     list,
@@ -190,6 +194,7 @@ export function destructurePropsForOptions<T>(
     onDeselect,
     ...options
   } = props;
+  /* eslint-enable */
   return options;
 }
 
