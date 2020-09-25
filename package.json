@@ -19,10 +19,7 @@
     "start": "parcel examples/index.html --out-dir temp/server --cache-dir temp/cache ",
     "build": "yarn build:rollup && yarn build:tsc",
     "build:rollup": " rollup --config config/rollup.config.js",
-    "build:tsc": "ts-node config/move-files.ts",
-    "examples": "parcel build examples/index.html --out-dir docs --cache-dir temp/cache --public-url ./",
-    "test": "yarn testcafe --app \"yarn start\" --speed 0.5 chrome ./tests/index.ts ",
-    "toc": "doctoc ."
+    "build:tsc": "ts-node config/move-files.ts"
   },
   "peerDependencies": {
     "react": "^16.9.0",
