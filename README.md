@@ -1,61 +1,8 @@
 # `react-sortablejs`
 
-React component wrapping [SortableJS](https://github.com/SortableJS/Sortable)!
-
-We're now on version 2.0! A major API overhaul with typescript types.
-
-Consider trying it out if you had any troubles earlier.
-
-## Table of Contents
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [Features](#features)
-  - [SortableJS](#sortablejs)
-  - [Component Specific](#component-specific)
-- [Installation](#installation)
-- [Learn](#learn)
-- [Usage/Examples](#usageexamples)
-  - [Function Component](#function-component)
-  - [Class Component](#class-component)
-- [Plugins](#plugins)
-- [Sortable API](#sortable-api)
-- [React API](#react-api)
-  - [id, className, style](#id-classname-style)
-  - [list](#list)
-  - [setList](#setlist)
-  - [clone](#clone)
-  - [tag](#tag)
-    - [HTML Element](#html-element)
-    - [Custom Component](#custom-component)
-- [How does it work?](#how-does-it-work)
-- [Caveats / Gotchas](#caveats--gotchas)
-  - [`key !== index`](#key--index)
-  - [Nesting](#nesting)
-    - [Problem](#problem)
-    - [What does work?](#what-does-work)
-    - [Solutions](#solutions)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+React bindings to [SortableJS](https://github.com/SortableJS/Sortable)
 
 ## Features
-
-### SortableJS
-
-Everything you love about SortableJS, including to but not limited to:
-
-- [x] Drag and Drop between lists
-- [x] Multidrag and Swap plugin support.
-
-### Component Specific
-
-- [x] Calculates items in list automatically
-- [x] Updated API via `props`. Feels more like react than ever before.
-- [x] Compatible with third part UI libraries
-- [x] SortableJS Plugin Support
-
-If you find any features lacking, create an issue and/or pull request.
 
 ## Installation
 
