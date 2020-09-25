@@ -20,6 +20,7 @@
     "build": "yarn build:rollup && yarn build:tsc",
     "build:rollup": " rollup --config config/rollup.config.js",
     "build:tsc": "ts-node config/move-files.ts",
+    "build:storybook": "build-storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
