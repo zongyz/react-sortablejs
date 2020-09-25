@@ -15,11 +15,29 @@
     "local-types"
   ],
   "scripts": {
+    "commit": "cz",
     "prepublishOnly": "yarn build",
     "start": "parcel examples/index.html --out-dir temp/server --cache-dir temp/cache ",
     "build": "yarn build:rollup && yarn build:tsc",
     "build:rollup": " rollup --config config/rollup.config.js",
     "build:tsc": "ts-node config/move-files.ts"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn build",
+      "pre-push": "yarn build"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "peerDependencies": {
     "react": "^16.9.0",
@@ -32,6 +50,8 @@
     "tiny-invariant": "^1.0.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.7",
@@ -44,8 +64,11 @@
     "@types/react-dom": "16.9.0",
     "@types/styled-components": "^4.1.19",
     "cheerio": "^1.0.0-rc.3",
+    "commitizen": "^4.2.1",
     "copy-dir": "^1.2.0",
+    "cz-conventional-changelog": "^3.3.0",
     "doctoc": "^1.4.0",
+    "husky": "^4.3.0",
     "json-beautify": "^1.1.1",
     "parcel-bundler": "^1.12.4",
     "react": "^16.9.0",
