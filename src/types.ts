@@ -19,6 +19,7 @@ export interface ItemInterface {
   chosen?: boolean;
   /** When true, it will not be possible to pick this item up in the list. */
   filtered?: boolean;
+  /* eslint-disable-next-line */
   [property: string]: any;
 }
 
@@ -41,6 +42,7 @@ export interface ReactSortableProps<T>
    * @example
    * forwardRef<HTMLElement, YOURPROPS>((props, ref) => <button {...props} ref={ref} />)
    */
+  /* eslint-disable-next-line */
   tag?: ForwardRefExoticComponent<RefAttributes<any>> | keyof ReactHTML;
   /**
    * If this is provided, the function will replace the clone in place.
@@ -63,6 +65,7 @@ export interface ReactSortableProps<T>
  * Mainly used to access `props.list` within another components.
  */
 export interface Store {
+  /* eslint-disable-next-line */
   dragging: null | ReactSortable<any>;
 }
 

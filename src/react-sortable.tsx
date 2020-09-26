@@ -37,6 +37,7 @@ const store: Store = { dragging: null };
 export class ReactSortable<T extends ItemInterface> extends Component<
   ReactSortableProps<T>
 > {
+  /* eslint-disable-next-line */
   static defaultProps: Partial<ReactSortableProps<any>> = {
     clone: (item) => item,
   };
@@ -56,7 +57,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
 
     props.setList(newList, this.sortable, store);
     invariant(
-      //@ts-ignore
+      //@ts-expect-error: Doesn't exist. Will deprecate soon.
       !props.plugins,
       `
 Plugins prop is no longer supported.
@@ -65,13 +66,13 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       `
     );
   }
-  componentDidMount() {
+  componentDidMount(): void {
     if (this.ref.current === null) return;
     const newOptions = this.makeOptions();
     Sortable.create(this.ref.current, newOptions);
   }
 
-  render() {
+  render(): JSX.Element {
     const { tag, style, className, id } = this.props;
     const classicProps = { style, className, id };
 
@@ -94,10 +95,12 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       dataIdAttr,
       selectedClass = "sortable-selected",
       chosenClass = "sortable-chosen",
+      /* eslint-disable */
       dragClass = "sortable-drag",
       fallbackClass = "sortable-falback",
       ghostClass = "sortable-ghost",
       swapClass = "sortable-swap-highlight",
+      /* eslint-enable */
       filter = "sortable-filter",
       list,
     } = this.props;
@@ -105,6 +108,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     // if no children, don't do anything.
     if (!children || children == null) return null;
     const dataid = dataIdAttr || "data-id";
+    /* eslint-disable-next-line */
     return Children.map(children as ReactElement<any>[], (child, index) => {
       const item = list[index];
       const { className: prevClassName } = child.props;
@@ -137,7 +141,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     if (el === null) return null;
     const key = Object.keys(el).find((k) => k.includes("Sortable"));
     if (!key) return null;
-    //@ts-ignore - I know what I'm doing.
+    //@ts-expect-error: fix me.
     return el[key] as Sortable;
   }
 
@@ -186,12 +190,14 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   }
 
   /** Prepares a method that will be used in the sortable options to call an `on[Handler]` prop & an `on[Handler]` ReactSortable method.  */
-  prepareOnHandlerPropAndDOM(evtName: HandledMethodNames) {
-    return (evt: SortableEvent) => {
+  prepareOnHandlerPropAndDOM(
+    evtName: HandledMethodNames
+  ): (evt: SortableEvent) => void {
+    return (evt) => {
       // call the component prop
       this.callOnHandlerProp(evt, evtName);
       // calls state change
-      //@ts-ignore - until @types multidrag item is in
+      //@ts-expect-error: until @types multidrag item is in
       this[evtName](evt);
     };
   }
@@ -199,23 +205,24 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   /** Prepares a method that will be used in the sortable options to call an `on[Handler]` prop */
   prepareOnHandlerProp(
     evtName: Exclude<AllMethodsExceptMove, HandledMethodNames>
-  ) {
-    return (evt: SortableEvent) => {
+  ): (evt: SortableEvent) => void {
+    return (evt) => {
       // call the component prop
       this.callOnHandlerProp(evt, evtName);
     };
   }
 
   /** Calls the `props.on[Handler]` function */
-  callOnHandlerProp(evt: SortableEvent, evtName: AllMethodsExceptMove) {
+  callOnHandlerProp(evt: SortableEvent, evtName: AllMethodsExceptMove): void {
     const propEvent = this.props[evtName];
     if (propEvent) propEvent(evt, this.sortable, store);
   }
 
   // SORTABLE DOM HANDLING
 
-  onAdd(evt: MultiDragEvent) {
+  onAdd(evt: MultiDragEvent): void {
     const { list, setList, clone } = this.props;
+    /* eslint-disable-next-line */
     const otherList = [...store.dragging!.props.list];
     const customs = createCustoms(evt, otherList);
     removeNodes(customs);
@@ -226,7 +233,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     setList(newList, this.sortable, store);
   }
 
-  onRemove(evt: MultiDragEvent) {
+  onRemove(evt: MultiDragEvent): void {
     const { list, setList } = this.props;
     const mode = getMode(evt);
     const customs = createCustoms(evt, list);
@@ -248,7 +255,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
           }));
           break;
         case "normal":
-          customClones = customs.map((item, index) => ({
+          customClones = customs.map((item) => ({
             ...item,
             element: evt.clone,
           }));
@@ -266,6 +273,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
       // replace selected items with cloned items
       customs.forEach((curr) => {
         const index = curr.oldIndex;
+        /* eslint-disable-next-line */
         const newItem = this.props.clone!(curr.item, evt);
         newList.splice(index, 1, newItem);
       });
@@ -276,7 +284,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     setList(newList, this.sortable, store);
   }
 
-  onUpdate(evt: MultiDragEvent) {
+  onUpdate(evt: MultiDragEvent): void {
     const { list, setList } = this.props;
     const customs = createCustoms(evt, list);
     removeNodes(customs);
@@ -285,15 +293,15 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     return setList(newList, this.sortable, store);
   }
 
-  onStart(evt: SortableEvent) {
+  onStart(): void {
     store.dragging = this;
   }
 
-  onEnd(evt: SortableEvent) {
+  onEnd(): void {
     store.dragging = null;
   }
 
-  onChoose(evt: SortableEvent) {
+  onChoose(evt: SortableEvent): void {
     const { list, setList } = this.props;
     const newList = list.map((item, index) => {
       if (index === evt.oldIndex) {
@@ -307,7 +315,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     setList(newList, this.sortable, store);
   }
 
-  onUnchoose(evt: SortableEvent) {
+  onUnchoose(evt: SortableEvent): void {
     const { list, setList } = this.props;
     const newList = list.map((item, index) => {
       if (index === evt.oldIndex) {
@@ -321,12 +329,12 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     setList(newList, this.sortable, store);
   }
 
-  onSpill(evt: SortableEvent) {
+  onSpill(evt: SortableEvent): void {
     const { removeOnSpill, revertOnSpill } = this.props;
     if (removeOnSpill && !revertOnSpill) removeNode(evt.item);
   }
 
-  onSelect(evt: MultiDragEvent) {
+  onSelect(evt: MultiDragEvent): void {
     const { list, setList } = this.props;
     const newList = list.map((item) => ({ ...item, selected: false }));
     evt.newIndicies.forEach((curr) => {
@@ -343,7 +351,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     setList(newList, this.sortable, store);
   }
 
-  onDeselect(evt: MultiDragEvent) {
+  onDeselect(evt: MultiDragEvent): void {
     const { list, setList } = this.props;
     const newList = list.map((item) => ({ ...item, selected: false }));
     evt.newIndicies.forEach((curr) => {

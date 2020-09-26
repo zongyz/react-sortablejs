@@ -7,7 +7,7 @@ import { AllMethodNames, ItemInterface, ReactSortableProps } from "./types";
  * Removes the `node` from the DOM
  * @param node
  */
-export function removeNode(node: HTMLElement):void {
+export function removeNode(node: HTMLElement): void {
   if (node.parentElement !== null) node.parentElement.removeChild(node);
 }
 
@@ -21,7 +21,7 @@ export function insertNodeAt(
   parent: HTMLElement,
   newChild: HTMLElement,
   index: number
-):void {
+): void {
   const refChild = parent.children[index] || null;
   parent.insertBefore(newChild, refChild);
 }
@@ -32,16 +32,20 @@ export function insertNodeAt(
 // @todo - do I need parenElement?
 export function handleDOMChanges<T extends ItemInterface>(
   customs: Normalized<T>[]
-):void {
+): void {
   removeNodes(customs);
   insertNodes(customs);
 }
 
-export function removeNodes<T extends ItemInterface>(customs: Normalized<T>[]):void {
+export function removeNodes<T extends ItemInterface>(
+  customs: Normalized<T>[]
+): void {
   customs.forEach((curr) => removeNode(curr.element));
 }
 
-export function insertNodes<T extends ItemInterface>(customs: Normalized<T>[]) :void{
+export function insertNodes<T extends ItemInterface>(
+  customs: Normalized<T>[]
+): void {
   customs.forEach((curr) => {
     insertNodeAt(curr.parentElement, curr.element, curr.oldIndex);
   });
@@ -50,7 +54,7 @@ export function insertNodes<T extends ItemInterface>(customs: Normalized<T>[]) :
 export function createCustoms<T extends ItemInterface>(
   evt: MultiDragEvent,
   list: T[]
-):Normalized<T>[] {
+): Normalized<T>[] {
   const mode = getMode(evt);
   const parentElement = { parentElement: evt.from };
   let custom = [];
@@ -131,7 +135,7 @@ export function handleStateAdd<T extends ItemInterface>(
   return newList;
 }
 
-export function getMode(evt: MultiDragEvent):'multidrag'|"swap"|"normal" {
+export function getMode(evt: MultiDragEvent): "multidrag" | "swap" | "normal" {
   if (evt.oldIndicies && evt.oldIndicies.length > 0) return "multidrag";
   if (evt.swapItem) return "swap";
   return "normal";
