@@ -4,13 +4,11 @@ export {
   DOMRect,
   GroupOptions,
   MoveEvent,
-  MultiDrag,
   Options,
   PullResult,
   PutResult,
   SortableEvent,
   SortableOptions,
-  Swap,
   Utils,
 } from "sortablejs";
 export { ReactSortable } from "./react-sortable";
