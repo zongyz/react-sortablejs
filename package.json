@@ -21,7 +21,7 @@
     "serve": "npm-run-all --parallel serve:*",
     "serve:parcel": "parcel watch ./src/index.ts",
     "serve:storybook": "start-storybook -p 6006",
-    "format": "run-s format:*",
+    "format": "npm-run-all format:*",
     "format:eslint": "yarn lint --fix",
     "format:prettier": "prettier --write \"src/**.{js,ts}\"",
     "lint": "eslint \"src/**.{js,ts}\""
