@@ -16,14 +16,15 @@
     "commit": "cz",
     "prepublishOnly": "yarn build",
     "build": "yarn build:parcel",
-    "build:storybook": "build-storybook",
     "build:parcel": "parcel build ./src/index.ts",
+    "build:storybook": "build-storybook",
     "serve": "npm-run-all --parallel serve:*",
     "serve:parcel": "parcel watch ./src/index.ts",
     "serve:storybook": "start-storybook -p 6006",
-    "style": "yarn style:format && yarn style:lint",
-    "style:format": "prettier -w src",
-    "style:lint": "eslint src/**"
+    "format": "run-s format:*",
+    "format:eslint": "yarn lint --fix",
+    "format:prettier": "prettier --write \"src/**.{js,ts}\"",
+    "lint": "eslint \"src/**.{js,ts}\""
   },
   "peerDependencies": {
     "@types/sortablejs": "^1.10.0",
@@ -60,6 +61,7 @@
     "eslint-plugin-react": "^7.21.2",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
+    "lint-staged": "^10.4.0",
     "npm-run-all": "^4.1.5",
     "parcel": "^2.0.0-beta.1",
     "prettier": "^2.1.2",
@@ -86,9 +88,12 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn style && yarn build",
-      "pre-push": "yarn style && yarn build"
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn build"
     }
+  },
+  "lint-staged": {
+    "*.{ts}": "yarn format"
   },
   "release": {
     "plugins": [
