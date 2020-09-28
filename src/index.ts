@@ -10,6 +10,6 @@ export {
   SortableEvent,
   SortableOptions,
   Utils,
-} from "sortablejs";
-export { ReactSortable } from "./react-sortable";
-export * from "./types";
+} from "sortablejs"
+export { ReactSortable } from "./react-sortable"
+export * from "./types"
