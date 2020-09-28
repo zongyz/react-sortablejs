@@ -5,3 +5,4 @@ temp
 dist
 # todo - get story book only when releasing.
 storybook-static
+.parcel-cache

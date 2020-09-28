@@ -1,6 +1,7 @@
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { Meta } from "@storybook/react";
-import { ReactSortableProps, ReactSortable } from "../../src";
+import { ReactSortable } from "../../dist";
+import { ReactSortableProps } from "../../src";
 import { ULLITemplate, ULLITemplateProps } from "../templates/ul-li";
 
 export default {
