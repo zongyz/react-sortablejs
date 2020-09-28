@@ -37,7 +37,7 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Build
-        run: yarn build --if-present
+        run: yarn build
         # todo - make tests
         # - run: yarn test:unit
         # - run: yarn test:compatability
