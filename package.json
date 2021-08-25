@@ -5,6 +5,10 @@
     "name": "Wayne Van Son",
     "email": "waynevanson@gmail.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SortableJS/react-sortablejs.git"
+  },
   "license": "MIT",
   "private": false,
   "files": [
