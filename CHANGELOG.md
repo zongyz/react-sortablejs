@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/SortableJS/react-sortablejs/compare/v6.0.0...v6.0.1) (2022-01-13)
+
+
+### Bug Fixes
+
+* allow update disabled prop at runtime ([dccdd24](https://github.com/SortableJS/react-sortablejs/commit/dccdd2476790ea795dcbc5fc39ce27abebebbd35))
+
 # [6.0.0](https://github.com/SortableJS/react-sortablejs/compare/v5.0.5...v6.0.0) (2020-09-27)
 
 
