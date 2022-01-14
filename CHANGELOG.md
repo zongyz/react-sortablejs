@@ -1,3 +1,10 @@
+## [6.0.3](https://github.com/SortableJS/react-sortablejs/compare/v6.0.2...v6.0.3) (2022-01-14)
+
+
+### Bug Fixes
+
+* fix package versions ([b464971](https://github.com/SortableJS/react-sortablejs/commit/b464971d0c530c6c5fa764da13b610b3507f6378))
+
 ## [6.0.2](https://github.com/SortableJS/react-sortablejs/compare/v6.0.1...v6.0.2) (2022-01-14)
 
 
