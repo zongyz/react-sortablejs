@@ -30,14 +30,14 @@
     "phoenix": "rm -rf ./node_modules && rm -f yarn.lock && yarn install --prefer-online"
   },
   "peerDependencies": {
-    "@types/sortablejs": "^1.10.0",
+    "@types/sortablejs": "1",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0",
-    "sortablejs": "^1.10.0"
+    "sortablejs": "1"
   },
   "dependencies": {
-    "classnames": "^2.2.6",
-    "tiny-invariant": "^1.1.0"
+    "classnames": "2.3.1",
+    "tiny-invariant": "1.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
