@@ -1,3 +1,11 @@
+## [6.0.2](https://github.com/SortableJS/react-sortablejs/compare/v6.0.1...v6.0.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* **remove unnecesary devdependencies:** rmeove innecesary devDependencies ([1000f68](https://github.com/SortableJS/react-sortablejs/commit/1000f68f5f6b62d04798e746bfd8eda8ddbf247c))
+* infra ([1d43f97](https://github.com/SortableJS/react-sortablejs/commit/1d43f97af5c9e8278fe9367f72e7f2a5b213bbba))
+
 ## [6.0.1](https://github.com/SortableJS/react-sortablejs/compare/v6.0.0...v6.0.1) (2022-01-13)
 
 
