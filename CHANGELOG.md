@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/SortableJS/react-sortablejs/compare/v6.0.4...v6.1.0) (2022-01-30)
+
+
+### Features
+
+* remove and update dependencies ([65fa886](https://github.com/SortableJS/react-sortablejs/commit/65fa886f5ddc9dc06793c95b0591ed5ac101ccd6))
+
 ## [6.0.4](https://github.com/SortableJS/react-sortablejs/compare/v6.0.3...v6.0.4) (2022-01-30)
 
 
