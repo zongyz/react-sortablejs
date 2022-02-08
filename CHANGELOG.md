@@ -1,3 +1,15 @@
+## [6.1.1](https://github.com/SortableJS/react-sortablejs/compare/v6.1.0...v6.1.1) (2022-02-08)
+
+
+### Bug Fixes
+
+* object-assign errors ([fde561e](https://github.com/SortableJS/react-sortablejs/commit/fde561e0b730dc7f7a664a48277b117e841c613a))
+
+
+### Reverts
+
+* prettier preserve semicolons ([a658d04](https://github.com/SortableJS/react-sortablejs/commit/a658d04e53e48f05ebdcbb3a137283899f277a78))
+
 # [6.1.0](https://github.com/SortableJS/react-sortablejs/compare/v6.0.4...v6.1.0) (2022-01-30)
 
 
