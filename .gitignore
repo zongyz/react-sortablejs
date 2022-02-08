@@ -8,3 +8,4 @@ dist
 # todo - get story book only when releasing.
 storybook-static
 yarn.lock
+package-lock.json
