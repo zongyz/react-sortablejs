@@ -176,7 +176,7 @@ const App = () => {
 
 ### id, className, style
 
-Thes are all defaults DOM attributes. Nothing special here.
+These are all defaults DOM attributes. Nothing special here.
 
 ### list
 
