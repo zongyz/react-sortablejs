@@ -1,3 +1,10 @@
+## [6.1.2](https://github.com/SortableJS/react-sortablejs/compare/v6.1.1...v6.1.2) (2022-04-03)
+
+
+### Bug Fixes
+
+* spell 'these' incorrectly ([0656825](https://github.com/SortableJS/react-sortablejs/commit/06568255f25e99a85952950c1d5cf7ce10451924))
+
 ## [6.1.1](https://github.com/SortableJS/react-sortablejs/compare/v6.1.0...v6.1.1) (2022-02-08)
 
 
