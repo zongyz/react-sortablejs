@@ -2,6 +2,7 @@ import {
   CSSProperties,
   ForwardRefExoticComponent,
   ReactHTML,
+  ReactNode,
   RefAttributes,
 } from "react";
 import Sortable, { MoveEvent, Options, SortableEvent } from "sortablejs";
@@ -57,6 +58,7 @@ export interface ReactSortableProps<T>
   style?: CSSProperties;
   className?: string;
   id?: string;
+  children?: ReactNode;
 }
 
 /**
