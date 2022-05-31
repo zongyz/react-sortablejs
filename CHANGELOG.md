@@ -1,3 +1,10 @@
+## [6.1.3](https://github.com/SortableJS/react-sortablejs/compare/v6.1.2...v6.1.3) (2022-05-31)
+
+
+### Bug Fixes
+
+* **react18:** add `children` to `ReactSortableProps` ([f6b4e2e](https://github.com/SortableJS/react-sortablejs/commit/f6b4e2e1fa235752348c3b4021120c2a56ea41c7))
+
 ## [6.1.2](https://github.com/SortableJS/react-sortablejs/compare/v6.1.1...v6.1.2) (2022-04-03)
 
 
