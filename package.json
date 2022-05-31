@@ -42,7 +42,7 @@
   "devDependencies": {
     "@commitlint/cli": "11",
     "@commitlint/config-conventional": "11",
-    "@parcel/packager-ts": "2.2.1",
+    "@parcel/packager-ts": "2.6.0",
     "@parcel/transformer-typescript-types": "2.6.0",
     "@semantic-release/changelog": "5",
     "@semantic-release/git": "9",
