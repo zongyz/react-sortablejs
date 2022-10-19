@@ -48,7 +48,7 @@ export interface ReactSortableProps<T>
   /**
    * If this is provided, the function will replace the clone in place.
    *
-   * When an is moved from `A` to `B` with `pull: 'clone'`,
+   * When an item is moved from `A` to `B` with `pull: 'clone'`,
    * the original element will be moved to `B`
    * and the new clone will be placed in `A`
    */
