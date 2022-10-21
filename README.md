@@ -218,7 +218,7 @@ Let's explore both here.
 #### HTML Element
 
 Here we will use a `ul`. You can use any HTML.
-Just add the string and ReactSortable will use a `li` instead of a `div`.
+Just add the string and ReactSortable will use a `ul` instead of a `div`.
 
 ```tsx
 import React, { FC, useState } from "react";
