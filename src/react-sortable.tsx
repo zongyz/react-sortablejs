@@ -50,7 +50,7 @@ export class ReactSortable<T extends ItemInterface> extends Component<
 
     // make all state false because we can't change sortable unless a mouse gesture is made.
     const newList = [...props.list].map((item) =>
-      Object.assign(item, {
+      Object.assign({}, item, {
         chosen: false,
         selected: false,
       })
@@ -238,7 +238,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     removeNodes(customs);
 
     const newList = handleStateAdd(customs, list, evt, clone).map((item) =>
-      Object.assign(item, {
+      Object.assign({}, item, {
         selected: false,
       })
     );
@@ -294,7 +294,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
 
     // remove item.selected from list
     newList = newList.map((item: T) =>
-      Object.assign(item, {
+      Object.assign({}, item, {
         selected: false,
       })
     );
@@ -324,7 +324,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const newList = list.map((item, index) => {
       let newItem = item;
       if (index === evt.oldIndex) {
-        newItem = Object.assign(item, {
+        newItem = Object.assign({}, item, {
           chosen: true,
         });
       }
@@ -338,7 +338,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
     const newList = list.map((item, index) => {
       let newItem = item;
       if (index === evt.oldIndex) {
-        newItem = Object.assign(newItem, {
+        newItem = Object.assign({}, newItem, {
           chosen: false,
         });
       }
@@ -355,7 +355,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   onSelect(evt: MultiDragEvent): void {
     const { list, setList } = this.props;
     const newList = list.map((item) =>
-      Object.assign(item, {
+      Object.assign({}, item, {
         selected: false,
       })
     );
@@ -377,7 +377,7 @@ Please read the updated README.md at https://github.com/SortableJS/react-sortabl
   onDeselect(evt: MultiDragEvent): void {
     const { list, setList } = this.props;
     const newList = list.map((item) =>
-      Object.assign(item, {
+      Object.assign({}, item, {
         selected: false,
       })
     );
