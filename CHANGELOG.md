@@ -1,3 +1,10 @@
+## [6.1.5](https://github.com/SortableJS/react-sortablejs/compare/v6.1.4...v6.1.5) (2023-06-01)
+
+
+### Bug Fixes
+
+* **react-sortable.jsx:** const newList = [...props.list].map((item) => ([c945c6d](https://github.com/SortableJS/react-sortablejs/commit/c945c6d659b952c545a23baed26caa663737c58c))
+
 ## [6.1.4](https://github.com/SortableJS/react-sortablejs/compare/v6.1.3...v6.1.4) (2022-05-31)
 
 
