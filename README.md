@@ -10,7 +10,7 @@ Please note that this is not considered ready for production, as there are still
 
 ## Installation
 
-`sortablejs` and `@types/sortablejs` are peer dependencies. The latter only used if intellisense/typescript is desired.
+`sortablejs` and `@types/sortablejs` are peer dependencies. The latter is only used if intellisense/typescript is desired.
 
 ```shell
 npm install --save react-sortablejs sortablejs
@@ -27,7 +27,7 @@ Here is the TLDR of what sortable is:
 
 ```md
 - Shopping List: # list of items / sortable. This represents `react-sortablejs`
-  - eggs # list item. These are all the items in the list and is what you move around.
+  - eggs # list item. These are all the items in the list and are what you move around.
   - bread # list item
   - milk # list item
 ```
@@ -144,7 +144,7 @@ Sortable.create(element, {
 });
 
 // --------------------------
-// Will now be..
+// Will now be...
 // --------------------------
 
 import React from "react";
@@ -176,7 +176,7 @@ const App = () => {
 
 ### id, className, style
 
-These are all defaults DOM attributes. Nothing special here.
+These are all default DOM attributes. Nothing special here.
 
 ### list
 
@@ -202,7 +202,7 @@ The same as `setState` in `const [ state, setState] = useState([{ id: 1}, {id: 2
 
 ### clone
 
-If you're using `{group: { name: 'groupName', pull: 'clone'}}`, this means your in 'clone' mode. You should provide a function for this.
+If you're using `{group: { name: 'groupName', pull: 'clone'}}`, this means you're in 'clone' mode. You should provide a function for this.
 
 Check out the source code of the clone example for more information. I'll write it here soon.
 
@@ -211,13 +211,13 @@ Check out the source code of the clone example for more information. I'll write 
 ReactSortable is a `div` element by default. This can be changed to be any HTML element (for example `ul`, `ol`)
 or can be a React component.
 
-This value, be the component or the HTML element should be passed down under `props.tag`.
+This value, be it the component or the HTML element, should be passed down under `props.tag`.
 
 Let's explore both here.
 
 #### HTML Element
 
-Here we will use a `ul`. You can use any HTML.
+Here we will use an `ul`. You can use any HTML.
 Just add the string and ReactSortable will use a `ul` instead of a `div`.
 
 ```tsx
@@ -240,12 +240,12 @@ export const BasicFunction: FC = (props) => {
 #### Custom Component
 
 When using a custom component in the `tag` prop, the only component it allows is a `forwardRef` component.
-Currently we only support components who use the `React.forwardRef` API.
+Currently, we only support components that use the `React.forwardRef` API.
 
 If it doesn't have one, you can add one using `React.forwardRef()`.
 
-> todo: Some third party UI components may have nested elements to create the look they're after.
-> This could be an issue and not sure how to fix.
+> todo: Some third-party UI components may have nested elements to create the look they're after.
+> This could be an issue and not sure how to fix it.
 
 ```tsx
 import React, { FC, useState, forwardRef } from "react";
@@ -275,7 +275,7 @@ export const BasicFunction: FC = (props) => {
 ## How does it work?
 
 Sortable affects the DOM, adding, and removing nodes/css when it needs to in order to achieve the smooth transitions we all know an love.
-This component reverses many of it's actions of the DOM so React can handle this when the state changes.
+This component reverses many of its actions of the DOM so React can handle this when the state changes.
 
 ## Caveats / Gotchas
 
@@ -291,7 +291,7 @@ I may even enforce this into the design to eliminate errors.
 
 #### Problem
 
-Basically the child updates the state twice. I'm working on this.
+Basically, the child updates the state twice. I'm working on this.
 
 #### What does work?
 
@@ -301,7 +301,7 @@ I hope to provide an example soon.
 
 #### Solutions
 
-We don't have anything that works 100%, but here I'd like to spit ball some potential avenues to look down.
+We don't have anything that works 100%, but here I'd like to spitball some potential avenues to look down.
 
 - Use `onMove` to handle state changes instead of `onAdd`,`onRemove`, etc.
 - Create a Sortable plugin specifically for react-sortbalejs
